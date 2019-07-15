@@ -1,0 +1,59 @@
+{
+  "name": "@acdh/network-visualization",
+  "version": "0.1.0",
+  "description": "React component to visualize graph data in 2D and 3D",
+  "main": "lib/network-visualization.cjs.js",
+  "module": "lib/network-visualization.esm.js",
+  "browser": "lib/network-visualization.umd.js",
+  "license": "MIT",
+  "dependencies": {
+    "3d-force-graph": "^1.49.7",
+    "debounce-fn": "^3.0.1",
+    "events": "^3.0.0",
+    "force-graph": "^1.17.4",
+    "prop-types": "^15.7.2",
+    "three-spritetext": "^1.0.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.4",
+    "@babel/plugin-transform-runtime": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^5.1.9",
+    "@storybook/addon-knobs": "^5.1.9",
+    "@storybook/addons": "^5.1.9",
+    "@storybook/react": "^5.1.9",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-react": "^7.14.2",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.17.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-terser": "^5.1.1"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "build:storybook": "build-storybook",
+    "clean": "rimraf lib && rimraf storybook-static",
+    "format": "prettier \"**/*.+(js|css|md|json)\" --ignore-path .gitignore --write",
+    "lint": "eslint src",
+    "prepublishOnly": "yarn build",
+    "storybook": "start-storybook -p 6006",
+    "test": "jest"
+  }
+}
