@@ -7,10 +7,10 @@
   "browser": "lib/network-visualization.umd.js",
   "license": "MIT",
   "dependencies": {
-    "3d-force-graph": "^1.49.7",
+    "3d-force-graph": "^1.50.0",
     "debounce-fn": "^3.0.1",
     "events": "^3.0.0",
-    "force-graph": "^1.17.4",
+    "force-graph": "^1.18.0",
     "prop-types": "^15.7.2",
     "three-spritetext": "^1.0.6"
   },

@@ -33,6 +33,7 @@ class Visualization3D extends React.Component {
     this.getNodeColor = this.getNodeColor.bind(this)
     this.getNodeLabel = this.getNodeLabel.bind(this)
     this.getNodeRelativeSize = this.getNodeRelativeSize.bind(this)
+    this.getNodeVisibility = this.getNodeVisibility.bind(this)
     this.isNeighborOfSelectedNode = this.isNeighborOfSelectedNode.bind(this)
     this.shouldExtendNodeThreeObject = this.shouldExtendNodeThreeObject.bind(
       this
@@ -83,6 +84,7 @@ class Visualization3D extends React.Component {
       // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
       this.forceGraph.nodeColor(this.getNodeColor)
       this.forceGraph.nodeLabel(this.getNodeLabel)
+      this.forceGraph.nodeVisibility(this.getNodeVisibility)
       this.forceGraph.nodeThreeObjectExtend(this.shouldExtendNodeThreeObject)
       this.forceGraph.nodeThreeObject(this.drawNode)
     }
@@ -91,6 +93,7 @@ class Visualization3D extends React.Component {
       // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
       this.forceGraph.nodeColor(this.getNodeColor)
       this.forceGraph.nodeLabel(this.getNodeLabel)
+      this.forceGraph.nodeVisibility(this.getNodeVisibility)
       this.forceGraph.nodeThreeObjectExtend(this.shouldExtendNodeThreeObject)
       this.forceGraph.nodeThreeObject(this.drawNode)
     }
@@ -99,6 +102,7 @@ class Visualization3D extends React.Component {
       // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
       this.forceGraph.nodeColor(this.getNodeColor)
       this.forceGraph.nodeLabel(this.getNodeLabel)
+      this.forceGraph.nodeVisibility(this.getNodeVisibility)
       this.forceGraph.nodeThreeObjectExtend(this.shouldExtendNodeThreeObject)
       this.forceGraph.nodeThreeObject(this.drawNode)
     }
@@ -161,6 +165,7 @@ class Visualization3D extends React.Component {
     this.forceGraph.nodeThreeObject(this.drawNode)
     this.forceGraph.nodeThreeObjectExtend(this.shouldExtendNodeThreeObject)
     this.forceGraph.nodeVal(node => node.neighbors.size)
+    this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
     this.forceGraph.linkColor(() => 'rgba(0, 0, 0, 0.50)')
     this.forceGraph.linkDirectionalParticles(2)
@@ -201,13 +206,16 @@ class Visualization3D extends React.Component {
     // perspective camera.
     const debouncedOnZoom = debounce(
       controls => {
-        const distance = controls.target.target.distanceTo(controls.target.object.position)
+        const distance = controls.target.target.distanceTo(
+          controls.target.object.position
+        )
         onZoom({
           forceGraph: this.forceGraph,
           graph: this.graph,
           zoom: { k: (distance / 1000).toFixed(2) },
         })
-      }, { wait: 250 }
+      },
+      { wait: 250 }
     )
     this.forceGraph.controls().addEventListener('change', debouncedOnZoom)
   }
@@ -218,24 +226,34 @@ class Visualization3D extends React.Component {
     // straight from `three-force-graph`.
     const materialDispose = material => {
       if (material instanceof Array) {
-        material.forEach(materialDispose);
+        material.forEach(materialDispose)
       } else {
-        if (material.map) { material.map.dispose(); }
-        material.dispose();
+        if (material.map) {
+          material.map.dispose()
+        }
+        material.dispose()
       }
-    };
+    }
     const deallocate = obj => {
-      if (obj.geometry) { obj.geometry.dispose(); }
-      if (obj.material) { materialDispose(obj.material); }
-      if (obj.texture) { obj.texture.dispose(); }
-      if (obj.children) { obj.children.forEach(deallocate); }
-    };
+      if (obj.geometry) {
+        obj.geometry.dispose()
+      }
+      if (obj.material) {
+        materialDispose(obj.material)
+      }
+      if (obj.texture) {
+        obj.texture.dispose()
+      }
+      if (obj.children) {
+        obj.children.forEach(deallocate)
+      }
+    }
 
     const scene = this.forceGraph.scene()
     while (scene.children.length) {
-      const obj = scene.children[0];
-      scene.remove(obj);
-      deallocate(obj);
+      const obj = scene.children[0]
+      scene.remove(obj)
+      deallocate(obj)
     }
     scene.dispose()
     this.forceGraph.controls().dispose()
@@ -268,11 +286,14 @@ class Visualization3D extends React.Component {
   }
 
   getEdgeVisibility(edge) {
-    return (
-      !this.props.showNeighborsOnly ||
-      (this.isNeighborOfSelectedNode(edge.source) &&
-        this.isNeighborOfSelectedNode(edge.target))
-    )
+    if (
+      this.props.showNeighborsOnly &&
+      (!this.isNeighborOfSelectedNode(edge.source) ||
+        !this.isNeighborOfSelectedNode(edge.target))
+    ) {
+      return false
+    }
+    return true
   }
 
   getNodeColor(node) {
@@ -296,9 +317,6 @@ class Visualization3D extends React.Component {
   }
 
   getNodeLabel(node) {
-    if (this.props.showNeighborsOnly && !this.isNeighborOfSelectedNode(node)) {
-      return null
-    }
     if (node.label) {
       return node.label
     }
@@ -311,6 +329,13 @@ class Visualization3D extends React.Component {
     return this.props.dagMode
       ? this.nodeRelativeSize / 3
       : this.nodeRelativeSize
+  }
+
+  getNodeVisibility(node) {
+    if (this.props.showNeighborsOnly && !this.isNeighborOfSelectedNode(node)) {
+      return false
+    }
+    return true
   }
 
   isNeighborOfSelectedNode(node) {

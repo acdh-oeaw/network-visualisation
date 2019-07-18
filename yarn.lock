@@ -2,16 +2,16 @@
 # yarn lockfile v1
 
 
-"3d-force-graph@^1.49.7":
-  version "1.49.7"
-  resolved "https://registry.yarnpkg.com/3d-force-graph/-/3d-force-graph-1.49.7.tgz#e283e1d6abe25e17173470035540ce597fe31d33"
-  integrity sha512-vPz9Hq8YtBUN4nTheL5+DhlYIDik3+HI4Fsy3ENeznYLt2MYkz4JqFHKcMBSaQruIX8pBlej2NjIovYnKPy/aw==
+"3d-force-graph@^1.50.0":
+  version "1.50.0"
+  resolved "https://registry.yarnpkg.com/3d-force-graph/-/3d-force-graph-1.50.0.tgz#0b806e8c117f5f64763fcf06109bcea87c2e94f3"
+  integrity sha512-alB90KfMIWsKoWW1/0OW/uQlmy8KbMYkQVfayW/hKsQGUz2M+6negmIrhghXCM/gwA8Eos+4OkCSTdcek7oWfA==
   dependencies:
     accessor-fn "^1.2.2"
     kapsule "^1.10.1"
-    three "^0.105.2"
+    three "^0.106.2"
     three-dragcontrols "^0.88.2"
-    three-forcegraph "^1.22.1"
+    three-forcegraph "^1.23.0"
     three-render-objects "^1.5.4"
 
 "@babel/code-frame@7.0.0", "@babel/code-frame@^7.0.0":
@@ -4985,10 +4985,10 @@ for-own@^0.1.3:
   dependencies:
     for-in "^1.0.1"
 
-force-graph@^1.17.4:
-  version "1.17.4"
-  resolved "https://registry.yarnpkg.com/force-graph/-/force-graph-1.17.4.tgz#f7925e54d1d3782194caef76af63672f086bd361"
-  integrity sha512-A4Sqc2AA1YMV7yQF5uWllzbOpjbj3i2jP/xb4Mr9mIcVd/D5so4cBTsqo7Y+uzb5fNxLIXkPHgR8oM5HKI77gg==
+force-graph@^1.18.0:
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/force-graph/-/force-graph-1.18.0.tgz#d4b9d6e9ce80c19460bafc4f8db107b56ec05f10"
+  integrity sha512-a+/U0qRMJ8m3Z4UOzcfh1QvmAxC587fRcAJRbwAeLnbqs/xJfVltnPXmHgvfLmiERESWGkgPiq7/RGEBDQt8Zw==
   dependencies:
     "@tweenjs/tween.js" "^17.4.0"
     accessor-fn "^1.2.2"
@@ -5000,7 +5000,7 @@ force-graph@^1.17.4:
     d3-scale-chromatic "^1.3.3"
     d3-selection "^1.4.0"
     d3-zoom "^1.7.3"
-    index-array-by "^1.2.4"
+    index-array-by "^1.2.6"
     kapsule "^1.10.1"
     lodash.throttle "^4.1.1"
 
@@ -5657,7 +5657,7 @@ imurmurhash@^0.1.4:
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
 
-index-array-by@^1.2.4:
+index-array-by@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/index-array-by/-/index-array-by-1.2.6.tgz#931ed40128e107dc9d4ef06e23ec1c6652b8d11b"
   integrity sha512-IlJMBsvyUMibCPaHJh+kc9xDSPU2Sy7JhT2SHMRBiPsVtfqD17dc8WaiqunxnQ2kxDvYZQN/IoC0aeKU43Qziw==
@@ -10364,10 +10364,10 @@ three-fly-controls@^1.1.0:
   resolved "https://registry.yarnpkg.com/three-fly-controls/-/three-fly-controls-1.1.0.tgz#8ea796da94ac017f5ea44ec015b1db5e19a42bd0"
   integrity sha1-jqeW2pSsAX9epE7AFbHbXhmkK9A=
 
-three-forcegraph@^1.22.1:
-  version "1.22.1"
-  resolved "https://registry.yarnpkg.com/three-forcegraph/-/three-forcegraph-1.22.1.tgz#70c3849b00ec8bcb6e72937c5d936081dfbb39c4"
-  integrity sha512-qowDZxzDPuAHhQrgGvXQmWAJxhQ/VUubBZbxUbScdrszdPK2G6IgUAw64nuRJuCyK/sZj8p07Et3z6dq7IWP+A==
+three-forcegraph@^1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/three-forcegraph/-/three-forcegraph-1.23.0.tgz#fac7e3c03d696c937bc5073f621cb5e904d5c708"
+  integrity sha512-9s0fms7S7CC6u65RD9ZhfyTfsXjkAaQXFlowmVlEVD80SNMHgf+kqcTcp4CW293KET8QyJZyNy1gtovCXPl3zA==
   dependencies:
     accessor-fn "^1.2.2"
     d3-force-3d "^2.0.1"
@@ -10407,10 +10407,10 @@ three-trackballcontrols@^0.0.8:
   resolved "https://registry.yarnpkg.com/three-trackballcontrols/-/three-trackballcontrols-0.0.8.tgz#4af85312d211387e451023f9bef576094993a118"
   integrity sha512-9my4rB/ILaJw8E6khOcC6d8F8kEe6BvRtCer9bFJGZOh9txy4BqzwPrG7d8YCKK9MfcyTUoLsB5LKIsbtsZRTg==
 
-three@^0.105.2:
-  version "0.105.2"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.105.2.tgz#d135f1549bdcf5a9acd904ba3dbf9198a0268984"
-  integrity sha512-L3Al37k4g3hVbgFFS251UVtIc25chhyN0/RvXzR0C+uIBToV6EKDG+MZzEXm9L2miGUVMK27W46/VkP6WUZXMg==
+three@^0.106.2:
+  version "0.106.2"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.106.2.tgz#6752d304c470e4df230944ecd45325e7bf79e1f8"
+  integrity sha512-4Tlx43uoxnIaZFW2Bzkd1rXsatvVHEWAZJy8LuE+s6Q8c66ogNnhfq1bHiBKPAnXP230LD11H/ScIZc2LZMviA==
 
 throat@^4.0.0:
   version "4.1.0"

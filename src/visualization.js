@@ -31,6 +31,7 @@ class Visualization extends React.Component {
     this.getNodeColor = this.getNodeColor.bind(this)
     this.getNodeLabel = this.getNodeLabel.bind(this)
     this.getNodeRelativeSize = this.getNodeRelativeSize.bind(this)
+    this.getNodeVisibility = this.getNodeVisibility.bind(this)
     this.isNeighborOfSelectedNode = this.isNeighborOfSelectedNode.bind(this)
   }
 
@@ -142,6 +143,7 @@ class Visualization extends React.Component {
     this.forceGraph.nodeLabel(this.getNodeLabel)
     this.forceGraph.nodeRelSize(this.getNodeRelativeSize())
     this.forceGraph.nodeVal(node => node.neighbors.size)
+    this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
     this.forceGraph.linkDirectionalParticles(2)
     this.forceGraph.linkLabel(this.getEdgeLabel)
@@ -184,11 +186,7 @@ class Visualization extends React.Component {
   }
 
   drawNode(node, ctx, globalScale) {
-    const {
-      highlightedNodeIds,
-      selectedNodeIds,
-      showNeighborsOnly,
-    } = this.props
+    const { highlightedNodeIds, selectedNodeIds } = this.props
 
     const nodeRelSize = this.getNodeRelativeSize()
     const nodeVal = node.neighbors.size
@@ -213,12 +211,10 @@ class Visualization extends React.Component {
     const nodeColor = this.getNodeColor(node) || this.colors.node
 
     // Draw node
-    if (!showNeighborsOnly || this.isNeighborOfSelectedNode(node)) {
-      ctx.beginPath()
-      ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false)
-      ctx.fillStyle = nodeColor
-      ctx.fill()
-    }
+    ctx.beginPath()
+    ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false)
+    ctx.fillStyle = nodeColor
+    ctx.fill()
 
     // Always show label for selected node
     if (selectedNodeIds.has(node.id)) {
@@ -252,11 +248,14 @@ class Visualization extends React.Component {
   }
 
   getEdgeVisibility(edge) {
-    return (
-      !this.props.showNeighborsOnly ||
-      (this.isNeighborOfSelectedNode(edge.source) &&
-        this.isNeighborOfSelectedNode(edge.target))
-    )
+    if (
+      this.props.showNeighborsOnly &&
+      (!this.isNeighborOfSelectedNode(edge.source) ||
+        !this.isNeighborOfSelectedNode(edge.target))
+    ) {
+      return false
+    }
+    return true
   }
 
   getNodeColor(node) {
@@ -273,9 +272,6 @@ class Visualization extends React.Component {
   }
 
   getNodeLabel(node) {
-    if (this.props.showNeighborsOnly && !this.isNeighborOfSelectedNode(node)) {
-      return null
-    }
     if (node.label) {
       return node.label
     }
@@ -288,6 +284,13 @@ class Visualization extends React.Component {
     return this.props.dagMode
       ? this.nodeRelativeSize / 3
       : this.nodeRelativeSize
+  }
+
+  getNodeVisibility(node) {
+    if (this.props.showNeighborsOnly && !this.isNeighborOfSelectedNode(node)) {
+      return false
+    }
+    return true
   }
 
   isNeighborOfSelectedNode(node) {
