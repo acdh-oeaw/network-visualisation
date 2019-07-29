@@ -185,12 +185,14 @@ class Visualization extends React.Component {
     })
   }
 
-  drawNode(node, ctx, globalScale) {
+  drawNode(node, ctx, globalScale, isShadowCtx) {
     const { highlightedNodeIds, selectedNodeIds } = this.props
+
+    const padAmount = isShadowCtx / globalScale;
 
     const nodeRelSize = this.getNodeRelativeSize()
     const nodeVal = node.neighbors.size
-    const radius = Math.sqrt(Math.max(0, nodeVal || 1)) * nodeRelSize
+    const radius = (Math.sqrt(Math.max(0, nodeVal || 1)) * nodeRelSize) + padAmount
 
     // Draw highlighted ring around highlighted node
     if (highlightedNodeIds.has(node.id)) {
