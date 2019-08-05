@@ -5,7 +5,7 @@ import SpriteText from 'three-spritetext'
 import debounce from 'debounce-fn'
 
 import Graph from './graph'
-import { colors } from './constants'
+import { NODE_RELATIVE_SIZE, colors } from './constants'
 
 import './global.css'
 
