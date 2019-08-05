@@ -14,7 +14,8 @@ Install it as a package from NPM:
 npm i @acdh/network-visualization
 ```
 
-You can also include the UMD build in a `script` tag:
+You can also include the UMD build in a `script` tag, and access the components
+on the `NetworkVisualization` global:
 
 ```html
 <script src="network-visualization.umd.js"></script>
@@ -30,9 +31,22 @@ When using the UMD build, make sure to also include `react` and, if you plan to
 use the 3D component, `three`:
 
 ```html
-<script src="https://unpkg.com/react"></script>
-<script src="https://unpkg.com/three"></script>
+<script
+  crossorigin
+  src="https://unpkg.com/react@16/umd/react.production.min.js"
+></script>
+<script
+  crossorigin
+  src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+></script>
+<script
+  crossorigin
+  src="https://unpkg.com/three@latest/build/three.min.js"
+></script>
 ```
+
+See [`examples/umd/index.html`](examples/umd/index.html) for a basic example how
+to use the UMD build.
 
 ## How to use
 
