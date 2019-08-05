@@ -352,7 +352,7 @@ class Visualization3D extends React.Component {
   }
 
   onWindowResize() {
-    this.resizeCanvas()
+    requestAnimationFrame(() => this.resizeCanvas())
   }
 
   resizeCanvas() {
