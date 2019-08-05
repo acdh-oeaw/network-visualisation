@@ -33,11 +33,13 @@ class Visualization extends React.Component {
     this.getNodeRelativeSize = this.getNodeRelativeSize.bind(this)
     this.getNodeVisibility = this.getNodeVisibility.bind(this)
     this.isNeighborOfSelectedNode = this.isNeighborOfSelectedNode.bind(this)
+    this.onWindowResize = this.onWindowResize.bind(this)
   }
 
   componentDidMount() {
     this.initForceGraph()
     this.initGraph()
+    window.addEventListener('resize', this.onWindowResize)
   }
 
   componentDidUpdate(prevProps) {
@@ -89,6 +91,7 @@ class Visualization extends React.Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.onWindowResize)
     this.forceGraph = null
     this.graph = null
   }
@@ -188,11 +191,12 @@ class Visualization extends React.Component {
   drawNode(node, ctx, globalScale, isShadowCtx) {
     const { highlightedNodeIds, selectedNodeIds } = this.props
 
-    const padAmount = isShadowCtx / globalScale;
+    const padAmount = isShadowCtx / globalScale
 
     const nodeRelSize = this.getNodeRelativeSize()
     const nodeVal = node.neighbors.size
-    const radius = (Math.sqrt(Math.max(0, nodeVal || 1)) * nodeRelSize) + padAmount
+    const radius =
+      Math.sqrt(Math.max(0, nodeVal || 1)) * nodeRelSize + padAmount
 
     // Draw highlighted ring around highlighted node
     if (highlightedNodeIds.has(node.id)) {
@@ -305,9 +309,20 @@ class Visualization extends React.Component {
     )
   }
 
+  onWindowResize() {
+    this.resizeCanvas()
+  }
+
   resizeCanvas() {
     const { width, height } = this.props
     if (width && height) {
+      this.forceGraph.width(width)
+      this.forceGraph.height(height)
+    } else {
+      const {
+        width,
+        height,
+      } = this.containerElementRef.current.getBoundingClientRect()
       this.forceGraph.width(width)
       this.forceGraph.height(height)
     }

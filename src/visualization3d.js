@@ -35,6 +35,7 @@ class Visualization3D extends React.Component {
     this.getNodeRelativeSize = this.getNodeRelativeSize.bind(this)
     this.getNodeVisibility = this.getNodeVisibility.bind(this)
     this.isNeighborOfSelectedNode = this.isNeighborOfSelectedNode.bind(this)
+    this.onWindowResize = this.onWindowResize.bind(this)
     this.shouldExtendNodeThreeObject = this.shouldExtendNodeThreeObject.bind(
       this
     )
@@ -43,6 +44,7 @@ class Visualization3D extends React.Component {
   componentDidMount() {
     this.initForceGraph()
     this.initGraph()
+    window.addEventListener('resize', this.onWindowResize)
   }
 
   componentDidUpdate(prevProps) {
@@ -109,6 +111,7 @@ class Visualization3D extends React.Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.onWindowResize)
     this.dispose()
     this.forceGraph = null
     this.graph = null
@@ -348,9 +351,20 @@ class Visualization3D extends React.Component {
     )
   }
 
+  onWindowResize() {
+    this.resizeCanvas()
+  }
+
   resizeCanvas() {
     const { width, height } = this.props
     if (width && height) {
+      this.forceGraph.width(width)
+      this.forceGraph.height(height)
+    } else {
+      const {
+        width,
+        height,
+      } = this.containerElementRef.current.getBoundingClientRect()
       this.forceGraph.width(width)
       this.forceGraph.height(height)
     }
@@ -370,6 +384,17 @@ class Visualization3D extends React.Component {
 
 Visualization3D.propTypes = {
   backgroundColor: PropTypes.string,
+  dagMode: PropTypes.oneOf([
+    null,
+    'lr',
+    'rl',
+    'td',
+    'bu',
+    'radialin',
+    'radialout',
+    'zin',
+    'zout',
+  ]),
   graph: PropTypes.shape({
     nodes: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
     edges: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
@@ -383,17 +408,6 @@ Visualization3D.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
-  dagMode: PropTypes.oneOf([
-    null,
-    'lr',
-    'rl',
-    'td',
-    'bu',
-    'radialin',
-    'radialout',
-    'zin',
-    'zout',
-  ]),
   onNodeClick: PropTypes.func,
   onNodeHover: PropTypes.func,
   onSimulationEnd: PropTypes.func,

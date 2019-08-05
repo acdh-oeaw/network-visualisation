@@ -59,10 +59,10 @@ class SelectionControls extends React.Component {
   render() {
     const {
       backgroundColor,
+      dagMode,
       dimensions,
       graph,
       height,
-      dagMode,
       onNodeHover,
       onSimulationEnd,
       onSimulationTick,
@@ -104,9 +104,6 @@ class SelectionControls extends React.Component {
 
 SelectionControls.propTypes = {
   backgroundColor: PropTypes.string,
-  dimensions: PropTypes.oneOf([2, 3]),
-  graph: PropTypes.object.isRequired,
-  height: PropTypes.number,
   dagMode: PropTypes.oneOf([
     null,
     'lr',
@@ -116,6 +113,9 @@ SelectionControls.propTypes = {
     'radialin',
     'radialout',
   ]),
+  dimensions: PropTypes.oneOf([2, 3]),
+  graph: PropTypes.object.isRequired,
+  height: PropTypes.number,
   onNodeHighlight: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeDeselect: PropTypes.func,

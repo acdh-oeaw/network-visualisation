@@ -26,13 +26,13 @@
       src="https://unpkg.com/@babel/standalone/babel.min.js"
     ></script> -->
 
-    <script
-      crossorigin
-      src="https://unpkg.com/@acdh/network-visualization@latest/lib/network-visualization.umd.js"
-    ></script>
+    <script crossorigin src="/network-visualization.umd.js"></script>
   </head>
-  <body>
-    <div id="visualization"></div>
+  <body style="margin: 0;">
+    <div
+      id="visualization"
+      style="position: relative; height: 600px; background: #fafafa;"
+    ></div>
     <script>
       const graph = {
         nodes: [
@@ -55,8 +55,8 @@
       ReactDOM.render(
         React.createElement(NetworkVisualization.Visualization, {
           graph,
-          width: 600,
-          height: 600,
+          // width: 600,
+          // height: 600,
         }),
         document.getElementById('visualization')
       )
