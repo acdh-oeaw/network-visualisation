@@ -5,7 +5,7 @@ import SpriteText from 'three-spritetext'
 import debounce from 'debounce-fn'
 
 import Graph from './graph'
-import { NODE_RELATIVE_SIZE, colors } from './constants'
+import { colors } from './constants'
 
 import './global.css'
 
@@ -313,10 +313,10 @@ class Visualization3D extends React.Component {
     const { nodes: nodeTypes = {} } = this.props.graph.types
     if (Array.isArray(nodeTypes)) {
       const nodeType = nodeTypes.find(type => type.id === node.type)
-      return nodeType && nodeType.color
+      return (nodeType && nodeType.color) || this.colors.node
     }
     const nodeType = nodeTypes[node.type]
-    return nodeType && nodeType.color
+    return (nodeType && nodeType.color) || this.colors.node
   }
 
   getNodeLabel(node) {
