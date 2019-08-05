@@ -24,7 +24,7 @@ on the `NetworkVisualization` global:
 The UMD build is also available via CDN:
 
 ```html
-<script src="https://unpkg.com/@acdh/network-visualization.umd.js"></script>
+<script src="https://unpkg.com/@acdh/network-visualization@latest/lib/network-visualization.umd.js"></script>
 ```
 
 When using the UMD build, make sure to also include `react` and, if you plan to
