@@ -135,14 +135,19 @@ running `npm run storybook`, or
 
 ### Visualization and Visualization3D
 
-| prop             | type           | default | description |
-| ---------------- | -------------- | ------- | ----------- |
-| backgroundColor  | string         |         |             |
-| graph            | object         |         |             |
-| dagMode          | string or null |         |             |
-| onNodeClick      | function       |         |             |
-| onSimulationEnd  | function       |         |             |
-| onSimulationTick | function       |         |             |
+| prop               | type           | default | description |
+| ------------------ | -------------- | ------- | ----------- |
+| backgroundColor    | string         |         |             |
+| dagMode            | string or null | null    |             |
+| graph              | object         |         |             |
+| height             | number         |         |             |
+| highlightedNodeIds | Set<string>    |         |             |
+| onNodeClick        | function       |         |             |
+| onSimulationEnd    | function       |         |             |
+| onSimulationTick   | function       |         |             |
+| onZoom             | function       |         |             |
+| showNeighborsOnly  | bool           | false   |             |
+| width              | number         |         |             |
 
 ### SelectionControls
 
