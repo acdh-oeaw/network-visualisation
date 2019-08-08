@@ -13,7 +13,6 @@ class SelectionControls extends React.Component {
     super(props)
 
     this.state = {
-      highlightedNodeIds: new Set(),
       selectedNodeIds: new Set(),
     }
 
@@ -63,6 +62,7 @@ class SelectionControls extends React.Component {
       dimensions,
       graph,
       height,
+      highlightedNodeIds,
       onNodeHover,
       onSimulationEnd,
       onSimulationTick,
@@ -71,7 +71,7 @@ class SelectionControls extends React.Component {
       width,
     } = this.props
 
-    const { highlightedNodeIds, selectedNodeIds } = this.state
+    const { selectedNodeIds } = this.state
 
     const VisualizationComponent =
       dimensions === 3 ? Visualization3D : Visualization
@@ -116,7 +116,7 @@ SelectionControls.propTypes = {
   dimensions: PropTypes.oneOf([2, 3]),
   graph: PropTypes.object.isRequired,
   height: PropTypes.number,
-  onNodeHighlight: PropTypes.func,
+  highlightedNodeIds: PropTypes.object, // Set
   onNodeClick: PropTypes.func,
   onNodeDeselect: PropTypes.func,
   onNodeHover: PropTypes.func,
@@ -130,7 +130,7 @@ SelectionControls.propTypes = {
 
 SelectionControls.defaultProps = {
   dimensions: 2,
-  onNodeHighlight: () => {},
+  highlightedNodeIds: new Set(),
   onNodeClick: () => {},
   onNodeDeselect: () => {},
   onNodeHover: () => {},
