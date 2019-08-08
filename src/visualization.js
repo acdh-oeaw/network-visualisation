@@ -225,7 +225,7 @@ class Visualization extends React.Component {
     // Always show label for selected node
     if (selectedNodeIds.has(node.id)) {
       const { label } = node
-      const fontSize = 15 / globalScale
+      const fontSize = Math.max(15 / globalScale, 2.5)
       ctx.font = `${fontSize}px sans-serif`
       const textWidth = ctx.measureText(label).width
       const [width, height] = [textWidth, fontSize].map(n => n + fontSize * 0.2)
