@@ -143,6 +143,7 @@ running `npm run storybook`, or
 | height             | number         |         |             |
 | highlightedNodeIds | Set<string>    |         |             |
 | onNodeClick        | function       |         |             |
+| onNodeHover        | function       |         |             |
 | onSimulationEnd    | function       |         |             |
 | onSimulationTick   | function       |         |             |
 | onZoom             | function       |         |             |
