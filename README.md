@@ -138,10 +138,10 @@ running `npm run storybook`, or
 | prop               | type           | default | description |
 | ------------------ | -------------- | ------- | ----------- |
 | backgroundColor    | string         |         |             |
-| dagMode            | string or null | null    |             |
+| dagMode            | string \| null | null    |             |
 | graph              | object         |         |             |
 | height             | number         |         |             |
-| highlightedNodeIds | Set<string>    |         |             |
+| highlightedNodeIds | Set\<string\>  |         |             |
 | onNodeClick        | function       |         |             |
 | onNodeHover        | function       |         |             |
 | onSimulationEnd    | function       |         |             |
