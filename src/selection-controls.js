@@ -13,10 +13,29 @@ class SelectionControls extends React.Component {
     super(props)
 
     this.state = {
-      selectedNodeIds: new Set(),
+      selectedNodeIds: this.props.selectedNodeIds ? null : new Set(),
     }
 
     this.onNodeClick = this.onNodeClick.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    // Switch from controlled to uncontrolled component
+    if (prevProps.selectedNodeIds && !this.props.selectedNodeIds) {
+      this.setState({
+        selectedNodeIds: new Set(),
+      })
+    }
+    // Switch from uncontrolled to controlled component
+    else if (!prevProps.selectedNodeIds && this.props.selectedNodeIds) {
+      this.setState({
+        selectedNodeIds: null,
+      })
+    }
+  }
+
+  isControlledComponent() {
+    return !this.state.selectedNodeIds
   }
 
   onNodeClick({ forceGraph, node }) {
@@ -25,16 +44,20 @@ class SelectionControls extends React.Component {
     onNodeClick(node)
 
     if (this.state.selectedNodeIds.has(node.id)) {
-      this.setState(({ selectedNodeIds }) => ({
-        selectedNodeIds: new Set(
-          [...selectedNodeIds].filter(id => id !== node.id)
-        ),
-      }))
+      if (!this.isControlledComponent()) {
+        this.setState(({ selectedNodeIds }) => ({
+          selectedNodeIds: new Set(
+            [...selectedNodeIds].filter(id => id !== node.id)
+          ),
+        }))
+      }
       onNodeDeselect(node)
     } else {
-      this.setState(({ selectedNodeIds }) => ({
-        selectedNodeIds: new Set([node.id, ...selectedNodeIds]),
-      }))
+      if (!this.isControlledComponent()) {
+        this.setState(({ selectedNodeIds }) => ({
+          selectedNodeIds: new Set([node.id, ...selectedNodeIds]),
+        }))
+      }
       onNodeSelect(node)
     }
 
