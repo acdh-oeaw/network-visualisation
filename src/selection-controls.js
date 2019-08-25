@@ -71,7 +71,8 @@ class SelectionControls extends React.Component {
       width,
     } = this.props
 
-    const { selectedNodeIds } = this.state
+    const selectedNodeIds =
+      this.props.selectedNodeIds || this.state.selectedNodeIds
 
     const VisualizationComponent =
       dimensions === 3 ? Visualization3D : Visualization
@@ -124,6 +125,7 @@ SelectionControls.propTypes = {
   onSimulationEnd: PropTypes.func,
   onSimulationTick: PropTypes.func,
   onZoom: PropTypes.func,
+  selectedNodeIds: PropTypes.object, // Set
   showNeighborsOnly: PropTypes.bool,
   width: PropTypes.number,
 }
