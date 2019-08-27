@@ -109,6 +109,22 @@ arrays, or as objects mapped by `id`, e.g.:
 }
 ```
 
+When the graph data changes during the lifetime of the component, by default new
+nodes and edges will be _added_ to the previously provided graph. If you want to
+_replace_ a graph, you can add the `replace` property to the graph object:
+
+```diff
+ {
+   nodes: [],
+   edges: [],
+   types: {
+     edges: [],
+     nodes: []
+   },
++  replace: true,
+ }
+```
+
 ## Selection controls
 
 Click interactions which allow selecting/deselecting nodes can be added with the
