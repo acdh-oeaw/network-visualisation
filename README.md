@@ -125,6 +125,10 @@ const MyComponent = props => (
 )
 ```
 
+By default, `SelectionControls` is an uncontrolled component, i.e. it holds the
+state of selected nodes internally. It is possible to switch it to a controlled
+component by providing a `Set` of ids with the `selectedNodeIds` prop.
+
 ## Live example
 
 You can view a live example of the components in storybook, by either locally
@@ -135,27 +139,28 @@ running `npm run storybook`, or
 
 ### Visualization and Visualization3D
 
-| prop               | type           | default | description |
-| ------------------ | -------------- | ------- | ----------- |
-| backgroundColor    | string         |         |             |
-| dagMode            | string \| null | null    |             |
-| graph              | object         |         |             |
-| height             | number         |         |             |
-| highlightedNodeIds | Set\<string\>  |         |             |
-| onNodeClick        | function       |         |             |
-| onNodeHover        | function       |         |             |
-| onSimulationEnd    | function       |         |             |
-| onSimulationTick   | function       |         |             |
-| onZoom             | function       |         |             |
-| showNeighborsOnly  | bool           | false   |             |
-| width              | number         |         |             |
+| prop               | type           | default          | description                                        |
+| ------------------ | -------------- | ---------------- | -------------------------------------------------- |
+| backgroundColor    | string         |                  | Canvas color                                       |
+| dagMode            | string \| null | null             | Layout mode for directed acyclical graphs          |
+| graph              | object         |                  | Graph data, see above for the expected format      |
+| height             | number         | container height | Canvas height                                      |
+| highlightedNodeIds | Set\<string\>  |                  | Ids of highlighted nodes                           |
+| onNodeClick        | function       |                  | Event callback fired when clicking on a node       |
+| onNodeHover        | function       |                  | Event callback fired when hovering over a node     |
+| onSimulationEnd    | function       |                  | Event callback fired when simulation ends          |
+| onSimulationTick   | function       |                  | Event callback fired every simulation tick         |
+| onZoom             | function       |                  | Event callback fired on every zoom/pan interaction |
+| selectedNodeIds    | Set\<string\>  |                  | Ids of selected nodes                              |
+| showNeighborsOnly  | bool           | false            | Only how neighbors of selected nodes               |
+| width              | number         | container width  | Canvas width                                       |
 
 ### SelectionControls
 
 Has all props from `<Visualization />`, and adds:
 
-| prop           | type     | default | description |
-| -------------- | -------- | ------- | ----------- |
-| dimensions     | number   | 2       |             |
-| onNodeDeselect | function |         |             |
-| onNodeSelect   | function |         |             |
+| prop           | type     | default | description                               |
+| -------------- | -------- | ------- | ----------------------------------------- |
+| dimensions     | number   | 2       | 2D or 3D layout                           |
+| onNodeDeselect | function |         | Event callback fired when node deselected |
+| onNodeSelect   | function |         | Event callback fired when node selected   |
