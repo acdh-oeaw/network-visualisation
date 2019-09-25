@@ -299,6 +299,10 @@ class Visualization3D extends React.Component {
     return true
   }
 
+  getGraph() {
+    return this.graph
+  }
+
   getNodeColor(node) {
     if (this.props.selectedNodeIds.has(node.id)) {
       return this.colors.selected
@@ -378,12 +382,25 @@ class Visualization3D extends React.Component {
   }
 
   render() {
-    return this.containerElement
+    const { children } = this.props
+
+    return (
+      <>
+        {this.containerElement}
+        {typeof children === 'function'
+          ? children({
+              getGraph: this.getGraph,
+              getNodeColor: this.getNodeColor,
+            })
+          : null}
+      </>
+    )
   }
 }
 
 Visualization3D.propTypes = {
   backgroundColor: PropTypes.string,
+  children: PropTypes.func,
   dagMode: PropTypes.oneOf([
     null,
     'lr',

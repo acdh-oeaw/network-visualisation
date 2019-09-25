@@ -28,6 +28,7 @@ class Visualization extends React.Component {
     this.drawNode = this.drawNode.bind(this)
     this.getEdgeLabel = this.getEdgeLabel.bind(this)
     this.getEdgeVisibility = this.getEdgeVisibility.bind(this)
+    this.getGraph = this.getGraph.bind(this)
     this.getNodeColor = this.getNodeColor.bind(this)
     this.getNodeLabel = this.getNodeLabel.bind(this)
     this.getNodeRelativeSize = this.getNodeRelativeSize.bind(this)
@@ -264,6 +265,10 @@ class Visualization extends React.Component {
     return true
   }
 
+  getGraph() {
+    return this.graph
+  }
+
   getNodeColor(node) {
     if (node.color) {
       return node.color
@@ -329,12 +334,25 @@ class Visualization extends React.Component {
   }
 
   render() {
-    return this.containerElement
+    const { children } = this.props
+
+    return (
+      <>
+        {this.containerElement}
+        {typeof children === 'function'
+          ? children({
+              getGraph: this.getGraph,
+              getNodeColor: this.getNodeColor,
+            })
+          : null}
+      </>
+    )
   }
 }
 
 Visualization.propTypes = {
   backgroundColor: PropTypes.string,
+  children: PropTypes.func,
   dagMode: PropTypes.oneOf([
     null,
     'lr',
