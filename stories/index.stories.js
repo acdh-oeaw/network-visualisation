@@ -9,6 +9,7 @@ import {
   // button,
 } from '@storybook/addon-knobs'
 
+import ExportButton from '../src/export'
 import SelectionControls from '../src/selection-controls'
 import Visualization from '../src/visualization'
 import Visualization3D from '../src/visualization3d'
@@ -132,3 +133,20 @@ storiesOf('SelectionControls', module)
       showNeighborsOnly={boolean('Show neighbors only', false)}
     />
   ))
+
+storiesOf('Export', module).add('in GraphML or GEXF format', () => (
+  <Visualization
+    graph={{
+      ...createRandomGraph(),
+    }}
+    onNodeClick={action('onNodeClick')}
+    // onNodeHover={action('onNodeHover')}
+    onSimulationEnd={action('onSimulationEnd')}
+    // onSimulationTick={action('onSimulationTick')}
+    onZoom={action('onZoom')}
+  >
+    {({ getGraph, getNodeColor }) => (
+      <ExportButton getGraph={getGraph} getNodeColor={getNodeColor} />
+    )}
+  </Visualization>
+))
