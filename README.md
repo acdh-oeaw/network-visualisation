@@ -155,28 +155,27 @@ running `npm run storybook`, or
 
 ### Visualization and Visualization3D
 
-| prop               | type           | default          | description                                        |
-| ------------------ | -------------- | ---------------- | -------------------------------------------------- |
-| backgroundColor    | string         |                  | Canvas color                                       |
-| dagMode            | string \| null | null             | Layout mode for directed acyclical graphs          |
-| graph              | object         |                  | Graph data, see above for the expected format      |
-| height             | number         | container height | Canvas height                                      |
-| highlightedNodeIds | Set\<string\>  |                  | Ids of highlighted nodes                           |
-| onNodeClick        | function       |                  | Event callback fired when clicking on a node       |
-| onNodeHover        | function       |                  | Event callback fired when hovering over a node     |
-| onSimulationEnd    | function       |                  | Event callback fired when simulation ends          |
-| onSimulationTick   | function       |                  | Event callback fired every simulation tick         |
-| onZoom             | function       |                  | Event callback fired on every zoom/pan interaction |
-| selectedNodeIds    | Set\<string\>  |                  | Ids of selected nodes                              |
-| showNeighborsOnly  | bool           | false            | Only how neighbors of selected nodes               |
-| width              | number         | container width  | Canvas width                                       |
+| prop               | type           | default          | description                                                                                                     |
+| ------------------ | -------------- | ---------------- | --------------------------------------------------------------------------------------------------------------- |
+| backgroundColor    | string         |                  | Canvas color                                                                                                    |
+| dagMode            | string \| null | null             | Layout mode for directed acyclical graphs                                                                       |
+| graph              | object         |                  | Graph data, see above for the expected format                                                                   |
+| height             | number         | container height | Canvas height                                                                                                   |
+| highlightedNodeIds | Set\<string\>  |                  | Ids of highlighted nodes                                                                                        |
+| onNodeClick        | function       |                  | Event callback fired when clicking on a node. Receives an object with `{ node, graph, forceGraph }` as argument |
+| onSimulationEnd    | function       |                  | Event callback fired when simulation ends                                                                       |
+| onSimulationTick   | function       |                  | Event callback fired every simulation tick                                                                      |
+| onZoom             | function       |                  | Event callback fired on every zoom/pan interaction                                                              |
+| selectedNodeIds    | Set\<string\>  |                  | Ids of selected nodes                                                                                           |
+| showNeighborsOnly  | bool           | false            | Only how neighbors of selected nodes                                                                            |
+| width              | number         | container width  | Canvas width                                                                                                    |
 
 ### SelectionControls
 
 Has all props from `<Visualization />`, and adds:
 
-| prop           | type     | default | description                               |
-| -------------- | -------- | ------- | ----------------------------------------- |
-| dimensions     | number   | 2       | 2D or 3D layout                           |
-| onNodeDeselect | function |         | Event callback fired when node deselected |
-| onNodeSelect   | function |         | Event callback fired when node selected   |
+| prop           | type     | default | description                                                                     |
+| -------------- | -------- | ------- | ------------------------------------------------------------------------------- |
+| dimensions     | number   | 2       | 2D or 3D layout                                                                 |
+| onNodeDeselect | function |         | Event callback fired when node deselected. Receives the node object as argument |
+| onNodeSelect   | function |         | Event callback fired when node selected. Receives the node object as argument   |
