@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Network Visualization Example</title>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/three@latest/build/three.min.js"
+    ></script>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/@acdh/network-visualization@latest/lib/network-visualization.umd.js"
+    ></script>
+  </head>
+  <body style="margin: 0;">
+    <div
+      id="visualization"
+      style="position: relative; height: 600px; background: #fafafa;"
+    ></div>
+    <script>
+      const graph = {
+        nodes: [
+          { id: 'n1', label: 'Node 1', type: 't1' },
+          { id: 'n2', label: 'Node 2', type: 't2' },
+          { id: 'n3', label: 'Node 3', type: 't2' },
+        ],
+        edges: [
+          { id: 'e1', label: 'Edge 1', source: 'n1', target: 'n2', type: 'r1' },
+          { id: 'e2', label: 'Edge 2', source: 'n1', target: 'n3', type: 'r1' },
+        ],
+        types: {
+          nodes: [
+            { id: 't1', label: 'Category 1', color: '#006699' },
+            { id: 't2', label: 'Category 2', color: '#669900' },
+          ],
+          edges: [{ id: 'r1', label: 'Relation 1', color: '#990066' }],
+        },
+      }
+      ReactDOM.render(
+        React.createElement(NetworkVisualization.SelectionControls, {
+          graph,
+          children: props =>
+            React.createElement(NetworkVisualization.ExportButton, props),
+        }),
+        document.getElementById('visualization')
+      )
+    </script>
+  </body>
+</html>

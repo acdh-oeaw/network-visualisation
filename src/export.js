@@ -153,6 +153,7 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
           style={{
             background: 'white',
             border: '1px solid #ddd',
+            fontSize: 12,
             height: '100%',
             paddingLeft: '0.4rem',
             paddingRight: '1rem',
@@ -169,6 +170,7 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
         </select>
         <span
           style={{
+            fontSize: 16,
             position: 'absolute',
             right: '0.4rem',
             top: '-0.4rem',
@@ -181,6 +183,7 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
         style={{
           background: 'white',
           border: '1px solid #ddd',
+          fontSize: 12,
           height: '100%',
         }}
         disabled={!selected}

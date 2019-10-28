@@ -81,6 +81,7 @@ class SelectionControls extends React.Component {
   render() {
     const {
       backgroundColor,
+      children,
       dagMode,
       dimensions,
       graph,
@@ -119,7 +120,9 @@ class SelectionControls extends React.Component {
               showNeighborsOnly && selectedNodeIds.size
             )}
             width={width}
-          />
+          >
+            {children}
+          </VisualizationComponent>
         </React.Suspense>
       </ErrorBoundary>
     )
@@ -128,6 +131,7 @@ class SelectionControls extends React.Component {
 
 SelectionControls.propTypes = {
   backgroundColor: PropTypes.string,
+  children: PropTypes.func,
   dagMode: PropTypes.oneOf([
     null,
     'lr',
