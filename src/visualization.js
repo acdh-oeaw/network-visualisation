@@ -21,6 +21,7 @@ class Visualization extends React.Component {
 
     this.graph = null
     this.forceGraph = null
+    this.types = null
 
     this.colors = colors
     this.nodeRelativeSize = NODE_RELATIVE_SIZE
@@ -72,6 +73,7 @@ class Visualization extends React.Component {
         },
         graph.replace
       )
+      this.types = graph.types || this.types
     }
 
     if (height !== prevProps.height || width !== prevProps.width) {
@@ -95,6 +97,7 @@ class Visualization extends React.Component {
     window.removeEventListener('resize', this.onWindowResize)
     this.forceGraph = null
     this.graph = null
+    this.types = null
   }
 
   initGraph() {
@@ -121,6 +124,7 @@ class Visualization extends React.Component {
       nodes: graph.nodes,
       edges: graph.edges,
     })
+    this.types = graph.types
   }
 
   initForceGraph() {
@@ -245,7 +249,7 @@ class Visualization extends React.Component {
     if (edge.label) {
       return edge.label
     }
-    const { edges: edgeTypes = {} } = this.props.graph.types
+    const { edges: edgeTypes = {} } = this.types
     if (Array.isArray(edgeTypes)) {
       const edgeType = edgeTypes.find(type => type.id === edge.type)
       return edgeType && edgeType.label
@@ -273,7 +277,7 @@ class Visualization extends React.Component {
     if (node.color) {
       return node.color
     }
-    const { nodes: nodeTypes = {} } = this.props.graph.types
+    const { nodes: nodeTypes = {} } = this.types
     if (Array.isArray(nodeTypes)) {
       const nodeType = nodeTypes.find(type => type.id === node.type)
       return (nodeType && nodeType.color) || this.colors.node
@@ -286,7 +290,7 @@ class Visualization extends React.Component {
     if (node.label) {
       return node.label
     }
-    const { nodes: nodeTypes = {} } = this.props.graph.types
+    const { nodes: nodeTypes = {} } = this.types
     const nodeType = nodeTypes[node.type]
     return (nodeType && nodeType.label) || node.type
   }
