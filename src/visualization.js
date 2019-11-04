@@ -194,7 +194,7 @@ class Visualization extends React.Component {
   }
 
   drawNode(node, ctx, globalScale, isShadowCtx) {
-    const { highlightedNodeIds, selectedNodeIds } = this.props
+    const { highlightedNodeIds, nodeImage, selectedNodeIds } = this.props
 
     const padAmount = isShadowCtx / globalScale
 
@@ -222,10 +222,16 @@ class Visualization extends React.Component {
     const nodeColor = this.getNodeColor(node) || this.colors.node
 
     // Draw node
-    ctx.beginPath()
-    ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false)
-    ctx.fillStyle = nodeColor
-    ctx.fill()
+    const img = typeof nodeImage === 'function' && nodeImage(node)
+    if (!img) {
+      ctx.beginPath()
+      ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false)
+      ctx.fillStyle = nodeColor
+      ctx.fill()
+    } else {
+      const size = radius * 2
+      ctx.drawImage(img, node.x - size / 2, node.y - size / 2, size, size)
+    }
 
     // Always show label for selected node
     if (selectedNodeIds.has(node.id)) {
@@ -379,6 +385,7 @@ Visualization.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  nodeImage: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeHover: PropTypes.func,
   onSimulationEnd: PropTypes.func,
