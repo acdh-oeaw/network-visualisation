@@ -104,7 +104,8 @@ class Visualization extends React.Component {
     this.graph = new Graph()
 
     // this.graph.on(Graph.events.EDGE_ADDED, edge => {});
-    this.graph.on(Graph.events.EDGES_ADDED, () => {
+    // this.graph.on(Graph.events.EDGES_ADDED, edges => {});
+    this.graph.on(Graph.events.GRAPH_ADDED, () => {
       this.forceGraph.graphData({
         nodes: this.graph.getNodes(),
         links: this.graph.getEdges(),

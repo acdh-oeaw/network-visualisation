@@ -12,8 +12,12 @@ class Graph extends EventEmitter {
     if (replace) {
       this.clear()
     }
-    this.addNodes(nodes)
-    this.addEdges(edges)
+    const nodesAdded = this.addNodes(nodes)
+    const edgesAdded = this.addEdges(edges)
+    this.emit(Graph.events.GRAPH_ADDED, {
+      nodes: nodesAdded,
+      edges: edgesAdded,
+    })
   }
 
   addEdge(edge) {
@@ -38,6 +42,7 @@ class Graph extends EventEmitter {
     if (edgesAdded.length) {
       this.emit(Graph.events.EDGES_ADDED, edgesAdded)
     }
+    return edgesAdded || []
   }
 
   addNode(node) {
@@ -62,6 +67,7 @@ class Graph extends EventEmitter {
     if (nodesAdded.length) {
       this.emit(Graph.events.NODES_ADDED, nodesAdded)
     }
+    return nodesAdded || []
   }
 
   getNode(id) {
@@ -118,6 +124,7 @@ class Graph extends EventEmitter {
 Graph.events = {
   EDGE_ADDED: 'EDGE_ADDED',
   EDGES_ADDED: 'EDGES_ADDED',
+  GRAPH_ADDED: 'GRAPH_ADDED',
   GRAPH_CLEARED: 'GRAPH_CLEARED',
   NODE_ADDED: 'NODE_ADDED',
   NODES_ADDED: 'NODES_ADDED',
