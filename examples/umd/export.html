@@ -51,8 +51,10 @@
       ReactDOM.render(
         React.createElement(NetworkVisualization.SelectionControls, {
           graph,
-          children: props =>
+          children: props => [
             React.createElement(NetworkVisualization.ExportButton, props),
+            React.createElement(NetworkVisualization.Legend, props),
+          ],
         }),
         document.getElementById('visualization')
       )

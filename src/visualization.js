@@ -34,6 +34,7 @@ class Visualization extends React.Component {
     this.getNodeLabel = this.getNodeLabel.bind(this)
     this.getNodeRelativeSize = this.getNodeRelativeSize.bind(this)
     this.getNodeVisibility = this.getNodeVisibility.bind(this)
+    this.getTypes = this.getTypes.bind(this)
     this.isNeighborOfSelectedNode = this.isNeighborOfSelectedNode.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
   }
@@ -256,7 +257,7 @@ class Visualization extends React.Component {
     if (edge.label) {
       return edge.label
     }
-    const { edges: edgeTypes = {} } = this.types
+    const { edges: edgeTypes = {} } = this.types || {}
     if (Array.isArray(edgeTypes)) {
       const edgeType = edgeTypes.find(type => type.id === edge.type)
       return edgeType && edgeType.label
@@ -284,7 +285,7 @@ class Visualization extends React.Component {
     if (node.color) {
       return node.color
     }
-    const { nodes: nodeTypes = {} } = this.types
+    const { nodes: nodeTypes = {} } = this.types || {}
     if (Array.isArray(nodeTypes)) {
       const nodeType = nodeTypes.find(type => type.id === node.type)
       return (nodeType && nodeType.color) || this.colors.node
@@ -297,7 +298,7 @@ class Visualization extends React.Component {
     if (node.label) {
       return node.label
     }
-    const { nodes: nodeTypes = {} } = this.types
+    const { nodes: nodeTypes = {} } = this.types || {}
     const nodeType = nodeTypes[node.type]
     return (nodeType && nodeType.label) || node.type
   }
@@ -313,6 +314,10 @@ class Visualization extends React.Component {
       return false
     }
     return true
+  }
+
+  getTypes() {
+    return this.types
   }
 
   isNeighborOfSelectedNode(node) {
@@ -354,6 +359,7 @@ class Visualization extends React.Component {
           ? children({
               getGraph: this.getGraph,
               getNodeColor: this.getNodeColor,
+              getTypes: this.getTypes,
             })
           : null}
       </>

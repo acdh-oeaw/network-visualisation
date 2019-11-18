@@ -205,7 +205,7 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
             padding: '0.4rem',
             paddingRight: '1rem',
             textTransform: 'uppercase',
-            '-webkit-appearance': 'none',
+            WebkitAppearance: 'none',
           }}
           onChange={event => setSelected(event.target.value)}
           value={selected}
@@ -219,6 +219,7 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
         <span
           style={{
             marginRight: '0.3rem',
+            pointerEvents: 'none',
             position: 'absolute',
             right: 0,
           }}

@@ -2,7 +2,7 @@ export const random = n => Math.floor(Math.random() * n)
 
 export const range = n => Array.from(Array(n).keys())
 
-const types = {
+export const types = {
   nodes: [
     { id: 'Event', label: 'Event', color: '#006699' },
     { id: 'Institution', label: 'Institution', color: '#990066' },

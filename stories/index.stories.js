@@ -10,10 +10,11 @@ import {
 } from '@storybook/addon-knobs'
 
 import ExportButton from '../src/export'
+import Legend from '../src/legend'
 import SelectionControls from '../src/selection-controls'
 import Visualization from '../src/visualization'
 import Visualization3D from '../src/visualization3d'
-import { createRandomGraph, createRandomDAG } from './utils'
+import { createRandomGraph, createRandomDAG, types } from './utils'
 
 import '../src/global.css'
 
@@ -147,6 +148,27 @@ storiesOf('Export', module).add('in GraphML or GEXF format', () => (
   >
     {({ getGraph, getNodeColor }) => (
       <ExportButton getGraph={getGraph} getNodeColor={getNodeColor} />
+    )}
+  </Visualization>
+))
+
+storiesOf('Legend', module).add('show node types', () => (
+  <Visualization
+    graph={{
+      ...createRandomGraph(),
+      types,
+    }}
+    onNodeClick={action('onNodeClick')}
+    // onNodeHover={action('onNodeHover')}
+    onSimulationEnd={action('onSimulationEnd')}
+    // onSimulationTick={action('onSimulationTick')}
+    onZoom={action('onZoom')}
+  >
+    {({ getGraph, getNodeColor, getTypes }) => (
+      <>
+        <ExportButton getGraph={getGraph} getNodeColor={getNodeColor} />
+        <Legend getTypes={getTypes} />
+      </>
     )}
   </Visualization>
 ))
