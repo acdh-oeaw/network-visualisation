@@ -18,7 +18,6 @@ const rules = [
   `[data-nerv-export] > span > select {
     background: white;
     border: 1px solid #ddd;
-    border-right: none;
     cursor: pointer;
     font-size: 12px;
     font-weight: bold;
@@ -43,6 +42,7 @@ const rules = [
   `[data-nerv-export] > button {
     background: white;
     border: 1px solid #ddd;
+    border-left: none;
     cursor: pointer;
     font-size: 12px;
     font-weight: bold;
@@ -100,8 +100,8 @@ export const convertToGraphML = ({ nodes, edges, getNodeColor }) => {
   const nodesElement = doc.createElement('nodes')
   const edgesElement = doc.createElement('edges')
 
-  const nodeAttributes = new Set()
-  const edgeAttributes = new Set()
+  const seenNodeAttributes = new Set()
+  const seenEdgeAttributes = new Set()
 
   nodes.forEach(node => {
     const element = doc.createElement('node')
@@ -113,8 +113,8 @@ export const convertToGraphML = ({ nodes, edges, getNodeColor }) => {
     element.setAttribute('id', id)
 
     if (node.type) {
-      if (!nodeAttributes.has('color')) {
-        nodeAttributes.add('color')
+      if (!seenNodeAttributes.has('color')) {
+        seenNodeAttributes.add('color')
         createGraphMLAttribute({ doc, parent: graphMlElement, name: 'color' })
       }
       addGraphMLAttribute({
@@ -127,8 +127,8 @@ export const convertToGraphML = ({ nodes, edges, getNodeColor }) => {
 
     Object.entries(attributes).forEach(([name, content]) => {
       if (content && typeof content !== 'object') {
-        if (!nodeAttributes.has(name)) {
-          nodeAttributes.add(name)
+        if (!seenNodeAttributes.has(name)) {
+          seenNodeAttributes.add(name)
           createGraphMLAttribute({ doc, parent: graphMlElement, name })
         }
         addGraphMLAttribute({ doc, name, content, element })
@@ -148,12 +148,11 @@ export const convertToGraphML = ({ nodes, edges, getNodeColor }) => {
     element.setAttribute('id', id)
     element.setAttribute('source', source.id || source)
     element.setAttribute('target', target.id || target)
-    edgesElement.appendChild(element)
 
     Object.entries(attributes).forEach(([name, content]) => {
       if (content && typeof content !== 'object') {
-        if (!edgeAttributes.has(name)) {
-          edgeAttributes.add(name)
+        if (!seenEdgeAttributes.has(name)) {
+          seenEdgeAttributes.add(name)
           createGraphMLAttribute({
             doc,
             parent: graphMlElement,
@@ -164,6 +163,8 @@ export const convertToGraphML = ({ nodes, edges, getNodeColor }) => {
         addGraphMLAttribute({ doc, name, content, element })
       }
     })
+
+    edgesElement.appendChild(element)
   })
 
   graphElement.appendChild(nodesElement)
@@ -175,6 +176,21 @@ export const convertToGraphML = ({ nodes, edges, getNodeColor }) => {
   const xml = serializer.serializeToString(doc)
 
   return [xmlDeclaration, xml].join('\n')
+}
+
+const createGexfAttribute = ({ doc, parent, name, type = 'node' }) => {
+  const attribute = doc.createElement('attribute')
+  attribute.setAttribute('id', `${type}${name}`)
+  attribute.setAttribute('title', name)
+  attribute.setAttribute('type', 'string')
+  parent.appendChild(attribute)
+}
+
+const addGexfAttribute = ({ doc, name, content, element, type = 'node' }) => {
+  const data = doc.createElement('attvalue')
+  data.setAttribute('for', `${type}${name}`)
+  data.setAttribute('value', content)
+  element.appendChild(data)
 }
 
 export const convertToGexf = ({ nodes, edges, getNodeColor }) => {
@@ -197,34 +213,98 @@ export const convertToGexf = ({ nodes, edges, getNodeColor }) => {
   graphElement.setAttribute('mode', 'static')
   graphElement.setAttribute('defaultedgetype', 'directed')
 
+  const nodeAttributes = doc.createElement('attributes')
+  nodeAttributes.setAttribute('class', 'node')
+  const edgeAttributes = doc.createElement('attributes')
+  edgeAttributes.setAttribute('class', 'edge')
+  graphElement.appendChild(nodeAttributes)
+  graphElement.appendChild(edgeAttributes)
+
   const nodesElement = doc.createElement('nodes')
   const edgesElement = doc.createElement('edges')
-
   graphElement.appendChild(nodesElement)
   graphElement.appendChild(edgesElement)
+
   gexfElement.appendChild(graphElement)
   doc.appendChild(gexfElement)
 
+  const seenNodeAttributes = new Set()
+  const seenEdgeAttributes = new Set()
+
   nodes.forEach(node => {
-    const nodeElement = doc.createElement('node')
-    nodeElement.setAttribute('id', node.id)
-    if (node.label) {
-      nodeElement.setAttribute('label', node.label)
-    }
+    const element = doc.createElement('node')
+
+    // x, y, vx, vy, index, __indexColor are internal values
+    /* eslint-disable-next-line no-unused-vars */
+    const { id, __indexColor, x, y, vx, vy, index, ...attributes } = node
+
+    element.setAttribute('id', id)
+
     if (node.type) {
       const colorElement = doc.createElement('viz:color')
       colorElement.setAttribute('hex', getNodeColor(node))
-      nodeElement.appendChild(colorElement)
+      element.appendChild(colorElement)
     }
-    nodesElement.appendChild(nodeElement)
+
+    const attrs = Object.entries(attributes)
+    if (attrs.length) {
+      const attributesElement = doc.createElement('attvalues')
+
+      attrs.forEach(([name, content]) => {
+        if (content && typeof content !== 'object') {
+          if (!seenNodeAttributes.has(name)) {
+            seenNodeAttributes.add(name)
+            createGexfAttribute({ doc, parent: nodeAttributes, name })
+          }
+          addGexfAttribute({ doc, name, content, element: attributesElement })
+        }
+      })
+
+      element.appendChild(attributesElement)
+    }
+
+    nodesElement.appendChild(element)
   })
 
   edges.forEach(edge => {
-    const edgeElement = doc.createElement('edge')
-    edgeElement.setAttribute('id', edge.id)
-    edgeElement.setAttribute('source', edge.source.id || edge.source)
-    edgeElement.setAttribute('target', edge.target.id || edge.target)
-    edgesElement.appendChild(edgeElement)
+    const element = doc.createElement('edge')
+
+    // index, __indexColor are internal values
+    /* eslint-disable-next-line no-unused-vars */
+    const { id, source, target, __indexColor, index, ...attributes } = edge
+
+    element.setAttribute('id', id)
+    element.setAttribute('source', source.id || source)
+    element.setAttribute('target', target.id || target)
+
+    if (attributes.length) {
+      const attributesElement = doc.createElement('attvalues')
+
+      Object.entries(attributes).forEach(([name, content]) => {
+        if (content && typeof content !== 'object') {
+          if (!seenEdgeAttributes.has(name)) {
+            seenEdgeAttributes.add(name)
+            createGraphMLAttribute({
+              doc,
+              parent: edgeAttributes,
+              name,
+              type: 'edge',
+            })
+          }
+          addGraphMLAttribute({
+            doc,
+            name,
+            content,
+            element: attributesElement,
+            type: 'edge',
+          })
+        }
+      })
+
+      element.appendChild(attributesElement)
+    }
+
+    edgesElement.appendChild(element)
   })
 
   const serializer = new XMLSerializer()
