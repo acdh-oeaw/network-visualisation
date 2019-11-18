@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ForceGraph from 'force-graph'
 
 import Graph from './graph'
+import { mergeTypes } from './utils'
 import { NODE_RELATIVE_SIZE, colors } from './constants'
 
 import './global.css'
@@ -74,7 +75,9 @@ class Visualization extends React.Component {
         },
         graph.replace
       )
-      this.types = graph.types || this.types
+      this.types = graph.replace
+        ? graph.types
+        : mergeTypes(this.types, graph.types)
     }
 
     if (height !== prevProps.height || width !== prevProps.width) {

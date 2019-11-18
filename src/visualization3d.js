@@ -5,6 +5,7 @@ import SpriteText from 'three-spritetext'
 import debounce from 'debounce-fn'
 
 import Graph from './graph'
+import { mergeTypes } from './utils'
 import { NODE_RELATIVE_SIZE, colors } from './constants'
 
 import './global.css'
@@ -78,7 +79,9 @@ class Visualization3D extends React.Component {
         },
         graph.replace
       )
-      this.types = graph.types || this.types
+      this.types = graph.replace
+        ? graph.types
+        : mergeTypes(this.types, graph.types)
     }
 
     if (height !== prevProps.height || width !== prevProps.width) {
