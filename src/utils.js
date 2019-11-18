@@ -1,6 +1,6 @@
-const toObj = arr =>
+const toObj = (arr = {}) =>
   Array.isArray(arr)
-    ? arr.nodes.reduce((acc, type) => {
+    ? arr.reduce((acc, type) => {
         if (type.id) {
           acc[type.id] = type
         }

@@ -19,6 +19,7 @@ const rules = [
     background: white;
     border: 1px solid #ddd;
     cursor: pointer;
+    font-family: sans-serif;
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -44,6 +45,7 @@ const rules = [
     border: 1px solid #ddd;
     border-left: none;
     cursor: pointer;
+    font-family: sans-serif;
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
