@@ -8,7 +8,7 @@ const toObj = (arr = {}) =>
       }, {})
     : arr
 
-export const mergeTypes = (oldObj, newObj) => ({
+export const mergeTypes = (oldObj = {}, newObj = {}) => ({
   nodes: {
     ...toObj(oldObj.nodes),
     ...toObj(newObj.nodes),
