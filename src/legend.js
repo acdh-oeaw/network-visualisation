@@ -1,6 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+const style = document.createElement('style')
+style.appendChild(document.createTextNode(''))
+document.head.appendChild(style)
+const rules = [
+  `[data-nerv-legend] {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    list-style: none;
+    margin: 0;
+    padding: 0.4rem 0.6rem;
+    position: absolute;
+    right: 0;
+    text-transform: uppercase;
+  }`,
+  `[data-nerv-legend] > li > span {
+    display: inline-block;
+    height: 10px;
+    margin-right: 0.4rem;
+    width: 10px;
+  }`,
+]
+rules.forEach(rule => style.sheet.insertRule(rule))
+
 const Legend = ({ className, getTypes }) => {
   const [types, setTypes] = React.useState([])
   React.useEffect(() => {
@@ -13,31 +38,13 @@ const Legend = ({ className, getTypes }) => {
     )
   })
   return (
-    <ul
-      className={className}
-      style={{
-        position: 'absolute',
-        right: 0,
-        padding: '0.4rem 0.6rem',
-        listStyleType: 'none',
-        margin: 0,
-        fontFamily: 'sans-serif',
-        fontSize: 12,
-        fontWeight: 'bold',
-        letterSpacing: '1px',
-        textTransform: 'uppercase',
-      }}
-    >
+    <ul data-nerv-legend className={className}>
       {Array.isArray(types) &&
         types.map(type => (
           <li key={type.id}>
             <span
               style={{
-                display: 'inline-block',
-                width: 10,
-                height: 10,
                 background: type.color,
-                marginRight: '0.4rem',
               }}
             />
             {type.label}

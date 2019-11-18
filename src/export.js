@@ -1,6 +1,65 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+const style = document.createElement('style')
+style.appendChild(document.createTextNode(''))
+document.head.appendChild(style)
+const rules = [
+  `[data-nerv-export] {
+    display: inline-flex;
+    position: absolute;
+    padding: 0.4rem;
+  }`,
+  `[data-nerv-export] > span {
+    alignItems: center;
+    display: inline-flex;
+    position: relative;
+  }`,
+  `[data-nerv-export] > span > select {
+    background: white;
+    border: 1px solid #ddd;
+    border-right: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    padding: 0.4rem;
+    padding-right: 1.2rem;
+    text-transform: uppercase;
+    -webkit-appearance: none;
+  }`,
+  `[data-nerv-export] > span > select:hover,
+  [data-nerv-export] > span > select:focus {
+    background: #ddd;
+  }`,
+  `[data-nerv-export] > span > span {
+    align-self: center;
+    margin-right: 0.3rem;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+  }`,
+  `[data-nerv-export] > button {
+    background: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    padding: 0.4rem 0.6rem;
+    text-transform: uppercase;
+  }`,
+  `[data-nerv-export] > button:hover {
+    background: #ddd;
+  }`,
+  `[data-nerv-export] > button[disabled] {
+    cursor: not-allowed;
+  }`,
+]
+rules.forEach(rule => style.sheet.insertRule(rule))
+
 const xmlDeclaration = '<?xml version="1.0" encoding="UTF-8"?>'
 
 const createGraphMLAttribute = ({ doc, parent, name, type = 'node' }) => {
@@ -178,35 +237,9 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
   const [selected, setSelected] = React.useState('')
 
   return (
-    <div
-      className={className}
-      style={{
-        display: 'inline-flex',
-        position: 'absolute',
-        padding: '0.4rem',
-      }}
-    >
-      <span
-        style={{
-          alignItems: 'center',
-          display: 'inline-flex',
-          position: 'relative',
-        }}
-      >
+    <div data-nerv-export className={className}>
+      <span>
         <select
-          style={{
-            background: 'white',
-            border: '1px solid #ddd',
-            borderRight: 'none',
-            fontSize: 12,
-            fontWeight: 'bold',
-            letterSpacing: '1px',
-            lineHeight: 1.5,
-            padding: '0.4rem',
-            paddingRight: '1rem',
-            textTransform: 'uppercase',
-            WebkitAppearance: 'none',
-          }}
           onChange={event => setSelected(event.target.value)}
           value={selected}
         >
@@ -216,14 +249,7 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
           <option value="gexf">GEXF</option>
           <option value="graphml">GraphML</option>
         </select>
-        <span
-          style={{
-            marginRight: '0.3rem',
-            pointerEvents: 'none',
-            position: 'absolute',
-            right: 0,
-          }}
-        >
+        <span>
           <svg viewBox="0 0 16 16" width="1em" height="1em">
             <polyline
               fill="none"
@@ -236,16 +262,6 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
         </span>
       </span>
       <button
-        style={{
-          background: 'white',
-          border: '1px solid #ddd',
-          fontSize: 12,
-          fontWeight: 'bold',
-          letterSpacing: '1px',
-          lineHeight: 1.5,
-          padding: '0.4rem 0.6rem',
-          textTransform: 'uppercase',
-        }}
         disabled={!selected}
         onClick={() => {
           const graph = getGraph()
