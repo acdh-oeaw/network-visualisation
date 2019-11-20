@@ -26,11 +26,10 @@
       src="https://unpkg.com/@babel/standalone/babel.min.js"
     ></script> -->
 
-    <script crossorigin src="network-visualization.umd.js"></script>
-    <!-- <script
+    <script
       crossorigin
       src="https://unpkg.com/@acdh/network-visualization@latest/lib/network-visualization.umd.js"
-    ></script> -->
+    ></script>
   </head>
   <body style="margin: 0;">
     <div
@@ -84,7 +83,7 @@
 
       let isPopoverOpen = false
 
-      const showPopover = ({ x, y, node, onDismiss }) => {
+      const showPopover = ({ x, y, createPopoverContent, node, onDismiss }) => {
         isPopoverOpen = true
 
         popover.appendChild(createPopoverContent({ node, onDismiss }))
@@ -92,11 +91,11 @@
 
         const rect = popover.getBoundingClientRect()
         const left =
-          x + rect.width + window.pageXOffset > window.innerWidth
+          x + rect.width > window.innerWidth + window.pageXOffset
             ? x - rect.width
             : x
         const top =
-          y + rect.height + window.pageYOffset > window.innerHeight
+          y + rect.height > window.innerHeight + window.pageYOffset
             ? y - rect.height
             : y
 
@@ -110,7 +109,7 @@
         isPopoverOpen = false
       }
 
-      const handleNodeClick = ({ node, event }) => {
+      const handleNodeClick = createPopoverContent => ({ node, event }) => {
         if (isPopoverOpen) return
 
         const onDismiss = event => {
@@ -121,7 +120,13 @@
 
         overlay.addEventListener('mousedown', onDismiss, false)
         overlay.style.display = 'block'
-        showPopover({ node, x: event.pageX, y: event.pageY, onDismiss })
+        showPopover({
+          createPopoverContent,
+          node,
+          x: event.pageX,
+          y: event.pageY,
+          onDismiss,
+        })
       }
 
       // --- popover content ---
@@ -167,7 +172,7 @@
       ReactDOM.render(
         React.createElement(NetworkVisualization.Visualization, {
           graph,
-          onNodeClick: handleNodeClick,
+          onNodeClick: handleNodeClick(createPopoverContent),
         }),
         document.getElementById('visualization')
       )
