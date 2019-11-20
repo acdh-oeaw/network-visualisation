@@ -160,6 +160,7 @@ class Visualization3D extends React.Component {
     const {
       backgroundColor,
       dagMode,
+      onBackgroundClick,
       onNodeClick,
       onSimulationEnd,
       onSimulationTick,
@@ -185,11 +186,12 @@ class Visualization3D extends React.Component {
     this.forceGraph.linkLabel(this.getEdgeLabel)
     this.forceGraph.linkVisibility(this.getEdgeVisibility)
 
-    this.forceGraph.onNodeClick(node => {
+    this.forceGraph.onNodeClick((node, event) => {
       onNodeClick({
         forceGraph: this.forceGraph,
         graph: this.graph,
         node,
+        event,
       })
     })
     // this.forceGraph.onNodeHover((node, prevNode) => {
@@ -200,6 +202,13 @@ class Visualization3D extends React.Component {
     //     prevNode,
     //   });
     // });
+
+    this.forceGraph.onBackgroundClick(event => {
+      onBackgroundClick({
+        event,
+      })
+    })
+
     this.forceGraph.onEngineStop(() => {
       onSimulationEnd({
         forceGraph: this.forceGraph,
@@ -212,6 +221,7 @@ class Visualization3D extends React.Component {
         graph: this.graph,
       })
     })
+
     // `3d-force-graph` does not expose `onZoom`, so we listen for
     // change events on the three orbit controls and calculate a
     // substitute for "zoom-factor" from the position of the
@@ -439,6 +449,7 @@ Visualization3D.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeHover: PropTypes.func,
   onSimulationEnd: PropTypes.func,
@@ -452,6 +463,7 @@ Visualization3D.propTypes = {
 Visualization3D.defaultProps = {
   backgroundColor: 'rgba(255, 255, 255, 0)',
   highlightedNodeIds: new Set(),
+  onBackgroundClick: () => {},
   onNodeClick: () => {},
   onNodeHover: () => {},
   onSimulationEnd: () => {},

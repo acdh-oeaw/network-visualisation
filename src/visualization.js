@@ -140,6 +140,7 @@ class Visualization extends React.Component {
     const {
       backgroundColor,
       dagMode,
+      onBackgroundClick,
       onNodeClick,
       onSimulationEnd,
       onSimulationTick,
@@ -162,11 +163,12 @@ class Visualization extends React.Component {
     this.forceGraph.linkLabel(this.getEdgeLabel)
     this.forceGraph.linkVisibility(this.getEdgeVisibility)
 
-    this.forceGraph.onNodeClick(node => {
+    this.forceGraph.onNodeClick((node, event) => {
       onNodeClick({
         forceGraph: this.forceGraph,
         graph: this.graph,
         node,
+        event,
       })
     })
     // this.forceGraph.onNodeHover((node, prevNode) => {
@@ -177,6 +179,13 @@ class Visualization extends React.Component {
     //     prevNode,
     //   });
     // });
+
+    this.forceGraph.onBackgroundClick(event => {
+      onBackgroundClick({
+        event,
+      })
+    })
+
     this.forceGraph.onEngineStop(() => {
       onSimulationEnd({
         forceGraph: this.forceGraph,
@@ -189,6 +198,7 @@ class Visualization extends React.Component {
         graph: this.graph,
       })
     })
+
     this.forceGraph.onZoom(zoom => {
       onZoom({
         forceGraph: this.forceGraph,
@@ -396,6 +406,7 @@ Visualization.propTypes = {
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
   nodeImage: PropTypes.func,
+  onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeHover: PropTypes.func,
   onSimulationEnd: PropTypes.func,
@@ -408,6 +419,7 @@ Visualization.propTypes = {
 
 Visualization.defaultProps = {
   highlightedNodeIds: new Set(),
+  onBackgroundClick: () => {},
   onNodeClick: () => {},
   onNodeHover: () => {},
   onSimulationEnd: () => {},

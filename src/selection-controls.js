@@ -38,10 +38,10 @@ class SelectionControls extends React.Component {
     return !this.state.selectedNodeIds
   }
 
-  onNodeClick({ forceGraph, graph, node }) {
+  onNodeClick({ forceGraph, graph, node, event }) {
     const { onNodeClick, onNodeDeselect, onNodeSelect } = this.props
 
-    onNodeClick({ forceGraph, graph, node })
+    onNodeClick({ forceGraph, graph, node, event })
 
     if (this.state.selectedNodeIds.has(node.id)) {
       if (!this.isControlledComponent()) {
@@ -87,6 +87,7 @@ class SelectionControls extends React.Component {
       graph,
       height,
       highlightedNodeIds,
+      onBackgroundClick,
       onNodeHover,
       onSimulationEnd,
       onSimulationTick,
@@ -110,6 +111,7 @@ class SelectionControls extends React.Component {
             height={height}
             highlightedNodeIds={highlightedNodeIds}
             dagMode={dagMode}
+            onBackgroundClick={onBackgroundClick}
             onNodeClick={this.onNodeClick}
             onNodeHover={onNodeHover}
             onSimulationEnd={onSimulationEnd}
@@ -145,6 +147,7 @@ SelectionControls.propTypes = {
   graph: PropTypes.object.isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeDeselect: PropTypes.func,
   onNodeHover: PropTypes.func,
@@ -160,6 +163,7 @@ SelectionControls.propTypes = {
 SelectionControls.defaultProps = {
   dimensions: 2,
   highlightedNodeIds: new Set(),
+  onBackgroundClick: () => {},
   onNodeClick: () => {},
   onNodeDeselect: () => {},
   onNodeHover: () => {},
