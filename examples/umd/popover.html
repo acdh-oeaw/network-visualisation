@@ -74,6 +74,7 @@
         const popover = document.createElement('div')
         popover.setAttribute('id', 'nerv-popover')
         popover.setAttribute('data-nerv-popover', true)
+        popover.setAttribute('role', 'dialog')
         document.body.appendChild(popover)
         return popover
       }
@@ -82,12 +83,16 @@
       const popover = createPopoverContainer()
 
       let isPopoverOpen = false
+      let previouslyFocusedElement = null
 
-      const showPopover = ({ x, y, createPopoverContent, node, onDismiss }) => {
+      const showPopover = ({ x, y, node, onDismiss }) => {
         isPopoverOpen = true
 
-        popover.appendChild(createPopoverContent({ node, onDismiss }))
+        const content = createPopoverContent({ node, onDismiss })
+        popover.appendChild(content)
         popover.style.display = 'block'
+
+        previouslyFocusedElement = document.activeElement
 
         const rect = popover.getBoundingClientRect()
         const left =
@@ -107,21 +112,33 @@
         popover.style.display = 'none'
         popover.innerHTML = ''
         isPopoverOpen = false
+
+        if (previouslyFocusedElement) {
+          previouslyFocusedElement.focus()
+          previouslyFocusedElement = null
+        }
       }
 
       const handleNodeClick = createPopoverContent => ({ node, event }) => {
         if (isPopoverOpen) return
 
         const onDismiss = event => {
+          document.removeEventListener('keyup', onEscape, false)
           overlay.removeEventListener('mousedown', onDismiss, false)
           overlay.style.display = 'none'
           hidePopover()
         }
 
+        const onEscape = event => {
+          if (event.key === 'Escape') {
+            onDismiss()
+          }
+        }
+
+        document.addEventListener('keyup', onEscape, false)
         overlay.addEventListener('mousedown', onDismiss, false)
         overlay.style.display = 'block'
         showPopover({
-          createPopoverContent,
           node,
           x: event.pageX,
           y: event.pageY,
