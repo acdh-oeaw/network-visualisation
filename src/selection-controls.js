@@ -38,10 +38,10 @@ class SelectionControls extends React.Component {
     return !this.state.selectedNodeIds
   }
 
-  onNodeClick({ forceGraph, graph, node, event }) {
+  onNodeClick({ forceGraph, graph, node, event, types }) {
     const { onNodeClick, onNodeDeselect, onNodeSelect } = this.props
 
-    onNodeClick({ forceGraph, graph, node, event })
+    onNodeClick({ forceGraph, graph, node, event, types })
 
     if (this.state.selectedNodeIds.has(node.id)) {
       if (!this.isControlledComponent()) {

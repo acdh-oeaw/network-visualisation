@@ -169,6 +169,7 @@ class Visualization extends React.Component {
         graph: this.graph,
         node,
         event,
+        types: this.types,
       })
     })
     // this.forceGraph.onNodeHover((node, prevNode) => {
