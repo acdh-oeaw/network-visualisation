@@ -1,6 +1,6 @@
 {
   "name": "@acdh/network-visualization",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "React component to visualize graph data in 2D and 3D",
   "main": "lib/network-visualization.cjs.js",
   "module": "lib/network-visualization.esm.js",
@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/acdh-oeaw/network-visualization#readme",
   "dependencies": {
-    "3d-force-graph": "^1.50.0",
+    "3d-force-graph": "^1.57.0",
     "debounce-fn": "^3.0.1",
     "events": "^3.0.0",
     "force-graph": "^1.22.2",
