@@ -4,7 +4,7 @@
   "description": "React component to visualize graph data in 2D and 3D",
   "main": "lib/network-visualization.cjs.js",
   "module": "lib/network-visualization.esm.js",
-  "browser": "lib/network-visualization.umd.js",
+  "unpkg": "lib/network-visualization.umd.js",
   "license": "MIT",
   "repository": {
     "type": "git",

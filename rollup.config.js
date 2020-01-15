@@ -37,7 +37,7 @@ export default [
     output: {
       format: 'umd',
       name: 'NetworkVisualization',
-      file: pkg.browser,
+      file: pkg.unpkg,
       globals: {
         react: 'React',
         three: 'THREE',
