@@ -45,7 +45,7 @@ use the 3D component, `three`:
 ></script>
 ```
 
-See [`examples/umd/index.html`](examples/umd/index.html) for a basic example how
+See [`examples/umd/basic.html`](examples/umd/basic.html) for a basic example how
 to use the UMD build.
 
 ## How to use
