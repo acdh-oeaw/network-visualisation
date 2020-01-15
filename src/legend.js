@@ -28,15 +28,18 @@ rules.forEach(rule => style.sheet.insertRule(rule))
 
 const Legend = ({ className, getTypes }) => {
   const [types, setTypes] = React.useState([])
+
+  const graphTypes = getTypes() || {}
+  const nodeTypes = graphTypes.nodes || []
+
   React.useEffect(() => {
-    const types = getTypes() || {}
-    const nodeTypes = types.nodes || []
     setTypes(
       Array.isArray(nodeTypes)
         ? nodeTypes
         : Object.values(nodeTypes).reduce((acc, type) => acc.concat(type), [])
     )
-  })
+  }, [nodeTypes])
+
   return (
     <ul data-nerv-legend className={className}>
       {Array.isArray(types) &&
