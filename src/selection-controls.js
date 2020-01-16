@@ -89,6 +89,7 @@ class SelectionControls extends React.Component {
       height,
       highlightedNodeIds,
       nodeRelativeSize,
+      nodeSize,
       onBackgroundClick,
       onNodeHover,
       onSimulationEnd,
@@ -116,6 +117,7 @@ class SelectionControls extends React.Component {
             height={height}
             highlightedNodeIds={highlightedNodeIds}
             nodeRelativeSize={nodeRelativeSize}
+            nodeSize={nodeSize}
             onBackgroundClick={onBackgroundClick}
             onNodeClick={this.onNodeClick}
             onNodeHover={onNodeHover}
@@ -155,6 +157,7 @@ SelectionControls.propTypes = {
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
   nodeRelativeSize: PropTypes.number,
+  nodeSize: PropTypes.number,
   onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeDeselect: PropTypes.func,

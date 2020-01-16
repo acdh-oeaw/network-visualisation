@@ -217,9 +217,8 @@ class Visualization3D extends React.Component {
   }
 
   initForceGraph() {
-    this.forceGraph = ForceGraph({ showNavInfo: false })(
-      this.containerElementRef.current
-    )
+    this.forceGraph = ForceGraph()(this.containerElementRef.current)
+    this.forceGraph.showNavInfo(false)
 
     this.resizeCanvas()
 
