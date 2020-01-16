@@ -16,6 +16,7 @@
   "homepage": "https://github.com/acdh-oeaw/network-visualization#readme",
   "dependencies": {
     "3d-force-graph": "^1.57.0",
+    "d3-force-reuse": "^1.0.1",
     "debounce-fn": "^3.0.1",
     "events": "^3.0.0",
     "force-graph": "^1.22.2",

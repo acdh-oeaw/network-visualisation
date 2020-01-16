@@ -53,12 +53,15 @@ class Visualization3D extends React.Component {
   componentDidUpdate(prevProps) {
     const {
       backgroundColor,
+      dagLevelDistance,
       dagMode,
       graph,
       height,
       highlightedNodeIds,
+      nodeRelativeSize,
       selectedNodeIds,
       showNeighborsOnly,
+      simulation,
       width,
     } = this.props
 
@@ -114,6 +117,53 @@ class Visualization3D extends React.Component {
       this.forceGraph.nodeThreeObjectExtend(this.shouldExtendNodeThreeObject)
       this.forceGraph.nodeThreeObject(this.drawNode)
     }
+
+    const {
+      alphaDecay,
+      charge,
+      cooldownTicks,
+      cooldownTime,
+      distance,
+      velocityDecay,
+      warmupTicks,
+    } = simulation || {}
+
+    const prev = prevProps.simulation || {}
+
+    if (alphaDecay != null && alphaDecay !== prev.alphaDecay) {
+      this.forceGraph.d3AlphaDecay(alphaDecay) // 0.0228
+    }
+    if (charge != null && charge !== prev.charge) {
+      this.forceGraph.d3Force('charge').strength(charge)
+    }
+    if (cooldownTicks != null && cooldownTicks !== prev.cooldownTicks) {
+      this.forceGraph.cooldownTicks(cooldownTicks) // Infinity
+    }
+    if (cooldownTime != null && cooldownTime !== prev.cooldownTime) {
+      this.forceGraph.cooldownTime(cooldownTime) // 15000
+    }
+    if (
+      dagLevelDistance != null &&
+      dagLevelDistance !== prev.dagLevelDistance
+    ) {
+      this.forceGraph.dagLevelDistance(dagLevelDistance)
+    }
+    if (distance != null && distance !== prev.distance) {
+      this.forceGraph.d3Force('link').distance(distance)
+    }
+    if (warmupTicks != null && warmupTicks !== prev.warmupTicks) {
+      this.forceGraph.warmupTicks(warmupTicks) // 0
+    }
+    if (velocityDecay != null && velocityDecay !== prev.velocityDecay) {
+      this.forceGraph.d3VelocityDecay(velocityDecay) // 0.4
+    }
+
+    if (
+      nodeRelativeSize != null &&
+      nodeRelativeSize !== prev.nodeRelativeSize
+    ) {
+      this.nodeRelativeSize = nodeRelativeSize
+    }
   }
 
   componentWillUnmount() {
@@ -153,23 +203,51 @@ class Visualization3D extends React.Component {
   }
 
   initForceGraph() {
-    this.forceGraph = ForceGraph()(this.containerElementRef.current)
+    this.forceGraph = ForceGraph({ showNavInfo: false })(
+      this.containerElementRef.current
+    )
 
     this.resizeCanvas()
 
     const {
       backgroundColor,
       dagMode,
+      dagLevelDistance,
+      nodeRelativeSize,
       onBackgroundClick,
       onNodeClick,
       onSimulationEnd,
       onSimulationTick,
       onZoom,
+      simulation,
     } = this.props
+
+    const {
+      alphaDecay,
+      charge,
+      cooldownTicks,
+      cooldownTime,
+      distance,
+      forces,
+      velocityDecay,
+      warmupTicks,
+    } = simulation || {}
 
     this.forceGraph.backgroundColor(backgroundColor)
 
-    this.forceGraph.dagMode(dagMode)
+    if (alphaDecay != null) this.forceGraph.d3AlphaDecay(alphaDecay) // 0.0228
+    if (charge != null) this.forceGraph.d3Force('charge').strength(charge)
+    if (cooldownTicks != null) this.forceGraph.cooldownTicks(cooldownTicks) // Infinity
+    if (cooldownTime != null) this.forceGraph.cooldownTime(cooldownTime) // 15000
+    if (dagLevelDistance != null)
+      this.forceGraph.dagLevelDistance(dagLevelDistance)
+    if (dagMode != null) this.forceGraph.dagMode(dagMode)
+    if (distance != null) this.forceGraph.d3Force('link').distance(distance)
+    if (Array.isArray(forces)) forces.forEach(this.forceGraph.d3Force)
+    if (warmupTicks != null) this.forceGraph.warmupTicks(warmupTicks) // 0
+    if (velocityDecay != null) this.forceGraph.d3VelocityDecay(velocityDecay) // 0.4
+
+    if (nodeRelativeSize != null) this.nodeRelativeSize = nodeRelativeSize
 
     this.forceGraph.nodeAutoColorBy(node => node.type)
     this.forceGraph.nodeColor(this.getNodeColor)
@@ -426,6 +504,7 @@ class Visualization3D extends React.Component {
 Visualization3D.propTypes = {
   backgroundColor: PropTypes.string,
   children: PropTypes.func,
+  dagLevelDistance: PropTypes.number,
   dagMode: PropTypes.oneOf([
     null,
     'lr',
@@ -450,6 +529,7 @@ Visualization3D.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  nodeRelativeSize: PropTypes.number,
   onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeHover: PropTypes.func,
@@ -458,6 +538,16 @@ Visualization3D.propTypes = {
   onZoom: PropTypes.func,
   selectedNodeIds: PropTypes.object, // Set
   showNeighborsOnly: PropTypes.bool,
+  simulation: PropTypes.shape({
+    alphaDecay: PropTypes.number,
+    charge: PropTypes.number,
+    cooldownTicks: PropTypes.number,
+    cooldownTime: PropTypes.number,
+    distance: PropTypes.number,
+    forces: PropTypes.array,
+    velocityDecay: PropTypes.number,
+    warmupTicks: PropTypes.number,
+  }),
   width: PropTypes.number,
 }
 

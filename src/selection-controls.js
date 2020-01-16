@@ -83,16 +83,19 @@ class SelectionControls extends React.Component {
       backgroundColor,
       children,
       dagMode,
+      dagLevelDistance,
       dimensions,
       graph,
       height,
       highlightedNodeIds,
+      nodeRelativeSize,
       onBackgroundClick,
       onNodeHover,
       onSimulationEnd,
       onSimulationTick,
       onZoom,
       showNeighborsOnly,
+      simulation,
       width,
     } = this.props
 
@@ -107,10 +110,12 @@ class SelectionControls extends React.Component {
         <React.Suspense fallback={Fallback}>
           <VisualizationComponent
             backgroundColor={backgroundColor}
+            dagMode={dagMode}
+            dagLevelDistance={dagLevelDistance}
             graph={graph}
             height={height}
             highlightedNodeIds={highlightedNodeIds}
-            dagMode={dagMode}
+            nodeRelativeSize={nodeRelativeSize}
             onBackgroundClick={onBackgroundClick}
             onNodeClick={this.onNodeClick}
             onNodeHover={onNodeHover}
@@ -121,6 +126,7 @@ class SelectionControls extends React.Component {
             showNeighborsOnly={Boolean(
               showNeighborsOnly && selectedNodeIds.size
             )}
+            simulation={simulation}
             width={width}
           >
             {children}
@@ -134,6 +140,7 @@ class SelectionControls extends React.Component {
 SelectionControls.propTypes = {
   backgroundColor: PropTypes.string,
   children: PropTypes.func,
+  dagLevelDistance: PropTypes.number,
   dagMode: PropTypes.oneOf([
     null,
     'lr',
@@ -147,6 +154,7 @@ SelectionControls.propTypes = {
   graph: PropTypes.object.isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  nodeRelativeSize: PropTypes.number,
   onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeDeselect: PropTypes.func,
@@ -157,6 +165,7 @@ SelectionControls.propTypes = {
   onZoom: PropTypes.func,
   selectedNodeIds: PropTypes.object, // Set
   showNeighborsOnly: PropTypes.bool,
+  simulation: PropTypes.object,
   width: PropTypes.number,
 }
 

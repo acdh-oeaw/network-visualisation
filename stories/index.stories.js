@@ -1,22 +1,14 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import {
-  withKnobs,
-  select,
-  boolean,
-  // object,
-  // button,
-} from '@storybook/addon-knobs'
-
+import { boolean, number, select, withKnobs } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
 import ExportButton from '../src/export'
+import '../src/global.css'
 import Legend from '../src/legend'
 import SelectionControls from '../src/selection-controls'
 import Visualization from '../src/visualization'
 import Visualization3D from '../src/visualization3d'
-import { createRandomGraph, createRandomDAG, types } from './utils'
-
-import '../src/global.css'
+import { createRandomDAG, createRandomGraph, types } from './utils'
 
 storiesOf('Visualization', module)
   .addDecorator(withKnobs)
@@ -55,6 +47,43 @@ storiesOf('Visualization', module)
       onSimulationEnd={action('onSimulationEnd')}
       // onSimulationTick={action('onSimulationTick')}
       onZoom={action('onZoom')}
+    />
+  ))
+  .add('with adjustable layout', () => (
+    <Visualization
+      graph={{
+        ...createRandomDAG(),
+      }}
+      dagLevelDistance={number('DAG Distance')}
+      dagMode={select(
+        'DAG Mode',
+        {
+          Default: null,
+          'Left to right': 'lr',
+          'Right to left': 'rl',
+          'Top down': 'td',
+          'Bottom up': 'bu',
+          'Radial in': 'radialin',
+          'Radial out': 'radialout',
+        },
+        'lr'
+      )}
+      nodeRelativeSize={number('Relative node size', 6)}
+      onNodeClick={action('onNodeClick')}
+      // onNodeHover={action('onNodeHover')}
+      onSimulationEnd={action('onSimulationEnd')}
+      // onSimulationTick={action('onSimulationTick')}
+      onZoom={action('onZoom')}
+      simulation={{
+        charge: number('Charge'),
+        distance: number('Distance'),
+        alphaDecay: number('Alpha decay', 0.0228),
+        velocityDecay: number('Velocity decay', 0.4),
+        warmupTicks: number('Warmup ticks', 0),
+        cooldownTicks: number('Cooldown ticks', 15000),
+        cooldownTime: number('Cooldown time'),
+        fast: boolean('Fast layout', false),
+      }}
     />
   ))
 
@@ -97,6 +126,44 @@ storiesOf('Visualization 3D', module)
       onSimulationEnd={action('onSimulationEnd')}
       // onSimulationTick={action('onSimulationTick')}
       onZoom={action('onZoom')}
+    />
+  ))
+  .add('with adjustable layout', () => (
+    <Visualization3D
+      graph={{
+        ...createRandomDAG(),
+      }}
+      dagLevelDistance={number('DAG Distance')}
+      dagMode={select(
+        'DAG Mode',
+        {
+          Default: null,
+          'Left to right': 'lr',
+          'Right to left': 'rl',
+          'Top down': 'td',
+          'Bottom up': 'bu',
+          'Radial in': 'radialin',
+          'Radial out': 'radialout',
+          'Z axis in': 'zin',
+          'Z axis out': 'zout',
+        },
+        'lr'
+      )}
+      onNodeClick={action('onNodeClick')}
+      // onNodeHover={action('onNodeHover')}
+      onSimulationEnd={action('onSimulationEnd')}
+      // onSimulationTick={action('onSimulationTick')}
+      onZoom={action('onZoom')}
+      nodeRelativeSize={number('Relative node size', 6)}
+      simulation={{
+        charge: number('Charge'),
+        distance: number('Distance'),
+        alphaDecay: number('Alpha decay', 0.0228),
+        velocityDecay: number('Velocity decay', 0.4),
+        warmupTicks: number('Warmup ticks', 0),
+        cooldownTicks: number('Cooldown ticks', 15000),
+        cooldownTime: number('Cooldown time'),
+      }}
     />
   ))
 
