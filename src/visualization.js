@@ -35,6 +35,7 @@ class Visualization extends React.Component {
     this.getNodeColor = this.getNodeColor.bind(this)
     this.getNodeLabel = this.getNodeLabel.bind(this)
     this.getNodeRelativeSize = this.getNodeRelativeSize.bind(this)
+    this.getNodeValue = this.getNodeValue.bind(this)
     this.getNodeVisibility = this.getNodeVisibility.bind(this)
     this.getTypes = this.getTypes.bind(this)
     this.isNeighborOfSelectedNode = this.isNeighborOfSelectedNode.bind(this)
@@ -56,6 +57,7 @@ class Visualization extends React.Component {
       height,
       highlightedNodeIds,
       nodeRelativeSize,
+      nodeSize,
       selectedNodeIds,
       showNeighborsOnly,
       simulation,
@@ -64,11 +66,6 @@ class Visualization extends React.Component {
 
     if (backgroundColor !== prevProps.backgroundColor) {
       this.forceGraph.backgroundColor(backgroundColor)
-    }
-
-    if (dagMode !== prevProps.dagMode) {
-      this.forceGraph.dagMode(dagMode)
-      this.forceGraph.nodeRelSize(this.getNodeRelativeSize())
     }
 
     if (graph !== prevProps.graph) {
@@ -142,9 +139,17 @@ class Visualization extends React.Component {
 
     if (
       nodeRelativeSize != null &&
-      nodeRelativeSize !== prev.nodeRelativeSize
+      nodeRelativeSize !== prevProps.nodeRelativeSize
     ) {
       this.nodeRelativeSize = nodeRelativeSize
+    }
+    if (nodeSize !== prevProps.nodeSize) {
+      this.nodeSize = nodeSize
+    }
+
+    if (dagMode !== prevProps.dagMode) {
+      this.forceGraph.dagMode(dagMode)
+      this.forceGraph.nodeRelSize(this.getNodeRelativeSize())
     }
   }
 
@@ -193,6 +198,7 @@ class Visualization extends React.Component {
       dagMode,
       dagLevelDistance,
       nodeRelativeSize,
+      nodeSize,
       onBackgroundClick,
       onNodeClick,
       onSimulationEnd,
@@ -231,13 +237,14 @@ class Visualization extends React.Component {
     if (velocityDecay != null) this.forceGraph.d3VelocityDecay(velocityDecay) // 0.4
 
     if (nodeRelativeSize != null) this.nodeRelativeSize = nodeRelativeSize
+    if (nodeSize != null) this.nodeSize = nodeSize
 
     this.forceGraph.nodeAutoColorBy(node => node.type)
     this.forceGraph.nodeCanvasObject(this.drawNode)
     this.forceGraph.nodeColor(this.getNodeColor)
     this.forceGraph.nodeLabel(this.getNodeLabel)
     this.forceGraph.nodeRelSize(this.getNodeRelativeSize())
-    this.forceGraph.nodeVal(node => node.neighbors.size)
+    this.forceGraph.nodeVal(this.getNodeValue)
     this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
     this.forceGraph.linkDirectionalParticles(2)
@@ -296,7 +303,7 @@ class Visualization extends React.Component {
     const padAmount = isShadowCtx / globalScale
 
     const nodeRelSize = this.getNodeRelativeSize()
-    const nodeVal = node.neighbors.size
+    const nodeVal = this.getNodeValue(node)
     const radius =
       Math.sqrt(Math.max(0, nodeVal || 1)) * nodeRelSize + padAmount
 
@@ -404,6 +411,19 @@ class Visualization extends React.Component {
       : this.nodeRelativeSize
   }
 
+  getNodeValue(node) {
+    if (this.nodeSize) {
+      if (typeof this.nodeSize === 'function') {
+        return this.nodeSize(node)
+      }
+      if (typeof this.nodeSize === 'string') {
+        return node[this.nodeSize]
+      }
+      return this.nodeSize
+    }
+    return node.neighbors.size
+  }
+
   getNodeVisibility(node) {
     if (this.props.showNeighborsOnly && !this.isNeighborOfSelectedNode(node)) {
       return false
@@ -490,6 +510,11 @@ Visualization.propTypes = {
   highlightedNodeIds: PropTypes.object, // Set
   nodeImage: PropTypes.func,
   nodeRelativeSize: PropTypes.number,
+  nodeSize: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.number,
+  ]),
   onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeHover: PropTypes.func,

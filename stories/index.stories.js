@@ -24,6 +24,19 @@ storiesOf('Visualization', module)
       onZoom={action('onZoom')}
     />
   ))
+  .add('with fast layouting algorithm', () => (
+    <Visualization
+      graph={{
+        ...createRandomGraph(),
+      }}
+      onNodeClick={action('onNodeClick')}
+      // onNodeHover={action('onNodeHover')}
+      onSimulationEnd={action('onSimulationEnd')}
+      // onSimulationTick={action('onSimulationTick')}
+      onZoom={action('onZoom')}
+      simulation={{ fast: true }}
+    />
+  ))
   .add('with DAG layout', () => (
     <Visualization
       graph={{
@@ -52,9 +65,9 @@ storiesOf('Visualization', module)
   .add('with adjustable layout', () => (
     <Visualization
       graph={{
-        ...createRandomDAG(),
+        ...createRandomGraph(),
       }}
-      dagLevelDistance={number('DAG Distance')}
+      dagLevelDistance={number('DAG level distance')}
       dagMode={select(
         'DAG Mode',
         {
@@ -66,9 +79,10 @@ storiesOf('Visualization', module)
           'Radial in': 'radialin',
           'Radial out': 'radialout',
         },
-        'lr'
+        null
       )}
       nodeRelativeSize={number('Relative node size', 6)}
+      nodeSize={number('Node size')}
       onNodeClick={action('onNodeClick')}
       // onNodeHover={action('onNodeHover')}
       onSimulationEnd={action('onSimulationEnd')}
@@ -82,7 +96,6 @@ storiesOf('Visualization', module)
         warmupTicks: number('Warmup ticks', 0),
         cooldownTicks: number('Cooldown ticks', 15000),
         cooldownTime: number('Cooldown time'),
-        fast: boolean('Fast layout', false),
       }}
     />
   ))
@@ -131,9 +144,9 @@ storiesOf('Visualization 3D', module)
   .add('with adjustable layout', () => (
     <Visualization3D
       graph={{
-        ...createRandomDAG(),
+        ...createRandomGraph(),
       }}
-      dagLevelDistance={number('DAG Distance')}
+      dagLevelDistance={number('DAG level distance')}
       dagMode={select(
         'DAG Mode',
         {
@@ -147,14 +160,15 @@ storiesOf('Visualization 3D', module)
           'Z axis in': 'zin',
           'Z axis out': 'zout',
         },
-        'lr'
+        null
       )}
+      nodeRelativeSize={number('Relative node size', 6)}
+      nodeSize={number('Node size')}
       onNodeClick={action('onNodeClick')}
       // onNodeHover={action('onNodeHover')}
       onSimulationEnd={action('onSimulationEnd')}
       // onSimulationTick={action('onSimulationTick')}
       onZoom={action('onZoom')}
-      nodeRelativeSize={number('Relative node size', 6)}
       simulation={{
         charge: number('Charge'),
         distance: number('Distance'),
