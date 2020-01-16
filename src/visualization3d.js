@@ -455,14 +455,14 @@ class Visualization3D extends React.Component {
   getNodeValue(node) {
     if (this.nodeSize) {
       if (typeof this.nodeSize === 'function') {
-        return this.nodeSize(node)
+        return this.nodeSize(node) * this.getNodeRelativeSize()
       }
       if (typeof this.nodeSize === 'string') {
-        return node[this.nodeSize]
+        return node[this.nodeSize] * this.getNodeRelativeSize()
       }
-      return this.nodeSize
+      return this.nodeSize * this.getNodeRelativeSize()
     }
-    return node.neighbors.size
+    return node.neighbors.size * this.getNodeRelativeSize()
   }
 
   getNodeVisibility(node) {
