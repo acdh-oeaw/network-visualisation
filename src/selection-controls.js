@@ -95,6 +95,7 @@ class SelectionControls extends React.Component {
       onSimulationEnd,
       onSimulationTick,
       onZoom,
+      showDirectionality,
       showNeighborsOnly,
       simulation,
       width,
@@ -125,6 +126,7 @@ class SelectionControls extends React.Component {
             onSimulationTick={onSimulationTick}
             onZoom={onZoom}
             selectedNodeIds={selectedNodeIds}
+            showDirectionality={showDirectionality}
             showNeighborsOnly={Boolean(
               showNeighborsOnly && selectedNodeIds.size
             )}
@@ -167,6 +169,7 @@ SelectionControls.propTypes = {
   onSimulationTick: PropTypes.func,
   onZoom: PropTypes.func,
   selectedNodeIds: PropTypes.object, // Set
+  showDirectionality: PropTypes.bool,
   showNeighborsOnly: PropTypes.bool,
   simulation: PropTypes.object,
   width: PropTypes.number,

@@ -233,6 +233,7 @@ class Visualization3D extends React.Component {
       onSimulationEnd,
       onSimulationTick,
       onZoom,
+      showDirectionality,
       simulation,
     } = this.props
 
@@ -274,7 +275,7 @@ class Visualization3D extends React.Component {
     this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
     this.forceGraph.linkColor(() => 'rgba(0, 0, 0, 0.50)')
-    this.forceGraph.linkDirectionalParticles(2)
+    this.forceGraph.linkDirectionalParticles(showDirectionality ? 2 : 0)
     // this.forceGraph.linkDirectionalParticleWidth(1)
     this.forceGraph.linkLabel(this.getEdgeLabel)
     this.forceGraph.linkVisibility(this.getEdgeVisibility)
@@ -570,6 +571,7 @@ Visualization3D.propTypes = {
   onSimulationTick: PropTypes.func,
   onZoom: PropTypes.func,
   selectedNodeIds: PropTypes.object, // Set
+  showDirectionality: PropTypes.bool,
   showNeighborsOnly: PropTypes.bool,
   simulation: PropTypes.shape({
     alphaDecay: PropTypes.number,
@@ -595,6 +597,7 @@ Visualization3D.defaultProps = {
   onZoom: () => {},
   showNeighborsOnly: false,
   selectedNodeIds: new Set(),
+  showDirectionality: true,
 }
 
 export default Visualization3D
