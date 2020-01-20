@@ -97,6 +97,7 @@ class SelectionControls extends React.Component {
       onZoom,
       showDirectionality,
       showNeighborsOnly,
+      showLabels,
       simulation,
       width,
     } = this.props
@@ -130,6 +131,7 @@ class SelectionControls extends React.Component {
             showNeighborsOnly={Boolean(
               showNeighborsOnly && selectedNodeIds.size
             )}
+            showLabels={showLabels}
             simulation={simulation}
             width={width}
           >
@@ -171,6 +173,7 @@ SelectionControls.propTypes = {
   selectedNodeIds: PropTypes.object, // Set
   showDirectionality: PropTypes.bool,
   showNeighborsOnly: PropTypes.bool,
+  showLabels: PropTypes.bool,
   simulation: PropTypes.object,
   width: PropTypes.number,
 }

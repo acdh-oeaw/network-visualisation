@@ -5,7 +5,7 @@ import { forceManyBodyReuse } from 'd3-force-reuse'
 
 import Graph from './graph'
 import { mergeTypes } from './utils'
-import { NODE_RELATIVE_SIZE, colors } from './constants'
+import { NODE_RELATIVE_SIZE, PARTICLE_SIZE, colors } from './constants'
 
 import './global.css'
 
@@ -59,6 +59,7 @@ class Visualization extends React.Component {
       nodeRelativeSize,
       nodeSize,
       selectedNodeIds,
+      showDirectionality,
       showNeighborsOnly,
       simulation,
       width,
@@ -95,6 +96,12 @@ class Visualization extends React.Component {
 
     if (showNeighborsOnly !== prevProps.showNeighborsOnly) {
       //
+    }
+
+    if (showDirectionality !== prevProps.showDirectionality) {
+      this.forceGraph.linkDirectionalParticles(
+        showDirectionality ? PARTICLE_SIZE : 0
+      )
     }
 
     const {
@@ -248,7 +255,9 @@ class Visualization extends React.Component {
     this.forceGraph.nodeVal(this.getNodeValue)
     this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
-    this.forceGraph.linkDirectionalParticles(showDirectionality ? 2 : 0)
+    this.forceGraph.linkDirectionalParticles(
+      showDirectionality ? PARTICLE_SIZE : 0
+    )
     this.forceGraph.linkLabel(this.getEdgeLabel)
     this.forceGraph.linkVisibility(this.getEdgeVisibility)
 
@@ -299,7 +308,12 @@ class Visualization extends React.Component {
   }
 
   drawNode(node, ctx, globalScale, isShadowCtx) {
-    const { highlightedNodeIds, nodeImage, selectedNodeIds } = this.props
+    const {
+      highlightedNodeIds,
+      nodeImage,
+      selectedNodeIds,
+      showLabels,
+    } = this.props
 
     const padAmount = isShadowCtx / globalScale
 
@@ -339,7 +353,7 @@ class Visualization extends React.Component {
     }
 
     // Always show label for selected node
-    if (selectedNodeIds.has(node.id)) {
+    if (selectedNodeIds.has(node.id) || showLabels) {
       const { label } = node
       const fontSize = Math.max(15 / globalScale, 2.5)
       ctx.font = `${fontSize}px sans-serif`
@@ -525,6 +539,7 @@ Visualization.propTypes = {
   selectedNodeIds: PropTypes.object, // Set
   showDirectionality: PropTypes.bool,
   showNeighborsOnly: PropTypes.bool,
+  showLabels: PropTypes.bool,
   simulation: PropTypes.shape({
     alphaDecay: PropTypes.number,
     charge: PropTypes.number,

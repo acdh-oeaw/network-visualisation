@@ -6,7 +6,7 @@ import debounce from 'debounce-fn'
 
 import Graph from './graph'
 import { mergeTypes } from './utils'
-import { NODE_RELATIVE_SIZE, colors } from './constants'
+import { NODE_RELATIVE_SIZE, colors, PARTICLE_SIZE } from './constants'
 
 import './global.css'
 
@@ -62,7 +62,9 @@ class Visualization3D extends React.Component {
       nodeRelativeSize,
       nodeSize,
       selectedNodeIds,
+      showDirectionality,
       showNeighborsOnly,
+      showLabels,
       simulation,
       width,
     } = this.props
@@ -143,7 +145,13 @@ class Visualization3D extends React.Component {
       this.forceGraph.nodeRelSize(this.getNodeRelativeSize())
     }
 
-    if (highlightedNodeIds !== prevProps.highlightedNodeIds) {
+    if (
+      highlightedNodeIds !== prevProps.highlightedNodeIds ||
+      selectedNodeIds !== prevProps.selectedNodeIds ||
+      showNeighborsOnly !== prevProps.showNeighborsOnly ||
+      showLabels !== prevProps.showLabels ||
+      showDirectionality !== prevProps.showDirectionality
+    ) {
       // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
       this.forceGraph.nodeColor(this.getNodeColor)
       this.forceGraph.nodeLabel(this.getNodeLabel)
@@ -153,30 +161,9 @@ class Visualization3D extends React.Component {
       this.forceGraph.nodeThreeObject(this.drawNode)
       this.forceGraph.linkLabel(this.getEdgeLabel)
       this.forceGraph.linkVisibility(this.getEdgeVisibility)
-    }
-
-    if (selectedNodeIds !== prevProps.selectedNodeIds) {
-      // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
-      this.forceGraph.nodeColor(this.getNodeColor)
-      this.forceGraph.nodeLabel(this.getNodeLabel)
-      this.forceGraph.nodeVal(this.getNodeValue)
-      this.forceGraph.nodeVisibility(this.getNodeVisibility)
-      this.forceGraph.nodeThreeObjectExtend(this.shouldExtendNodeThreeObject)
-      this.forceGraph.nodeThreeObject(this.drawNode)
-      this.forceGraph.linkLabel(this.getEdgeLabel)
-      this.forceGraph.linkVisibility(this.getEdgeVisibility)
-    }
-
-    if (showNeighborsOnly !== prevProps.showNeighborsOnly) {
-      // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
-      this.forceGraph.nodeColor(this.getNodeColor)
-      this.forceGraph.nodeLabel(this.getNodeLabel)
-      this.forceGraph.nodeVal(this.getNodeValue)
-      this.forceGraph.nodeVisibility(this.getNodeVisibility)
-      this.forceGraph.nodeThreeObjectExtend(this.shouldExtendNodeThreeObject)
-      this.forceGraph.nodeThreeObject(this.drawNode)
-      this.forceGraph.linkLabel(this.getEdgeLabel)
-      this.forceGraph.linkVisibility(this.getEdgeVisibility)
+      this.forceGraph.linkDirectionalParticles(
+        showDirectionality ? PARTICLE_SIZE : 0
+      )
     }
   }
 
@@ -381,10 +368,10 @@ class Visualization3D extends React.Component {
     // Default node is drawn depending on `shouldExtendNodeThreeObject`
 
     // Always show label for selected nodes
-    if (this.props.selectedNodeIds.has(node.id)) {
+    if (this.props.selectedNodeIds.has(node.id) || this.props.showLabels) {
       const sprite = new SpriteText(node.label)
       sprite.color = 'rgba(0, 0, 0, 1)'
-      sprite.textHeight = 2
+      sprite.textHeight = 5
       return sprite
     }
   }
@@ -573,6 +560,7 @@ Visualization3D.propTypes = {
   selectedNodeIds: PropTypes.object, // Set
   showDirectionality: PropTypes.bool,
   showNeighborsOnly: PropTypes.bool,
+  showLabels: PropTypes.bool,
   simulation: PropTypes.shape({
     alphaDecay: PropTypes.number,
     charge: PropTypes.number,
