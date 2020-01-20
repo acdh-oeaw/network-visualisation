@@ -89,7 +89,6 @@ storiesOf('Visualization', module)
       onSimulationEnd={action('onSimulationEnd')}
       // onSimulationTick={action('onSimulationTick')}
       onZoom={action('onZoom')}
-      showDirectionality={boolean('Indicate edge directionality', true)}
       showLabels={boolean('Always show labels', false)}
       simulation={{
         charge: number('Charge'),
@@ -172,7 +171,6 @@ storiesOf('Visualization 3D', module)
       onSimulationEnd={action('onSimulationEnd')}
       // onSimulationTick={action('onSimulationTick')}
       onZoom={action('onZoom')}
-      showDirectionality={boolean('Indicate edge directionality', true)}
       showLabels={boolean('Always show labels', false)}
       simulation={{
         charge: number('Charge'),
