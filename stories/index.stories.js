@@ -82,6 +82,7 @@ storiesOf('Visualization', module)
         },
         null
       )}
+      maxLabelLength={number('Max label length')}
       nodeRelativeSize={number('Relative node size', 6)}
       nodeSize={number('Node size')}
       onNodeClick={action('onNodeClick')}
@@ -164,6 +165,7 @@ storiesOf('Visualization 3D', module)
         },
         null
       )}
+      maxLabelLength={number('Max label length')}
       nodeRelativeSize={number('Relative node size', 6)}
       nodeSize={number('Node size')}
       onNodeClick={action('onNodeClick')}
