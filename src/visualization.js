@@ -354,7 +354,10 @@ class Visualization extends React.Component {
 
     // Always show label for selected node
     if (selectedNodeIds.has(node.id) || showLabels) {
-      const { label } = node
+      const { label: rawLabel } = node
+      const label = this.props.maxLabelLength
+        ? rawLabel.slice(0, this.props.maxLabelLength)
+        : rawLabel
       const fontSize = Math.max(15 / globalScale, 2.5)
       ctx.font = `${fontSize}px sans-serif`
       const textWidth = ctx.measureText(label).width
@@ -523,6 +526,7 @@ Visualization.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  maxLabelLength: PropTypes.number,
   nodeImage: PropTypes.func,
   nodeRelativeSize: PropTypes.number,
   nodeSize: PropTypes.oneOfType([

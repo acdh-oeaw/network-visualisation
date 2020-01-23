@@ -369,7 +369,10 @@ class Visualization3D extends React.Component {
 
     // Always show label for selected nodes
     if (this.props.selectedNodeIds.has(node.id) || this.props.showLabels) {
-      const sprite = new SpriteText(node.label)
+      const label = this.props.maxLabelLength
+        ? node.label.slice(0, this.props.maxLabelLength)
+        : node.label
+      const sprite = new SpriteText(label)
       sprite.color = 'rgba(0, 0, 0, 1)'
       sprite.textHeight = 5
       return sprite
@@ -545,6 +548,7 @@ Visualization3D.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  maxLabelLength: PropTypes.number,
   nodeRelativeSize: PropTypes.number,
   nodeSize: PropTypes.oneOfType([
     PropTypes.string,
