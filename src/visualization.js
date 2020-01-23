@@ -541,8 +541,8 @@ Visualization.propTypes = {
   onZoom: PropTypes.func,
   selectedNodeIds: PropTypes.object, // Set
   showDirectionality: PropTypes.bool,
-  showNeighborsOnly: PropTypes.bool,
   showLabels: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  showNeighborsOnly: PropTypes.bool,
   simulation: PropTypes.shape({
     alphaDecay: PropTypes.number,
     charge: PropTypes.number,

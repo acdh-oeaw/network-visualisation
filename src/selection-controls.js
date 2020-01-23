@@ -164,7 +164,11 @@ SelectionControls.propTypes = {
   highlightedNodeIds: PropTypes.object, // Set
   maxLabelLength: PropTypes.number,
   nodeRelativeSize: PropTypes.number,
-  nodeSize: PropTypes.number,
+  nodeSize: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.number,
+  ]),
   onBackgroundClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeDeselect: PropTypes.func,
@@ -175,8 +179,8 @@ SelectionControls.propTypes = {
   onZoom: PropTypes.func,
   selectedNodeIds: PropTypes.object, // Set
   showDirectionality: PropTypes.bool,
-  showNeighborsOnly: PropTypes.bool,
   showLabels: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  showNeighborsOnly: PropTypes.bool,
   simulation: PropTypes.object,
   width: PropTypes.number,
 }
