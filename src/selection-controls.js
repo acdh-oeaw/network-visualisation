@@ -88,6 +88,7 @@ class SelectionControls extends React.Component {
       graph,
       height,
       highlightedNodeIds,
+      maxLabelLength,
       nodeRelativeSize,
       nodeSize,
       onBackgroundClick,
@@ -118,6 +119,7 @@ class SelectionControls extends React.Component {
             graph={graph}
             height={height}
             highlightedNodeIds={highlightedNodeIds}
+            maxLabelLength={maxLabelLength}
             nodeRelativeSize={nodeRelativeSize}
             nodeSize={nodeSize}
             onBackgroundClick={onBackgroundClick}
@@ -160,6 +162,7 @@ SelectionControls.propTypes = {
   graph: PropTypes.object.isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  maxLabelLength: PropTypes.number,
   nodeRelativeSize: PropTypes.number,
   nodeSize: PropTypes.number,
   onBackgroundClick: PropTypes.func,
@@ -173,7 +176,7 @@ SelectionControls.propTypes = {
   selectedNodeIds: PropTypes.object, // Set
   showDirectionality: PropTypes.bool,
   showNeighborsOnly: PropTypes.bool,
-  showLabels: PropTypes.bool,
+  showLabels: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   simulation: PropTypes.object,
   width: PropTypes.number,
 }

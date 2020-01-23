@@ -308,12 +308,7 @@ class Visualization extends React.Component {
   }
 
   drawNode(node, ctx, globalScale, isShadowCtx) {
-    const {
-      highlightedNodeIds,
-      nodeImage,
-      selectedNodeIds,
-      showLabels,
-    } = this.props
+    const { highlightedNodeIds, nodeImage, selectedNodeIds } = this.props
 
     const padAmount = isShadowCtx / globalScale
 
@@ -353,6 +348,10 @@ class Visualization extends React.Component {
     }
 
     // Always show label for selected node
+    const showLabels =
+      typeof this.props.showLabels === 'function'
+        ? this.props.showLabels(node)
+        : this.props.showLabels
     if (selectedNodeIds.has(node.id) || showLabels) {
       const { label: rawLabel } = node
       const label = this.props.maxLabelLength
@@ -543,7 +542,7 @@ Visualization.propTypes = {
   selectedNodeIds: PropTypes.object, // Set
   showDirectionality: PropTypes.bool,
   showNeighborsOnly: PropTypes.bool,
-  showLabels: PropTypes.bool,
+  showLabels: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   simulation: PropTypes.shape({
     alphaDecay: PropTypes.number,
     charge: PropTypes.number,
