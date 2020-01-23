@@ -59,6 +59,7 @@ class Visualization3D extends React.Component {
       graph,
       height,
       highlightedNodeIds,
+      maxLabelLength,
       nodeRelativeSize,
       nodeSize,
       selectedNodeIds,
@@ -150,7 +151,8 @@ class Visualization3D extends React.Component {
       selectedNodeIds !== prevProps.selectedNodeIds ||
       showNeighborsOnly !== prevProps.showNeighborsOnly ||
       showLabels !== prevProps.showLabels ||
-      showDirectionality !== prevProps.showDirectionality
+      showDirectionality !== prevProps.showDirectionality ||
+      maxLabelLength !== prevProps.maxLabelLength
     ) {
       // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
       this.forceGraph.nodeColor(this.getNodeColor)
