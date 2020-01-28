@@ -316,7 +316,13 @@ class Visualization extends React.Component {
   }
 
   drawNode(node, ctx, globalScale, isShadowCtx) {
-    const { highlightedNodeIds, nodeImage, selectedNodeIds } = this.props
+    const {
+      highlightedNodeIds,
+      maxLabelLength,
+      nodeImage,
+      selectedNodeIds,
+      showLabels,
+    } = this.props
 
     const padAmount = isShadowCtx / globalScale
 
@@ -356,14 +362,14 @@ class Visualization extends React.Component {
     }
 
     // Always show label for selected node
-    const showLabels =
-      typeof this.props.showLabels === 'function'
-        ? this.props.showLabels(node)
-        : this.props.showLabels
-    if (selectedNodeIds.has(node.id) || showLabels) {
+    const shouldShowLabels =
+      typeof showLabels === 'function'
+        ? showLabels(node, selectedNodeIds, highlightedNodeIds)
+        : showLabels
+    if (selectedNodeIds.has(node.id) || shouldShowLabels) {
       const { label: rawLabel } = node
-      const label = this.props.maxLabelLength
-        ? rawLabel.slice(0, this.props.maxLabelLength)
+      const label = maxLabelLength
+        ? rawLabel.slice(0, maxLabelLength)
         : rawLabel
       const fontSize = Math.max(15 / globalScale, 2.5)
       ctx.font = `${fontSize}px sans-serif`

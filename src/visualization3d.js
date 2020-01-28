@@ -375,14 +375,21 @@ class Visualization3D extends React.Component {
   drawNode(node) {
     // Default node is drawn depending on `shouldExtendNodeThreeObject`
 
+    const {
+      selectedNodeIds,
+      highlightedNodeIds,
+      maxLabelLength,
+      showLabels,
+    } = this.props
+    
     // Always show label for selected nodes
-    const showLabels =
-      typeof this.props.showLabels === 'function'
-        ? this.props.showLabels(node)
-        : this.props.showLabels
-    if (this.props.selectedNodeIds.has(node.id) || showLabels) {
-      const label = this.props.maxLabelLength
-        ? node.label.slice(0, this.props.maxLabelLength)
+    const shouldShowLabels =
+      typeof showLabels === 'function'
+        ? showLabels(node, selectedNodeIds, highlightedNodeIds)
+        : showLabels
+    if (selectedNodeIds.has(node.id) || shouldShowLabels) {
+      const label = maxLabelLength
+        ? node.label.slice(0, maxLabelLength)
         : node.label
       const sprite = new SpriteText(label)
       sprite.color = 'rgba(0, 0, 0, 1)'
