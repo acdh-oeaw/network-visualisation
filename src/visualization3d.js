@@ -381,7 +381,7 @@ class Visualization3D extends React.Component {
       maxLabelLength,
       showLabels,
     } = this.props
-    
+
     // Always show label for selected nodes
     const shouldShowLabels =
       typeof showLabels === 'function'
@@ -396,6 +396,12 @@ class Visualization3D extends React.Component {
       sprite.textHeight = 5
       return sprite
     }
+  }
+
+  getEdgeCurvature(curvature) {
+    return typeof curvature === 'function'
+      ? edge => curvature(edge, this.graph, this.forceGraph)
+      : curvature || 0
   }
 
   getEdgeLabel(edge) {
