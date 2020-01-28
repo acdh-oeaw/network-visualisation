@@ -18,17 +18,23 @@
 
     <script
       crossorigin
-      src="https://unpkg.com/react@16/umd/react.production.min.js"
+      src="https://unpkg.com/preact@latest/dist/preact.umd.js"
     ></script>
     <script
       crossorigin
-      src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+      src="https://unpkg.com/preact@latest/hooks/dist/hooks.umd.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/preact@latest/compat/dist/compat.umd.js"
     ></script>
     <script
       crossorigin
       src="https://unpkg.com/three@latest/build/three.min.js"
     ></script>
-
+    <script>
+      var React = preactCompat
+    </script>
     <script
       crossorigin
       src="https://unpkg.com/@acdh/network-visualization@latest/lib/network-visualization.umd.js"
@@ -37,8 +43,7 @@
   <body>
     <div id="visualization" style="background: #fafafa;"></div>
     <script>
-      const { render } = ReactDOM
-      const { createElement: h, useState } = React
+      const { createElement: h, render, useState } = preactCompat
       const { SelectionControls } = NetworkVisualization
 
       const Applet = () => {
