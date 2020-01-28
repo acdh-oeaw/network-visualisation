@@ -82,7 +82,7 @@ storiesOf('Visualization', module)
         },
         null
       )}
-      linkCurvature={number('Link curvature', 0)}
+      edgeCurvature={number('Edge curvature', 0)}
       maxLabelLength={number('Max label length')}
       nodeRelativeSize={number('Relative node size', 6)}
       nodeSize={number('Node size')}
@@ -166,7 +166,7 @@ storiesOf('Visualization 3D', module)
         },
         null
       )}
-      linkCurvature={number('Link curvature', 0)}
+      edgeCurvature={number('Edge curvature', 0)}
       maxLabelLength={number('Max label length')}
       nodeRelativeSize={number('Relative node size', 6)}
       nodeSize={number('Node size')}

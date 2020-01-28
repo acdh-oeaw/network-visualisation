@@ -89,10 +89,10 @@ class SelectionControls extends React.Component {
       dagMode,
       dagLevelDistance,
       dimensions,
+      edgeCurvature,
       graph,
       height,
       highlightedNodeIds,
-      linkCurvature,
       maxLabelLength,
       nodeRelativeSize,
       nodeSize,
@@ -121,10 +121,10 @@ class SelectionControls extends React.Component {
             backgroundColor={backgroundColor}
             dagMode={dagMode}
             dagLevelDistance={dagLevelDistance}
+            edgeCurvature={edgeCurvature}
             graph={graph}
             height={height}
             highlightedNodeIds={highlightedNodeIds}
-            linkCurvature={linkCurvature}
             maxLabelLength={maxLabelLength}
             nodeRelativeSize={nodeRelativeSize}
             nodeSize={nodeSize}
@@ -165,14 +165,14 @@ SelectionControls.propTypes = {
     'radialout',
   ]),
   dimensions: PropTypes.oneOf([2, 3]),
-  graph: PropTypes.object.isRequired,
-  height: PropTypes.number,
-  highlightedNodeIds: PropTypes.object, // Set
-  linkCurvature: PropTypes.oneOfType([
+  edgeCurvature: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
     PropTypes.number,
   ]),
+  graph: PropTypes.object.isRequired,
+  height: PropTypes.number,
+  highlightedNodeIds: PropTypes.object, // Set
   maxLabelLength: PropTypes.number,
   nodeRelativeSize: PropTypes.number,
   nodeSize: PropTypes.oneOfType([

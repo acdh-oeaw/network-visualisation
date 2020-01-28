@@ -29,6 +29,7 @@ class Visualization extends React.Component {
     this.nodeRelativeSize = NODE_RELATIVE_SIZE
 
     this.drawNode = this.drawNode.bind(this)
+    this.getEdgeCurvature = this.getEdgeCurvature.bind(this)
     this.getEdgeLabel = this.getEdgeLabel.bind(this)
     this.getEdgeVisibility = this.getEdgeVisibility.bind(this)
     this.getGraph = this.getGraph.bind(this)
@@ -53,10 +54,10 @@ class Visualization extends React.Component {
       backgroundColor,
       dagLevelDistance,
       dagMode,
+      edgeCurvature,
       graph,
       height,
       highlightedNodeIds,
-      linkCurvature,
       nodeRelativeSize,
       nodeSize,
       selectedNodeIds,
@@ -104,8 +105,8 @@ class Visualization extends React.Component {
         showDirectionality ? PARTICLE_SIZE : 0
       )
     }
-    if (linkCurvature !== prevProps.linkCurvature) {
-      this.forceGraph.linkCurvature(linkCurvature || 0)
+    if (edgeCurvature !== prevProps.edgeCurvature) {
+      this.forceGraph.linkCurvature(this.getEdgeCurvature(edgeCurvature))
     }
 
     const {
@@ -208,7 +209,7 @@ class Visualization extends React.Component {
       backgroundColor,
       dagMode,
       dagLevelDistance,
-      linkCurvature,
+      edgeCurvature,
       nodeRelativeSize,
       nodeSize,
       onBackgroundClick,
@@ -260,7 +261,8 @@ class Visualization extends React.Component {
     this.forceGraph.nodeVal(this.getNodeValue)
     this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
-    this.forceGraph.linkCurvature(linkCurvature || 0)
+    this.forceGraph.linkColor(() => 'rgba(0, 0, 0, 0.15)')
+    this.forceGraph.linkCurvature(this.getEdgeCurvature(edgeCurvature))
     this.forceGraph.linkDirectionalParticles(
       showDirectionality ? PARTICLE_SIZE : 0
     )
@@ -376,6 +378,12 @@ class Visualization extends React.Component {
       ctx.fillStyle = nodeColor
       ctx.fillText(label, node.x, node.y)
     }
+  }
+
+  getEdgeCurvature(curvature) {
+    return typeof curvature === 'function'
+      ? edge => curvature(edge, this.graph, this.forceGraph)
+      : curvature || 0
   }
 
   getEdgeLabel(edge) {
@@ -518,6 +526,11 @@ Visualization.propTypes = {
     'radialin',
     'radialout',
   ]),
+  edgeCurvature: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.number,
+  ]),
   graph: PropTypes.shape({
     nodes: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
     edges: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
@@ -531,11 +544,6 @@ Visualization.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
-  linkCurvature: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.number,
-  ]),
   maxLabelLength: PropTypes.number,
   nodeImage: PropTypes.func,
   nodeRelativeSize: PropTypes.number,

@@ -30,6 +30,7 @@ class Visualization3D extends React.Component {
     this.nodeRelativeSize = NODE_RELATIVE_SIZE
 
     this.drawNode = this.drawNode.bind(this)
+    this.getEdgeCurvature = this.getEdgeCurvature.bind(this)
     this.getEdgeLabel = this.getEdgeLabel.bind(this)
     this.getEdgeVisibility = this.getEdgeVisibility.bind(this)
     this.getNodeColor = this.getNodeColor.bind(this)
@@ -56,10 +57,10 @@ class Visualization3D extends React.Component {
       backgroundColor,
       dagLevelDistance,
       dagMode,
+      edgeCurvature,
       graph,
       height,
       highlightedNodeIds,
-      linkCurvature,
       maxLabelLength,
       nodeRelativeSize,
       nodeSize,
@@ -154,7 +155,7 @@ class Visualization3D extends React.Component {
       showLabels !== prevProps.showLabels ||
       showDirectionality !== prevProps.showDirectionality ||
       maxLabelLength !== prevProps.maxLabelLength ||
-      linkCurvature !== prevProps.linkCurvature
+      edgeCurvature !== prevProps.edgeCurvature
     ) {
       // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
       this.forceGraph.nodeColor(this.getNodeColor)
@@ -168,7 +169,7 @@ class Visualization3D extends React.Component {
       this.forceGraph.linkDirectionalParticles(
         showDirectionality ? PARTICLE_SIZE : 0
       )
-      this.forceGraph.linkCurvature(linkCurvature || 0)
+      this.forceGraph.linkCurvature(this.getEdgeCurvature(edgeCurvature))
     }
   }
 
@@ -218,7 +219,7 @@ class Visualization3D extends React.Component {
       backgroundColor,
       dagMode,
       dagLevelDistance,
-      linkCurvature,
+      edgeCurvature,
       nodeRelativeSize,
       nodeSize,
       onBackgroundClick,
@@ -268,7 +269,7 @@ class Visualization3D extends React.Component {
     this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
     this.forceGraph.linkColor(() => 'rgba(0, 0, 0, 0.50)')
-    this.forceGraph.linkCurvature(linkCurvature || 0)
+    this.forceGraph.linkCurvature(this.getEdgeCurvature(edgeCurvature))
     this.forceGraph.linkDirectionalParticles(showDirectionality ? 2 : 0)
     // this.forceGraph.linkDirectionalParticleWidth(1)
     this.forceGraph.linkLabel(this.getEdgeLabel)
@@ -546,6 +547,11 @@ Visualization3D.propTypes = {
     'zin',
     'zout',
   ]),
+  edgeCurvature: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.number,
+  ]),
   graph: PropTypes.shape({
     nodes: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
     edges: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
@@ -559,11 +565,6 @@ Visualization3D.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
-  linkCurvature: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.number,
-  ]),
   maxLabelLength: PropTypes.number,
   nodeRelativeSize: PropTypes.number,
   nodeSize: PropTypes.oneOfType([
