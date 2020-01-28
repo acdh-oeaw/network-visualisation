@@ -56,6 +56,7 @@ class Visualization extends React.Component {
       graph,
       height,
       highlightedNodeIds,
+      linkCurvature,
       nodeRelativeSize,
       nodeSize,
       selectedNodeIds,
@@ -102,6 +103,9 @@ class Visualization extends React.Component {
       this.forceGraph.linkDirectionalParticles(
         showDirectionality ? PARTICLE_SIZE : 0
       )
+    }
+    if (linkCurvature !== prevProps.linkCurvature) {
+      this.forceGraph.linkCurvature(linkCurvature || 0)
     }
 
     const {
@@ -204,6 +208,7 @@ class Visualization extends React.Component {
       backgroundColor,
       dagMode,
       dagLevelDistance,
+      linkCurvature,
       nodeRelativeSize,
       nodeSize,
       onBackgroundClick,
@@ -255,6 +260,7 @@ class Visualization extends React.Component {
     this.forceGraph.nodeVal(this.getNodeValue)
     this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
+    this.forceGraph.linkCurvature(linkCurvature || 0)
     this.forceGraph.linkDirectionalParticles(
       showDirectionality ? PARTICLE_SIZE : 0
     )
@@ -525,6 +531,11 @@ Visualization.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  linkCurvature: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.number,
+  ]),
   maxLabelLength: PropTypes.number,
   nodeImage: PropTypes.func,
   nodeRelativeSize: PropTypes.number,

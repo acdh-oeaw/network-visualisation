@@ -59,6 +59,7 @@ class Visualization3D extends React.Component {
       graph,
       height,
       highlightedNodeIds,
+      linkCurvature,
       maxLabelLength,
       nodeRelativeSize,
       nodeSize,
@@ -152,7 +153,8 @@ class Visualization3D extends React.Component {
       showNeighborsOnly !== prevProps.showNeighborsOnly ||
       showLabels !== prevProps.showLabels ||
       showDirectionality !== prevProps.showDirectionality ||
-      maxLabelLength !== prevProps.maxLabelLength
+      maxLabelLength !== prevProps.maxLabelLength ||
+      linkCurvature !== prevProps.linkCurvature
     ) {
       // Avoid stale closure. Probably caused by how `3d-force-graph` method binding
       this.forceGraph.nodeColor(this.getNodeColor)
@@ -166,6 +168,7 @@ class Visualization3D extends React.Component {
       this.forceGraph.linkDirectionalParticles(
         showDirectionality ? PARTICLE_SIZE : 0
       )
+      this.forceGraph.linkCurvature(linkCurvature || 0)
     }
   }
 
@@ -215,6 +218,7 @@ class Visualization3D extends React.Component {
       backgroundColor,
       dagMode,
       dagLevelDistance,
+      linkCurvature,
       nodeRelativeSize,
       nodeSize,
       onBackgroundClick,
@@ -264,6 +268,7 @@ class Visualization3D extends React.Component {
     this.forceGraph.nodeVisibility(this.getNodeVisibility)
 
     this.forceGraph.linkColor(() => 'rgba(0, 0, 0, 0.50)')
+    this.forceGraph.linkCurvature(linkCurvature || 0)
     this.forceGraph.linkDirectionalParticles(showDirectionality ? 2 : 0)
     // this.forceGraph.linkDirectionalParticleWidth(1)
     this.forceGraph.linkLabel(this.getEdgeLabel)
@@ -554,6 +559,11 @@ Visualization3D.propTypes = {
   }).isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  linkCurvature: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.number,
+  ]),
   maxLabelLength: PropTypes.number,
   nodeRelativeSize: PropTypes.number,
   nodeSize: PropTypes.oneOfType([

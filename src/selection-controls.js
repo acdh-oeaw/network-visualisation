@@ -92,6 +92,7 @@ class SelectionControls extends React.Component {
       graph,
       height,
       highlightedNodeIds,
+      linkCurvature,
       maxLabelLength,
       nodeRelativeSize,
       nodeSize,
@@ -123,6 +124,7 @@ class SelectionControls extends React.Component {
             graph={graph}
             height={height}
             highlightedNodeIds={highlightedNodeIds}
+            linkCurvature={linkCurvature}
             maxLabelLength={maxLabelLength}
             nodeRelativeSize={nodeRelativeSize}
             nodeSize={nodeSize}
@@ -166,6 +168,11 @@ SelectionControls.propTypes = {
   graph: PropTypes.object.isRequired,
   height: PropTypes.number,
   highlightedNodeIds: PropTypes.object, // Set
+  linkCurvature: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.number,
+  ]),
   maxLabelLength: PropTypes.number,
   nodeRelativeSize: PropTypes.number,
   nodeSize: PropTypes.oneOfType([
