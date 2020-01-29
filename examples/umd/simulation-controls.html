@@ -43,49 +43,49 @@
       const { createElement: h, render, useState } = preactCompat
       const { SelectionControls } = NetworkVisualization
 
+      const dimensions = 2
+
+      const graph = {
+        nodes: [
+          { id: 'n1', label: 'Node 1', type: 't1' },
+          { id: 'n2', label: 'Node 2', type: 't2' },
+          { id: 'n3', label: 'Node 3', type: 't2' },
+        ],
+        edges: [
+          {
+            id: 'e1',
+            label: 'Edge 1',
+            source: 'n1',
+            target: 'n2',
+            type: 'r1',
+          },
+          {
+            id: 'e2',
+            label: 'Edge 2',
+            source: 'n1',
+            target: 'n3',
+            type: 'r1',
+          },
+          {
+            id: 'e3',
+            label: 'Edge 3',
+            source: 'n2',
+            target: 'n3',
+            type: 'r1',
+          },
+        ],
+        types: {
+          nodes: [
+            { id: 't1', label: 'Category 1', color: '#006699' },
+            { id: 't2', label: 'Category 2', color: '#669900' },
+          ],
+          edges: [{ id: 'r1', label: 'Relation 1', color: '#990066' }],
+        },
+      }
+
       const Applet = () => {
         const [charge, setCharge] = useState(-75)
         const [distance, setDistance] = useState(10)
-
-        const dimensions = 2
-
-        const graph = {
-          nodes: [
-            { id: 'n1', label: 'Node 1', type: 't1' },
-            { id: 'n2', label: 'Node 2', type: 't2' },
-            { id: 'n3', label: 'Node 3', type: 't2' },
-          ],
-          edges: [
-            {
-              id: 'e1',
-              label: 'Edge 1',
-              source: 'n1',
-              target: 'n2',
-              type: 'r1',
-            },
-            {
-              id: 'e2',
-              label: 'Edge 2',
-              source: 'n1',
-              target: 'n3',
-              type: 'r1',
-            },
-            {
-              id: 'e3',
-              label: 'Edge 3',
-              source: 'n2',
-              target: 'n3',
-              type: 'r1',
-            },
-          ],
-          types: {
-            nodes: [
-              { id: 't1', label: 'Category 1', color: '#006699' },
-              { id: 't2', label: 'Category 2', color: '#669900' },
-            ],
-            edges: [{ id: 'r1', label: 'Relation 1', color: '#990066' }],
-          },
-        }
 
         const setValue = (_value, cb) => {
           const value = parseInt(_value, 10)
