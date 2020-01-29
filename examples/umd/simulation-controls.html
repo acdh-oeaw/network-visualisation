@@ -148,6 +148,7 @@
               h(SelectionControls, {
                 dimensions,
                 graph,
+                nodeRelativeSize: 10,
                 nodeSize: node => 1 + node.neighbors.size * 0.1,
                 showDirectionality: false,
                 showLabels: (node, selectedNodeIds) =>
