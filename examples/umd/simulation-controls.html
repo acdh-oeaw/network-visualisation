@@ -46,45 +46,45 @@
       const { createElement: h, render, useState } = preactCompat
       const { SelectionControls } = NetworkVisualization
 
-      const dimensions = 2
-
-      const graph = {
+      const types = {
         nodes: [
-          { id: 'n1', label: 'Node 1', type: 't1' },
-          { id: 'n2', label: 'Node 2', type: 't2' },
-          { id: 'n3', label: 'Node 3', type: 't2' },
+          { id: 'Event', label: 'Event', color: '#006699' },
+          { id: 'Institution', label: 'Institution', color: '#990066' },
+          { id: 'Person', label: 'Person', color: '#669900' },
+          { id: 'Place', label: 'Place', color: '#009966' },
+          { id: 'Work', label: 'Work', color: '#660099' },
         ],
-        edges: [
-          {
-            id: 'e1',
-            label: 'Edge 1',
-            source: 'n1',
-            target: 'n2',
-            type: 'r1',
-          },
-          {
-            id: 'e2',
-            label: 'Edge 2',
-            source: 'n1',
-            target: 'n3',
-            type: 'r1',
-          },
-          {
-            id: 'e3',
-            label: 'Edge 3',
-            source: 'n2',
-            target: 'n3',
-            type: 'r1',
-          },
-        ],
-        types: {
-          nodes: [
-            { id: 't1', label: 'Category 1', color: '#006699' },
-            { id: 't2', label: 'Category 2', color: '#669900' },
-          ],
-          edges: [{ id: 'r1', label: 'Relation 1', color: '#990066' }],
-        },
+        edges: [{ id: 'related to', label: 'related to' }],
       }
+
+      const random = n => Math.floor(Math.random() * n)
+      const range = n => Array.from(Array(n).keys())
+
+      const createRandomGraph = (n = 100) => {
+        const nodes = range(n).map(id => ({
+          id: `n${id}`,
+          label: `Node ${id}`,
+          type: types.nodes[random(types.nodes.length)].id,
+        }))
+        const edges = range(n).map(id => ({
+          id: `e${id}`,
+          label: `Edge ${id}`,
+          source: `n${random(n)}`,
+          target: `n${random(n)}`,
+          type: types.edges[random(types.edges.length)].id,
+        }))
+        return {
+          nodes,
+          edges,
+          types,
+        }
+      }
+
+      const graph = createRandomGraph(1000)
+
+      const graphSizeFactor = Math.floor(graph.edges.length / 500)
+
+      const dimensions = 2
 
       const Applet = () => {
         const [charge, setCharge] = useState(-75)
@@ -116,23 +116,26 @@
                   'div',
                   {
                     style: {
+                      alignItems: 'center',
                       display: 'grid',
-                      gridGap: '10px',
+                      gridGap: '1rem',
                       gridTemplateColumns: 'auto 1fr',
                     },
                   },
                   [
                     h('label', undefined, 'Charge:'),
                     h('input', {
+                      onChange: e => setValue(e.target.value, setCharge),
+                      style: { padding: '0.5rem', width: '4em' },
                       type: 'number',
                       value: charge,
-                      onChange: e => setValue(e.target.value, setCharge),
                     }),
                     h('label', undefined, 'Distance:'),
                     h('input', {
+                      onChange: e => setValue(e.target.value, setDistance),
+                      style: { padding: '0.5rem', width: '4em' },
                       type: 'number',
                       value: distance,
-                      onChange: e => setValue(e.target.value, setDistance),
                     }),
                   ]
                 ),
@@ -141,10 +144,16 @@
 
             h(
               'div',
-              { style: { position: 'relative', flex: 1 } },
+              { style: {flex: 1, position: 'relative' } },
               h(SelectionControls, {
                 dimensions,
                 graph,
+                nodeSize: node => 1 + node.neighbors.size * 0.1,
+                showDirectionality: false,
+                showLabels: (node, selectedNodeIds) =>
+                  selectedNodeIds.size > 0 ||
+                  node.neighbors.size > 2 + graphSizeFactor,
+                showNeighborsOnly: true,
                 simulation: { charge, distance },
               })
             ),
