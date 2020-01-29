@@ -110,6 +110,7 @@ class Visualization3D extends React.Component {
     }
     if (charge != null && charge !== prev.charge) {
       this.forceGraph.d3Force('charge').strength(charge)
+      this.forceGraph.d3ReheatSimulation()
     }
     if (cooldownTicks != null && cooldownTicks !== prev.cooldownTicks) {
       this.forceGraph.cooldownTicks(cooldownTicks) // Infinity
@@ -125,6 +126,7 @@ class Visualization3D extends React.Component {
     }
     if (distance != null && distance !== prev.distance) {
       this.forceGraph.d3Force('link').distance(distance)
+      this.forceGraph.d3ReheatSimulation()
     }
     if (warmupTicks != null && warmupTicks !== prev.warmupTicks) {
       this.forceGraph.warmupTicks(warmupTicks) // 0
