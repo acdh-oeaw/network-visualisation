@@ -8,14 +8,14 @@ const rules = [
   `[data-nerv-simulation-controls] {
     align-items: center;
     display: flex;
+    font-family: sans-serif;
+    font-size: 12px;
     padding: 0.4rem;
     position: absolute;
     bottom: 0;
     right: 0;
   }`,
   `[data-nerv-simulation-controls] > label {
-    font-family: sans-serif;
-    font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
     margin-right: 0.4rem;
@@ -28,7 +28,7 @@ const rules = [
     padding: 0.4rem;
   }`,
   `[data-nerv-simulation-controls] > input[type="number"] {
-    width: 4em;
+    width: 5em;
   }`,
   `[data-nerv-simulation-controls] > span {
     alignItems: center;
@@ -120,7 +120,11 @@ const SimulationControls = ({
         ? children({ charge, distance, showDirectionality, dagMode })
         : null}
 
-      <form data-nerv-simulation-controls {...props}>
+      <form
+        data-nerv-simulation-controls
+        onSubmit={e => e.preventDefault()}
+        {...props}
+      >
         {ui.charge !== false ? (
           <>
             <label htmlFor="nerv-charge">Charge</label>

@@ -3,6 +3,7 @@ import { boolean, number, select, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import ExportButton from '../src/export'
+import FilterControls from '../src/filter-controls'
 import '../src/global.css'
 import Legend from '../src/legend'
 import SelectionControls from '../src/selection-controls'
@@ -356,3 +357,64 @@ storiesOf('SimulationControls', module)
       }}
     </ToggleThirdDimension>
   ))
+
+storiesOf('Search', module).add('search', () => {
+  const graph = {
+    ...createRandomGraph(),
+    types,
+  }
+  return (
+    <ToggleThirdDimension style={{ bottom: '0.8rem', right: '0.8rem' }}>
+      {is3D => {
+        return (
+          <SimulationControls
+            is3D={is3D}
+            options={{ showDirectionality: false }}
+            style={{ bottom: '0.4rem', right: '3rem' }}
+            ui={{ dagMode: false }}
+          >
+            {({ charge, distance, showDirectionality }) => {
+              return (
+                <FilterControls
+                  graph={graph}
+                  style={{ right: '0.4rem', top: '0.4rem' }}
+                >
+                  {({ filteredNodeIds }) => {
+                    const VisualizationComponent = is3D
+                      ? Visualization3D
+                      : Visualization
+                    return (
+                      <VisualizationComponent
+                        graph={graph}
+                        selectedNodeIds={filteredNodeIds}
+                        showDirectionality={showDirectionality}
+                        showNeighborsOnly={Boolean(filteredNodeIds.size)}
+                        simulation={{ charge, distance }}
+                      >
+                        {({ getGraph, getNodeColor, getTypes }) => {
+                          return (
+                            <>
+                              <ExportButton
+                                getGraph={getGraph}
+                                getNodeColor={getNodeColor}
+                                style={{ bottom: '0.4rem', left: '0.4rem' }}
+                              />
+                              <Legend
+                                getTypes={getTypes}
+                                style={{ left: '0.4rem', top: '0.4rem' }}
+                              />
+                            </>
+                          )
+                        }}
+                      </VisualizationComponent>
+                    )
+                  }}
+                </FilterControls>
+              )
+            }}
+          </SimulationControls>
+        )
+      }}
+    </ToggleThirdDimension>
+  )
+})
