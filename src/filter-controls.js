@@ -57,6 +57,8 @@ const FilterControls = ({ children, graph = {}, ...props }) => {
         .map(node => node.id)
 
       setFilteredNodeIds(new Set(ids))
+    } else {
+      setFilteredNodeIds(new Set())
     }
   }
 
@@ -67,8 +69,9 @@ const FilterControls = ({ children, graph = {}, ...props }) => {
         <input
           aria-label="Search term"
           id="nerv-filter-controls"
-          value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
+          type="search"
+          value={searchTerm}
         />
         <button type="submit">Filter</button>
       </form>
