@@ -6,6 +6,7 @@ import ExportButton from '../src/export'
 import '../src/global.css'
 import Legend from '../src/legend'
 import SelectionControls from '../src/selection-controls'
+import SimulationControls from '../src/simulation-controls'
 import ToggleThirdDimension from '../src/toggle-third-dimension'
 import Visualization from '../src/visualization'
 import Visualization3D from '../src/visualization3d'
@@ -262,32 +263,45 @@ storiesOf('Legend', module).add('show node types', () => (
 ))
 
 storiesOf('Toggle 3D', module).add('toggle', () => (
-  <ToggleThirdDimension
-    style={{ position: 'absolute', bottom: '0.8rem', left: '0.8rem' }}
+  <SimulationControls
+    style={{ position: 'absolute', bottom: '0.4rem', right: '0.4rem' }}
   >
-    {is3D => {
-      const VisualizationComponent = is3D ? Visualization3D : Visualization
+    {({ charge, distance }) => (
+      <ToggleThirdDimension
+        style={{ position: 'absolute', bottom: '0.8rem', left: '0.8rem' }}
+      >
+        {is3D => {
+          const VisualizationComponent = is3D ? Visualization3D : Visualization
 
-      return (
-        <VisualizationComponent
-          graph={{
-            ...createRandomGraph(),
-            types,
-          }}
-          onNodeClick={action('onNodeClick')}
-          // onNodeHover={action('onNodeHover')}
-          onSimulationEnd={action('onSimulationEnd')}
-          // onSimulationTick={action('onSimulationTick')}
-          onZoom={action('onZoom')}
-        >
-          {({ getGraph, getNodeColor, getTypes }) => (
-            <>
-              <ExportButton getGraph={getGraph} getNodeColor={getNodeColor} />
-              <Legend getTypes={getTypes} />
-            </>
-          )}
-        </VisualizationComponent>
-      )
-    }}
-  </ToggleThirdDimension>
+          return (
+            <VisualizationComponent
+              graph={{
+                ...createRandomGraph(),
+                types,
+              }}
+              onNodeClick={action('onNodeClick')}
+              // onNodeHover={action('onNodeHover')}
+              onSimulationEnd={action('onSimulationEnd')}
+              // onSimulationTick={action('onSimulationTick')}
+              onZoom={action('onZoom')}
+              simulation={{
+                charge,
+                distance,
+              }}
+            >
+              {({ getGraph, getNodeColor, getTypes }) => (
+                <>
+                  <ExportButton
+                    getGraph={getGraph}
+                    getNodeColor={getNodeColor}
+                  />
+                  <Legend getTypes={getTypes} />
+                </>
+              )}
+            </VisualizationComponent>
+          )
+        }}
+      </ToggleThirdDimension>
+    )}
+  </SimulationControls>
 ))

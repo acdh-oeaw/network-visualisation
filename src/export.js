@@ -315,11 +315,11 @@ export const convertToGexf = ({ nodes, edges, getNodeColor }) => {
   return [xmlDeclaration, xml].join('\n')
 }
 
-const ExportButton = ({ className, getGraph, getNodeColor }) => {
+const ExportButton = ({ getGraph, getNodeColor, ...props }) => {
   const [selected, setSelected] = React.useState('')
 
   return (
-    <div data-nerv-export className={className}>
+    <div data-nerv-export {...props}>
       <span>
         <select
           onChange={event => setSelected(event.target.value)}
@@ -390,7 +390,6 @@ const ExportButton = ({ className, getGraph, getNodeColor }) => {
 }
 
 ExportButton.propTypes = {
-  className: PropTypes.string,
   getGraph: PropTypes.func.isRequired,
   getNodeColor: PropTypes.func.isRequired,
 }

@@ -26,7 +26,7 @@ const rules = [
 ]
 rules.forEach(rule => style.sheet.insertRule(rule))
 
-const Legend = ({ className, getTypes }) => {
+const Legend = ({ getTypes, ...props }) => {
   const [types, setTypes] = React.useState([])
 
   const graphTypes = getTypes() || {}
@@ -41,7 +41,7 @@ const Legend = ({ className, getTypes }) => {
   }, [nodeTypes])
 
   return (
-    <ul data-nerv-legend className={className}>
+    <ul data-nerv-legend {...props}>
       {Array.isArray(types) &&
         types.map(type => (
           <li key={type.id}>
@@ -58,7 +58,6 @@ const Legend = ({ className, getTypes }) => {
 }
 
 Legend.propTypes = {
-  className: PropTypes.string,
   getTypes: PropTypes.func.isRequired,
 }
 
