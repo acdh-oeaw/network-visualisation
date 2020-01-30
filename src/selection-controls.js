@@ -163,6 +163,8 @@ SelectionControls.propTypes = {
     'bu',
     'radialin',
     'radialout',
+    'zin',
+    'zout',
   ]),
   dimensions: PropTypes.oneOf([2, 3]),
   edgeCurvature: PropTypes.oneOfType([

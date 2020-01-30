@@ -262,46 +262,97 @@ storiesOf('Legend', module).add('show node types', () => (
   </Visualization>
 ))
 
-storiesOf('Toggle 3D', module).add('toggle', () => (
-  <SimulationControls
-    style={{ position: 'absolute', bottom: '0.4rem', right: '0.4rem' }}
-  >
-    {({ charge, distance }) => (
-      <ToggleThirdDimension
-        style={{ position: 'absolute', bottom: '0.8rem', left: '0.8rem' }}
-      >
-        {is3D => {
-          const VisualizationComponent = is3D ? Visualization3D : Visualization
+storiesOf('SimulationControls', module)
+  .add('cyclical', () => (
+    <ToggleThirdDimension
+      style={{ position: 'absolute', bottom: '0.8rem', left: '0.8rem' }}
+    >
+      {is3D => {
+        const VisualizationComponent = is3D ? Visualization3D : Visualization
 
-          return (
-            <VisualizationComponent
-              graph={{
-                ...createRandomGraph(),
-                types,
-              }}
-              onNodeClick={action('onNodeClick')}
-              // onNodeHover={action('onNodeHover')}
-              onSimulationEnd={action('onSimulationEnd')}
-              // onSimulationTick={action('onSimulationTick')}
-              onZoom={action('onZoom')}
-              simulation={{
-                charge,
-                distance,
-              }}
-            >
-              {({ getGraph, getNodeColor, getTypes }) => (
-                <>
-                  <ExportButton
-                    getGraph={getGraph}
-                    getNodeColor={getNodeColor}
-                  />
-                  <Legend getTypes={getTypes} />
-                </>
-              )}
-            </VisualizationComponent>
-          )
-        }}
-      </ToggleThirdDimension>
-    )}
-  </SimulationControls>
-))
+        return (
+          <SimulationControls
+            is3D={is3D}
+            style={{ position: 'absolute', bottom: '0.4rem', right: '0.4rem' }}
+            ui={{ dagMode: false }}
+          >
+            {({ charge, distance, showDirectionality }) => (
+              <VisualizationComponent
+                graph={{
+                  ...createRandomGraph(),
+                  types,
+                }}
+                onNodeClick={action('onNodeClick')}
+                // onNodeHover={action('onNodeHover')}
+                onSimulationEnd={action('onSimulationEnd')}
+                // onSimulationTick={action('onSimulationTick')}
+                onZoom={action('onZoom')}
+                showDirectionality={showDirectionality}
+                simulation={{
+                  charge,
+                  distance,
+                }}
+              >
+                {({ getGraph, getNodeColor, getTypes }) => (
+                  <>
+                    <ExportButton
+                      getGraph={getGraph}
+                      getNodeColor={getNodeColor}
+                    />
+                    <Legend getTypes={getTypes} />
+                  </>
+                )}
+              </VisualizationComponent>
+            )}
+          </SimulationControls>
+        )
+      }}
+    </ToggleThirdDimension>
+  ))
+  .add('acyclical', () => (
+    <ToggleThirdDimension
+      style={{ position: 'absolute', bottom: '0.8rem', left: '0.8rem' }}
+    >
+      {is3D => {
+        const VisualizationComponent = is3D ? Visualization3D : Visualization
+
+        return (
+          <SimulationControls
+            is3D={is3D}
+            options={{ dagMode: 'radialout', showDirectionality: false }}
+            style={{ position: 'absolute', bottom: '0.4rem', right: '0.4rem' }}
+          >
+            {({ charge, dagMode, distance, showDirectionality }) => (
+              <VisualizationComponent
+                dagMode={dagMode}
+                graph={{
+                  ...createRandomDAG(),
+                  types,
+                }}
+                onNodeClick={action('onNodeClick')}
+                // onNodeHover={action('onNodeHover')}
+                onSimulationEnd={action('onSimulationEnd')}
+                // onSimulationTick={action('onSimulationTick')}
+                onZoom={action('onZoom')}
+                showDirectionality={showDirectionality}
+                simulation={{
+                  charge,
+                  distance,
+                }}
+              >
+                {({ getGraph, getNodeColor, getTypes }) => (
+                  <>
+                    <ExportButton
+                      getGraph={getGraph}
+                      getNodeColor={getNodeColor}
+                    />
+                    <Legend getTypes={getTypes} />
+                  </>
+                )}
+              </VisualizationComponent>
+            )}
+          </SimulationControls>
+        )
+      }}
+    </ToggleThirdDimension>
+  ))
