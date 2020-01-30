@@ -6,7 +6,22 @@ style.appendChild(document.createTextNode(''))
 document.head.appendChild(style)
 const rules = [
   `[data-nerv-3d-toggle] {
-    position: relative;
+    background: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    padding: 0.4rem;
+    position: absolute;
+    text-transform: uppercase;
+  }`,
+  `[data-nerv-3d-toggle]:hover,
+  [data-nerv-3d-toggle]:active {
+    background: #ddd;
+    color: currentColor;
   }`,
 ]
 rules.forEach(rule => style.sheet.insertRule(rule))
