@@ -24,7 +24,7 @@ on the `NetworkVisualization` global:
 The UMD build is also available via CDN:
 
 ```html
-<script src="https://unpkg.com/@acdh/network-visualization@latest/lib/network-visualization.umd.js"></script>
+<script src="https://unpkg.com/@acdh/network-visualization@0/lib/network-visualization.umd.js"></script>
 ```
 
 When using the UMD build, make sure to also include `react` and, if you plan to
@@ -45,8 +45,7 @@ use the 3D component, `three`:
 ></script>
 ```
 
-See [`examples/umd/basic.html`](examples/umd/basic.html) for a basic example how
-to use the UMD build.
+See the [`examples folder`](examples/umd/) for how to use the UMD build.
 
 ## How to use
 
