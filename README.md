@@ -28,7 +28,8 @@ The UMD build is also available via CDN:
 ```
 
 When using the UMD build, make sure to also include `react` and, if you plan to
-use the 3D component, `three`:
+use the 3D component, `three` (note that `three` does not follow semantic
+versioning, last known working version is 0.126.1):
 
 ```html
 <script
@@ -41,7 +42,7 @@ use the 3D component, `three`:
 ></script>
 <script
   crossorigin
-  src="https://unpkg.com/three@latest/build/three.min.js"
+  src="https://unpkg.com/three@0.126.1/build/three.min.js"
 ></script>
 ```
 
