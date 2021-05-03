@@ -15,13 +15,13 @@
   },
   "homepage": "https://github.com/acdh-oeaw/network-visualization#readme",
   "dependencies": {
-    "3d-force-graph": "^1.57.0",
+    "3d-force-graph": "1.57.0",
     "d3-force-reuse": "^1.0.1",
     "debounce-fn": "^3.0.1",
     "events": "^3.0.0",
-    "force-graph": "^1.22.2",
+    "force-graph": "1.23.1",
     "prop-types": "^15.7.2",
-    "three-spritetext": "^1.0.6"
+    "three-spritetext": "1.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
