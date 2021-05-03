@@ -51,17 +51,25 @@ class SelectionControls extends React.Component {
       }
     } else {
       if (this.state.selectedNodeIds.has(node.id)) {
-        this.setState(({ selectedNodeIds }) => ({
-          selectedNodeIds: new Set(
-            [...selectedNodeIds].filter(id => id !== node.id)
-          ),
-        }))
+        this.setState(
+          ({ selectedNodeIds }) => ({
+            selectedNodeIds: new Set(
+              [...selectedNodeIds].filter(id => id !== node.id)
+            ),
+          }),
+          () => {
+            onNodeDeselect(node, this.state.selectedNodeIds)
+          }
+        )
       } else {
-        if (!this.isControlledComponent()) {
-          this.setState(({ selectedNodeIds }) => ({
+        this.setState(
+          ({ selectedNodeIds }) => ({
             selectedNodeIds: new Set([node.id, ...selectedNodeIds]),
-          }))
-        }
+          }),
+          () => {
+            onNodeSelect(node, this.state.selectedNodeIds)
+          }
+        )
       }
     }
 
