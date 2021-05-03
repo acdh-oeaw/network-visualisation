@@ -174,8 +174,8 @@ running `npm run storybook`, or
 
 Has all props from `<Visualization />`, and adds:
 
-| prop           | type     | default | description                                                                     |
-| -------------- | -------- | ------- | ------------------------------------------------------------------------------- |
-| dimensions     | number   | 2       | 2D or 3D layout                                                                 |
-| onNodeDeselect | function |         | Event callback fired when node deselected. Receives the node object as argument |
-| onNodeSelect   | function |         | Event callback fired when node selected. Receives the node object as argument   |
+| prop           | type     | default | description                                                                                                                                                            |
+| -------------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dimensions     | number   | 2       | 2D or 3D layout                                                                                                                                                        |
+| onNodeDeselect | function |         | Event callback fired when node is deselected. Receives the node object as argument (and the set of currently selected node ids when used as an uncontrolled component) |
+| onNodeSelect   | function |         | Event callback fired when node is selected. Receives the node object as argument (and the set of currently selected node ids when used as an uncontrolled component)   |
