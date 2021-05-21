@@ -211,8 +211,8 @@ storiesOf('SelectionControls', module)
   .add('with 2D layout and custom colors', () => (
     <SelectionControls
       colors={{
-        highlighted: 'aquamarine',
-        selected: 'tomato',
+        highlighted: 'tomato',
+        selected: 'aquamarine',
         node: 'royalblue',
       }}
       dimensions={Number(select('Dimensions', [2, 3], 2))}
