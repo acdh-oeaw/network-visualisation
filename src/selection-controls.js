@@ -94,6 +94,7 @@ class SelectionControls extends React.Component {
     const {
       backgroundColor,
       children,
+      colors,
       dagMode,
       dagLevelDistance,
       dimensions,
@@ -127,6 +128,7 @@ class SelectionControls extends React.Component {
         <React.Suspense fallback={Fallback}>
           <VisualizationComponent
             backgroundColor={backgroundColor}
+            colors={colors}
             dagMode={dagMode}
             dagLevelDistance={dagLevelDistance}
             edgeCurvature={edgeCurvature}
@@ -162,6 +164,11 @@ class SelectionControls extends React.Component {
 SelectionControls.propTypes = {
   backgroundColor: PropTypes.string,
   children: PropTypes.func,
+  colors: PropTypes.shape({
+    highlighted: PropTypes.string,
+    selected: PropTypes.string,
+    node: PropTypes.string,
+  }),
   dagLevelDistance: PropTypes.number,
   dagMode: PropTypes.oneOf([
     null,
