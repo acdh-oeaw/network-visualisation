@@ -26,7 +26,7 @@ class Visualization3D extends React.Component {
     this.forceGraph = null
     this.types = null
 
-    this.colors = colors
+    this.colors = Object.assign({}, colors, props.colors)
     this.nodeRelativeSize = NODE_RELATIVE_SIZE
 
     this.drawNode = this.drawNode.bind(this)
@@ -550,6 +550,11 @@ class Visualization3D extends React.Component {
 Visualization3D.propTypes = {
   backgroundColor: PropTypes.string,
   children: PropTypes.func,
+  colors: PropTypes.shape({
+    highlighted: PropTypes.string,
+    selected: PropTypes.string,
+    node: PropTypes.string,
+  }),
   dagLevelDistance: PropTypes.number,
   dagMode: PropTypes.oneOf([
     null,

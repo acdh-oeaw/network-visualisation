@@ -208,6 +208,27 @@ storiesOf('SelectionControls', module)
       showNeighborsOnly={boolean('Show neighbors only', false)}
     />
   ))
+  .add('with 2D layout and custom colors', () => (
+    <SelectionControls
+      colors={{
+        highlighted: 'aquamarine',
+        selected: 'tomato',
+        node: 'royalblue',
+      }}
+      dimensions={Number(select('Dimensions', [2, 3], 2))}
+      graph={{
+        ...createRandomGraph(),
+      }}
+      onNodeDeselect={action('onNodeDeselect')}
+      onNodeSelect={action('onNodeSelect')}
+      // onNodeClick={action('onNodeClick')}
+      // onNodeHover={action('onNodeHover')}
+      // onSimulationEnd={action('onSimulationEnd')}
+      // onSimulationTick={action('onSimulationTick')}
+      // onZoom={action('onZoom')}
+      showNeighborsOnly={boolean('Show neighbors only', false)}
+    />
+  ))
   .add('with 3D layout', () => (
     <SelectionControls
       dimensions={Number(select('Dimensions', [2, 3], 3))}
