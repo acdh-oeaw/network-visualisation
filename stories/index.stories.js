@@ -27,6 +27,19 @@ storiesOf('Visualization', module)
       onZoom={action('onZoom')}
     />
   ))
+  .add('with all event callbacks (except onSimulationTick)', () => (
+    <Visualization
+      graph={{
+        ...createRandomGraph(),
+      }}
+      onBackgroundClick={action('onBackgroundClick')}
+      onNodeClick={action('onNodeClick')}
+      onNodeHover={action('onNodeHover')}
+      onSimulationEnd={action('onSimulationEnd')}
+      // onSimulationTick={action('onSimulationTick')}
+      onZoom={action('onZoom')}
+    />
+  ))
   .add('with fast layouting algorithm', () => (
     <Visualization
       graph={{
@@ -115,6 +128,19 @@ storiesOf('Visualization 3D', module)
       }}
       onNodeClick={action('onNodeClick')}
       // onNodeHover={action('onNodeHover')}
+      onSimulationEnd={action('onSimulationEnd')}
+      // onSimulationTick={action('onSimulationTick')}
+      onZoom={action('onZoom')}
+    />
+  ))
+  .add('with all event callbacks (except onSimulationTick)', () => (
+    <Visualization3D
+      graph={{
+        ...createRandomGraph(),
+      }}
+      onBackgroundClick={action('onBackgroundClick')}
+      onNodeClick={action('onNodeClick')}
+      onNodeHover={action('onNodeHover')}
       onSimulationEnd={action('onSimulationEnd')}
       // onSimulationTick={action('onSimulationTick')}
       onZoom={action('onZoom')}
