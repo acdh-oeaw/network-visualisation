@@ -216,6 +216,7 @@ class Visualization extends React.Component {
       nodeSize,
       onBackgroundClick,
       onNodeClick,
+      onNodeHover,
       onSimulationEnd,
       onSimulationTick,
       onZoom,
@@ -280,14 +281,14 @@ class Visualization extends React.Component {
         types: this.types,
       })
     })
-    // this.forceGraph.onNodeHover((node, prevNode) => {
-    //   onNodeHover({
-    //     forceGraph: this.forceGraph,
-    //     graph: this.graph,
-    //     node,
-    //     prevNode,
-    //   });
-    // });
+    this.forceGraph.onNodeHover((node, prevNode) => {
+      onNodeHover({
+        forceGraph: this.forceGraph,
+        graph: this.graph,
+        node,
+        prevNode,
+      })
+    })
 
     this.forceGraph.onBackgroundClick(event => {
       onBackgroundClick({
