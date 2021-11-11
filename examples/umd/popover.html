@@ -122,11 +122,23 @@
       const handleNodeClick = createPopoverContent => ({ node, event }) => {
         if (isPopoverOpen) return
 
+        const canvas = event.target
+
         const onDismiss = event => {
           document.removeEventListener('keyup', onEscape, false)
           overlay.removeEventListener('mousedown', onDismiss, false)
           overlay.style.display = 'none'
           hidePopover()
+          /** Nudge ForceGraph to update hover state */
+          canvas.dispatchEvent(
+            new MouseEvent('mousemove', {
+              view: window,
+              bubbles: true,
+              cancelable: true,
+              clientX: event.clientX,
+              clientY: event.clientY,
+            })
+          )
         }
 
         const onEscape = event => {
