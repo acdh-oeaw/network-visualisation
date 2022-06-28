@@ -1,69 +1,110 @@
 {
   "name": "@acdh/network-visualization",
-  "version": "0.1.39",
-  "description": "React component to visualize graph data in 2D and 3D",
-  "main": "lib/network-visualization.cjs.js",
-  "module": "lib/network-visualization.esm.js",
-  "unpkg": "lib/network-visualization.umd.js",
+  "version": "1.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/acdh-oeaw/network-visualization"
+    "url": "git+https://github.com/acdh-oeaw/network-visualization.git"
   },
   "bugs": {
     "url": "https://github.com/acdh-oeaw/network-visualization/issues"
   },
   "homepage": "https://github.com/acdh-oeaw/network-visualization#readme",
+  "main": "./dist/cjs/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/cjs/index.js"
+  },
+  "scripts": {
+    "format": "prettier . --cache --check --ignore-path .gitignore",
+    "format:fix": "npm run format -- --write",
+    "lint": "eslint . --cache --ignore-path .gitignore",
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "simple-git-hooks || exit 0",
+    "typecheck": "tsc --noEmit -p ./tsconfig.json",
+    "validate": "npm run format && npm run lint && npm run typecheck"
+  },
   "dependencies": {
-    "3d-force-graph": "1.57.0",
-    "d3-force-reuse": "^1.0.1",
-    "debounce-fn": "^3.0.1",
-    "events": "^3.0.0",
-    "force-graph": "1.23.1",
-    "prop-types": "^15.7.2",
-    "three-spritetext": "1.2.1"
+    "@stefanprobst/assert": "^1.0.3",
+    "force-graph": "^1.42.9",
+    "graphology": "^0.24.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/plugin-proposal-class-properties": "^7.8.7",
-    "@babel/plugin-proposal-object-rest-spread": "^7.8.7",
-    "@babel/plugin-transform-runtime": "^7.8.7",
-    "@babel/preset-env": "^7.8.7",
-    "@babel/preset-react": "^7.8.7",
-    "@storybook/addon-actions": "^5.1.9",
-    "@storybook/addon-knobs": "^5.1.9",
-    "@storybook/addons": "^5.1.9",
-    "@storybook/react": "^5.1.9",
-    "babel-loader": "^8.0.6",
-    "cross-env": "^5.2.0",
-    "eslint": "^6.2.2",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-react": "^7.14.2",
-    "jest": "^24.8.0",
-    "prettier": "^1.18.2",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.17.0",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.0.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-terser": "^5.1.1"
+    "@commitlint/cli": "^17.0.3",
+    "@stefanprobst/commitlint-config": "^1.0.2",
+    "@stefanprobst/prettier-config": "^2.0.2",
+    "@types/react": "^18.0.14",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.1.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "simple-git-hooks": "^2.8.0",
+    "typescript": "^4.7.4"
   },
   "peerDependencies": {
-    "react": "^16.0.0||^17.0.0"
+    "react": ">=16.14"
   },
-  "files": [
-    "lib"
-  ],
-  "scripts": {
-    "build": "rimraf lib && rollup -c",
-    "build:storybook": "build-storybook",
-    "clean": "rimraf lib && rimraf storybook-static",
-    "format": "prettier \"**/*.+(js|css|md|json)\" --ignore-path .gitignore --write",
-    "lint": "eslint src",
-    "prepublishOnly": "yarn build",
-    "storybook": "start-storybook -p 6006",
-    "test": "jest"
+  "commitlint": {
+    "extends": "@stefanprobst/commitlint-config"
+  },
+  "eslintConfig": {
+    "root": true,
+    "reportUnusedDisableDirectives": true,
+    "extends": [
+      "eslint:recommended",
+      "plugin:import/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "simple-import-sort",
+      "import"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/consistent-type-imports": "error",
+      "import/first": "error",
+      "import/newline-after-import": "error",
+      "import/no-duplicates": "error",
+      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": "error"
+    },
+    "settings": {
+      "import/parsers": {
+        "@typescript-eslint/parser": [
+          ".ts",
+          ".tsx"
+        ]
+      },
+      "import/resolver": {
+        "typescript": {
+          "alwaysTryTypes": true,
+          "project": "./tsconfig.json"
+        }
+      }
+    }
+  },
+  "lint-staged": {
+    "*.@(js|ts|tsx)": [
+      "eslint --cache --fix",
+      "prettier --cache --write"
+    ],
+    "*.@(css|json|md)": "prettier --cache --write"
+  },
+  "prettier": "@stefanprobst/prettier-config",
+  "simple-git-hooks": {
+    "commit-msg": "npx commitlint --edit",
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npm run validate"
   }
 }

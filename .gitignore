@@ -1,9 +1,5 @@
 node_modules/
-lib/
-storybook-static/
-yarn-error.log
-TODO.md
-
-# ide
-.idea/
-
+dist/
+*.log
+.eslintcache
+*.tsbuildinfo
