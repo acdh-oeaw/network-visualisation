@@ -34,7 +34,7 @@ export function useForceGraphData(graph: Graph): void {
     if (forceGraph == null) return
 
     // TODO: debounce this?
-    function updateGraphData() {
+    function updateGraphData(): void {
       const data: GraphData = {
         links: graph.mapEdges((key, attributes, source, target) => {
           return { key, source, target, label: attributes.label }

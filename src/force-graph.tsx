@@ -29,6 +29,10 @@ export function useForceGraphInstance(element: HTMLElement | null): ForceGraphIn
     instance.nodeLabel('label')
     instance.linkLabel('label')
 
+    instance.getContainer = function getContainer(): HTMLElement {
+      return element
+    }
+
     setForceGraphInstance(instance)
 
     return () => {
@@ -66,7 +70,7 @@ export const ForceGraphProvider = forwardRef<ForceGraphInstance | null, ForceGra
   },
 )
 
-export function useForceGraph() {
+export function useForceGraph(): ForceGraphInstance {
   const value = useContext(ForceGraphContext)
 
   assert(value != null, '`useForceGraph` must be nested inside an `ForceGraphProvider`.')
