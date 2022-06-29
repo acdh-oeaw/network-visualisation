@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import { useForceGraph } from './force-graph'
+import { useForceGraph } from './force-graph.js'
 
 interface UseFullScreenResult {
   isFullScreen: boolean
@@ -15,6 +15,7 @@ export function useFullScreen(): UseFullScreenResult {
     if (!document.fullscreenEnabled) return
 
     function onToggleFullScreen(): void {
+      // @ts-expect-error FIXME: Should be added upstream.
       const element = forceGraph.getContainer()
 
       setIsFullScreen(document.fullscreenElement === element)
@@ -27,21 +28,23 @@ export function useFullScreen(): UseFullScreenResult {
     }
   }, [forceGraph])
 
-  // TODO: memoize
-  function toggleFullScreen(): void {
-    const element = forceGraph.getContainer()
+  // TODO: useEvent
+  const toggleFullScreen = useCallback(
+    function toggleFullScreen(): void {
+      // @ts-expect-error FIXME: Should be added upstream.
+      const element = forceGraph.getContainer()
 
-    if (document.fullscreenElement === element) {
-      document.exitFullscreen()
-    } else {
-      element.requestFullscreen()
-    }
-  }
+      if (document.fullscreenElement === element) {
+        document.exitFullscreen()
+      } else {
+        element.requestFullscreen()
+      }
+    },
+    [forceGraph],
+  )
 
-  const service = {
+  return {
     isFullScreen,
     toggleFullScreen,
   }
-
-  return service
 }

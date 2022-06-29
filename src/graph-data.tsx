@@ -10,13 +10,14 @@ import {
   useState,
 } from 'react'
 
-import { useForceGraph } from './force-graph'
+import { useForceGraph } from './force-graph.js'
+
+export type GraphInitialData = Parameters<typeof Graph.from>[0]
+
+export type GraphOptions = Parameters<typeof Graph.from>[1]
 
 // TODO: pass through generics
-export function useGraph(
-  initialData?: Parameters<typeof Graph.from>[0],
-  options?: Parameters<typeof Graph.from>[1],
-): Graph {
+export function useGraph(initialData?: GraphInitialData, options?: GraphOptions): Graph {
   const [graph] = useState(() => {
     if (initialData != null) {
       return Graph.from(initialData, options)
@@ -69,8 +70,8 @@ const GraphDataContext = createContext<Graph | null>(null)
 
 interface GraphDataProviderProps {
   children?: JSX.Element
-  initialData?: Parameters<typeof Graph.from>[0]
-  options?: Parameters<typeof Graph.from>[1]
+  initialData?: GraphInitialData
+  options?: GraphOptions
 }
 
 export const GraphDataProvider = forwardRef<Graph | null, GraphDataProviderProps>(

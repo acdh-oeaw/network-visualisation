@@ -2,10 +2,10 @@ import {
   MinusCircleIcon as ZoomOutIcon,
   PlusCircleIcon as ZoomInIcon,
   SupportIcon as ZoomToFitIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/outline/index.js'
 import { Fragment } from 'react'
 
-import { useZoom } from './use-zoom'
+import { useZoom } from './use-zoom.js'
 
 interface ZoomControlsProps {
   /** @default 500 */

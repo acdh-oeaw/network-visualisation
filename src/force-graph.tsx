@@ -1,6 +1,7 @@
 import { assert } from '@stefanprobst/assert'
 import type { ForceGraphInstance } from 'force-graph'
 import ForceGraph from 'force-graph'
+import type { RefObject } from 'react'
 import {
   createContext,
   forwardRef,
@@ -12,15 +13,17 @@ import {
   useState,
 } from 'react'
 
-export function useForceGraphInstance(element: HTMLElement | null): ForceGraphInstance | null {
+export function useForceGraphInstance<T extends HTMLElement>(
+  ref: RefObject<T>,
+): ForceGraphInstance | null {
   const [forceGraphInstance, setForceGraphInstance] = useState<ForceGraphInstance | null>(null)
 
   useEffect(() => {
-    if (element == null) return
+    if (ref.current == null) return
 
     // TODO: dynamic import for ssr
     // const { default: ForceGraph } = await import('force-graph')
-    const instance = ForceGraph()(element)
+    const instance = ForceGraph()(ref.current)
 
     /** `graphology` uses `key` instead of `id`. */
     instance.nodeId('key')
@@ -29,8 +32,11 @@ export function useForceGraphInstance(element: HTMLElement | null): ForceGraphIn
     instance.nodeLabel('label')
     instance.linkLabel('label')
 
-    instance.getContainer = function getContainer(): HTMLElement {
-      return element
+    // @ts-expect-error FIXME: Should be added upstream.
+    // @see https://github.com/stefanprobst/force-graph/tree/feat/add-get-container-method
+    instance.getContainer = function getContainer(): T {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return ref.current!
     }
 
     setForceGraphInstance(instance)
@@ -38,7 +44,7 @@ export function useForceGraphInstance(element: HTMLElement | null): ForceGraphIn
     return () => {
       instance._destructor()
     }
-  }, [element])
+  }, [ref])
 
   return forceGraphInstance
 }
@@ -54,14 +60,14 @@ export const ForceGraphProvider = forwardRef<ForceGraphInstance | null, ForceGra
     const { children } = props
 
     const containerRef = useRef<HTMLDivElement>(null)
-    const forceGraphInstance = useForceGraphInstance(containerRef.current)
+    const forceGraphInstance = useForceGraphInstance(containerRef)
     useImperativeHandle<ForceGraphInstance | null, ForceGraphInstance | null>(forwardedRef, () => {
       return forceGraphInstance
     })
 
     return (
       <Fragment>
-        <div ref={containerRef} />
+        <div ref={containerRef} data-visualization />
         <ForceGraphContext.Provider value={forceGraphInstance}>
           {children}
         </ForceGraphContext.Provider>

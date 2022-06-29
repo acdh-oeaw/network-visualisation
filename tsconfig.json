@@ -9,7 +9,9 @@
     "noUncheckedIndexedAccess": true,
     "strict": true,
     "jsx": "react-jsx",
-    "outDir": "dist"
+    "outDir": "dist",
+    "declaration": true,
+    "sourceMap": true
   },
   "include": ["src"]
 }

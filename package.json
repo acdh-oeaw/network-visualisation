@@ -10,12 +10,13 @@
     "url": "https://github.com/acdh-oeaw/network-visualization/issues"
   },
   "homepage": "https://github.com/acdh-oeaw/network-visualization#readme",
-  "main": "./dist/cjs/index.js",
   "type": "module",
   "exports": {
-    "import": "./dist/index.js",
-    "require": "./dist/cjs/index.js"
+    "import": "./dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "build:cjs": "tsc  -p ./tsconfig.json --module commonjs --outDir dist/cjs && sh scripts/fix-package-type.sh",

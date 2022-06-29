@@ -1,7 +1,13 @@
-import { useFullScreen } from './use-fullscreen'
+import { DesktopComputerIcon as FullScreenIcon } from '@heroicons/react/outline/index.js'
+
+import { useFullScreen } from './use-fullscreen.js'
 
 export function FullScreenControls(): JSX.Element {
-  const { isFullScreen, toggleFullScreen } = useFullScreen()
+  const { toggleFullScreen } = useFullScreen()
 
-  return <button aria-label="Toggle fullscreen" onClick={toggleFullScreen}></button>
+  return (
+    <button aria-label="Toggle fullscreen" onClick={toggleFullScreen}>
+      <FullScreenIcon />
+    </button>
+  )
 }

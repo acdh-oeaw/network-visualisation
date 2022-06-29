@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect } from 'react'
 
-import { useForceGraph } from './force-graph'
-import { noop } from './noop'
-import { useEvent } from './use-event'
+import { useForceGraph } from './force-graph.js'
+import { noop } from './noop.js'
+import { useEvent } from './use-event.js'
 
 interface UseZoomParams {
   /** @default 500 */
@@ -37,27 +37,34 @@ export function useZoom(params?: UseZoomParams): UseZoomResult {
   }, [forceGraph, onZoomEnd])
 
   // TODO: useEvent
-  const service = useMemo(() => {
+  const zoomIn = useCallback(
     function zoomIn(): void {
       const zoom = forceGraph.zoom()
       forceGraph.zoom(zoom + 0.25, animationDuration)
-    }
+    },
+    [forceGraph],
+  )
 
+  // TODO: useEvent
+  const zoomOut = useCallback(
     function zoomOut(): void {
       const zoom = forceGraph.zoom()
       forceGraph.zoom(zoom - 0.25, animationDuration)
-    }
+    },
+    [forceGraph],
+  )
 
+  // TODO: useEvent
+  const zoomToFit = useCallback(
     function zoomToFit(): void {
       forceGraph.zoomToFit(animationDuration)
-    }
+    },
+    [forceGraph],
+  )
 
-    return {
-      zoomIn,
-      zoomOut,
-      zoomToFit,
-    }
-  }, [forceGraph])
-
-  return service
+  return {
+    zoomIn,
+    zoomOut,
+    zoomToFit,
+  }
 }
