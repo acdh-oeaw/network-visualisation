@@ -5,7 +5,6 @@ import type { RefObject } from 'react'
 import {
   createContext,
   forwardRef,
-  Fragment,
   useContext,
   useEffect,
   useImperativeHandle,
@@ -13,10 +12,16 @@ import {
   useState,
 } from 'react'
 
+import { useResizeObserver } from './use-resize-observer'
+
 export function useForceGraphInstance<T extends HTMLElement>(
   ref: RefObject<T>,
 ): ForceGraphInstance | null {
-  const [forceGraphInstance, setForceGraphInstance] = useState<ForceGraphInstance | null>(null)
+  const [forceGraphInstance, setForceGraphInstance] = useState<{
+    forceGraph: ForceGraphInstance | null
+  }>({
+    forceGraph: null,
+  })
 
   useEffect(() => {
     if (ref.current == null) return
@@ -39,39 +44,49 @@ export function useForceGraphInstance<T extends HTMLElement>(
       return ref.current!
     }
 
-    setForceGraphInstance(instance)
+    setForceGraphInstance({ forceGraph: instance })
 
     return () => {
       instance._destructor()
     }
   }, [ref])
 
-  return forceGraphInstance
+  return forceGraphInstance.forceGraph
 }
 
 const ForceGraphContext = createContext<ForceGraphInstance | null>(null)
 
 interface ForceGraphProviderProps {
   children: JSX.Element
+  id?: string
 }
 
 export const ForceGraphProvider = forwardRef<ForceGraphInstance | null, ForceGraphProviderProps>(
   function ForceGraphProvider(props, forwardedRef): JSX.Element {
-    const { children } = props
+    const { children, id } = props
 
+    const wrapperRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
+    const dimensions = useResizeObserver(wrapperRef)
     const forceGraphInstance = useForceGraphInstance(containerRef)
     useImperativeHandle<ForceGraphInstance | null, ForceGraphInstance | null>(forwardedRef, () => {
       return forceGraphInstance
     })
 
     return (
-      <Fragment>
-        <div ref={containerRef} data-visualization />
-        <ForceGraphContext.Provider value={forceGraphInstance}>
-          {children}
-        </ForceGraphContext.Provider>
-      </Fragment>
+      <div
+        ref={wrapperRef}
+        data-network-visualization
+        id={id}
+        style={{ position: 'relative', width: '100%', height: '100%' }}
+      >
+        <div ref={containerRef} />
+        {forceGraphInstance != null ? (
+          <ForceGraphContext.Provider value={forceGraphInstance}>
+            {children}
+          </ForceGraphContext.Provider>
+        ) : null}
+      </div>
     )
   },
 )

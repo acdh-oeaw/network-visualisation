@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
+import { animationDuration as defaultAnimationDuration } from './config'
 import { useForceGraph } from './force-graph.js'
 import { noop } from './noop.js'
 import { useEvent } from './use-event.js'
@@ -19,7 +20,7 @@ interface UseZoomResult {
 
 export function useZoom(params?: UseZoomParams): UseZoomResult {
   const {
-    animationDuration = 500,
+    animationDuration = defaultAnimationDuration,
     onZoom: _onZoom = noop,
     onZoomEnd: _onZoomEnd = noop,
   } = params ?? {}
