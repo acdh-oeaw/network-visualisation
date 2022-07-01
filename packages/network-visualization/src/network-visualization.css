@@ -1,0 +1,76 @@
+[data-network-visualization] {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: hsl(0deg 0% 100%);
+}
+
+[data-network-visualization-container] {
+  width: 100%;
+  height: 100%;
+}
+
+[data-network-visualization-panel] {
+  --nv-panel-margin: 12px;
+  --nv-icon-size: 1.5rem;
+
+  display: grid;
+  gap: 12px;
+  position: absolute;
+  background: hsl(0deg 0% 100%);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0 0 0 / 20%);
+}
+
+[data-network-visualization-panel][data-orientation='horizontal'] {
+  grid-auto-flow: column;
+  padding: 6px 12px;
+
+}
+
+[data-network-visualization-panel][data-orientation='vertical'] {
+  grid-auto-flow: row;
+  padding: 12px 6px;
+
+}
+
+[data-network-visualization-panel][data-position~='bottom'] {
+  bottom: var(--nv-panel-margin);
+}
+
+[data-network-visualization-panel][data-position~='right'] {
+  right: var(--nv-panel-margin);
+}
+
+[data-network-visualization-panel][data-position~='top'] {
+  top: var(--nv-panel-margin);
+}
+
+[data-network-visualization-panel][data-position~='left'] {
+  left: var(--nv-panel-margin);
+}
+
+[data-network-visualization-panel] [role='separator'] {
+  background: hsl(0deg 0% 85%);
+}
+
+[data-network-visualization-panel][data-orientation='horizontal'] [role='separator'] {
+  width: 1px;
+  height: 100%;
+}
+
+[data-network-visualization-panel][data-orientation='vertical'] [role='separator'] {
+  height: 1px;
+  width: 100%;
+}
+
+[data-network-visualization-panel] button {
+  background: none;
+  border: none;
+}
+
+[data-network-visualization-panel] svg {
+  width: var(--nv-icon-size);
+  height: var(--nv-icon-size);
+  display: block;
+}

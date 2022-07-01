@@ -1,0 +1,46 @@
+{
+  "name": "@acdh/network-visualization",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acdh-oeaw/network-visualization.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acdh-oeaw/network-visualization/issues"
+  },
+  "homepage": "https://github.com/acdh-oeaw/network-visualization#readme",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./network-visualization.css": "./src/network-visualization.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "build:watch": "pnpm run build --watch",
+    "prepublishOnly": "rimraf dist && pnpm run build"
+  },
+  "dependencies": {
+    "@heroicons/react": "^1.0.6",
+    "@stefanprobst/assert": "^1.0.3",
+    "force-graph": "^1.42.9",
+    "graphology": "^0.24.1",
+    "graphology-types": "^0.24.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.14",
+    "react": "^18.2.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "react": ">=16.14.0"
+  }
+}

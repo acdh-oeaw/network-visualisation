@@ -1,0 +1,24 @@
+{
+  "name": "@acdh/network-visualization-example-react",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@acdh/network-visualization": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@vitejs/plugin-react": "^1.3.2",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.13"
+  }
+}

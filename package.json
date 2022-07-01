@@ -1,119 +1,26 @@
 {
-  "name": "@acdh/network-visualization",
-  "version": "1.0.0",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/acdh-oeaw/network-visualization.git"
-  },
-  "bugs": {
-    "url": "https://github.com/acdh-oeaw/network-visualization/issues"
-  },
-  "homepage": "https://github.com/acdh-oeaw/network-visualization#readme",
-  "type": "module",
-  "exports": {
-    "import": "./dist/index.js"
-  },
-  "files": [
-    "dist"
-  ],
+  "private": true,
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
-    "build:cjs": "tsc  -p ./tsconfig.json --module commonjs --outDir dist/cjs && sh scripts/fix-package-type.sh",
     "format": "prettier . --cache --check --ignore-path .gitignore",
-    "format:fix": "npm run format -- --write",
-    "lint": "eslint . --cache --ignore-path .gitignore",
-    "lint:fix": "npm run lint -- --fix",
+    "format:fix": "npm run format --write",
     "prepare": "simple-git-hooks || exit 0",
-    "prepublishOnly": "npm run build && npm run build:cjs",
-    "typecheck": "tsc --noEmit -p ./tsconfig.json",
-    "validate": "npm run format && npm run lint && npm run typecheck"
+    "validate": "pnpm run validate --recursive"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
-    "@stefanprobst/assert": "^1.0.3",
-    "force-graph": "^1.42.9",
-    "graphology": "^0.24.1"
-  },
-  "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@stefanprobst/commitlint-config": "^1.0.2",
     "@stefanprobst/prettier-config": "^2.0.2",
-    "@types/react": "^18.0.14",
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
-    "eslint": "^8.18.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-typescript": "^3.1.1",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "graphology-types": "^0.24.4",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "react": "^18.2.0",
-    "simple-git-hooks": "^2.8.0",
-    "typescript": "^4.7.4"
-  },
-  "peerDependencies": {
-    "react": ">=16.14"
+    "simple-git-hooks": "^2.8.0"
   },
   "commitlint": {
     "extends": "@stefanprobst/commitlint-config"
   },
-  "eslintConfig": {
-    "root": true,
-    "reportUnusedDisableDirectives": true,
-    "extends": [
-      "eslint:recommended",
-      "plugin:import/recommended",
-      "plugin:@typescript-eslint/recommended",
-      "prettier"
-    ],
-    "plugins": [
-      "simple-import-sort",
-      "import"
-    ],
-    "parserOptions": {
-      "project": "./tsconfig.json"
-    },
-    "rules": {
-      "@typescript-eslint/consistent-type-exports": "error",
-      "@typescript-eslint/consistent-type-imports": "error",
-      "@typescript-eslint/explicit-function-return-type": "error",
-      "@typescript-eslint/explicit-module-boundary-types": "error",
-      "@typescript-eslint/sort-type-union-intersection-members": "error",
-      "import/first": "error",
-      "import/newline-after-import": "error",
-      "import/no-duplicates": "error",
-      "simple-import-sort/exports": "error",
-      "simple-import-sort/imports": "error"
-    },
-    "settings": {
-      "import/parsers": {
-        "@typescript-eslint/parser": [
-          ".ts",
-          ".tsx"
-        ]
-      },
-      "import/resolver": {
-        "typescript": {
-          "alwaysTryTypes": true,
-          "project": "./tsconfig.json"
-        }
-      }
-    }
-  },
-  "lint-staged": {
-    "*.@(js|ts|tsx)": [
-      "eslint --cache --fix",
-      "prettier --cache --write"
-    ],
-    "*.@(css|json|md)": "prettier --cache --write"
-  },
   "prettier": "@stefanprobst/prettier-config",
   "simple-git-hooks": {
-    "commit-msg": "npx commitlint --edit",
-    "pre-commit": "npx lint-staged",
-    "pre-push": "npm run validate"
+    "commit-msg": "pnpm exec commitlint --edit",
+    "pre-commit": "pnpm exec lint-staged",
+    "pre-push": "pnpm run validate"
   }
 }
