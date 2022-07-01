@@ -17,12 +17,12 @@ function random<T>(values: Array<T>): T {
   return values[Math.floor(Math.random() * values.length)]
 }
 
-const colors = ['#abc', 'def', '123', '456', '678']
+const colors = ['#389edb', '#88dbdf', '#f82a61', '#1f2937', '#f7a20f']
 
 const categories = range(5).map((key) => ({
   key: 'category' + String(key),
   label: `Category ${key}`,
-  color: random(colors)
+  color: colors[key]
 }))
 
 const nodes = range(100).map((key) => ({
