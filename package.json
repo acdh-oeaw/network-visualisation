@@ -4,7 +4,8 @@
     "format": "prettier . --cache --check --ignore-path .gitignore",
     "format:fix": "npm run format --write",
     "prepare": "simple-git-hooks || exit 0",
-    "validate": "pnpm run validate --recursive"
+    "typecheck": "",
+    "validate": ""
   },
   "dependencies": {
     "@commitlint/cli": "^17.0.3",

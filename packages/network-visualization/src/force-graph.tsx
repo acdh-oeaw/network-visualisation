@@ -1,7 +1,7 @@
 import { assert } from '@stefanprobst/assert'
 import type { ForceGraphInstance } from 'force-graph'
 import ForceGraph from 'force-graph'
-import type { RefObject } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import {
   createContext,
   forwardRef,
@@ -36,6 +36,9 @@ export function useForceGraphInstance<T extends HTMLElement>(
     instance.nodeLabel('label')
     instance.linkLabel('label')
 
+    instance.nodeAutoColorBy('type')
+    instance.linkAutoColorBy('type')
+
     // @ts-expect-error FIXME: Should be added upstream.
     // @see https://github.com/stefanprobst/force-graph/tree/feat/add-get-container-method
     instance.getContainer = function getContainer(): T {
@@ -68,7 +71,7 @@ export function useForceGraphInstance<T extends HTMLElement>(
 const ForceGraphContext = createContext<ForceGraphInstance | null>(null)
 
 interface ForceGraphProviderProps {
-  children: JSX.Element
+  children?: ReactNode
   id?: string
 }
 

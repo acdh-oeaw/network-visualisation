@@ -1,11 +1,11 @@
-/// <reference types="react" />
 import Graph from 'graphology';
+import { ReactNode } from 'react';
 export declare type GraphInitialData = Parameters<typeof Graph.from>[0];
 export declare type GraphOptions = Parameters<typeof Graph.from>[1];
 export declare function useGraph(initialData?: GraphInitialData, options?: GraphOptions): Graph;
 export declare function useForceGraphData(graph: Graph): void;
 interface GraphDataProviderProps {
-    children?: JSX.Element;
+    children?: ReactNode;
     initialData?: GraphInitialData;
     options?: GraphOptions;
 }

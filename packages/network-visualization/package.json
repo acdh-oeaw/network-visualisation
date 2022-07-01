@@ -25,7 +25,8 @@
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "build:watch": "pnpm run build --watch",
-    "prepublishOnly": "rimraf dist && pnpm run build"
+    "prepublishOnly": "rimraf dist && pnpm run build",
+    "typecheck": "tsc --noEmit -p ./tsconfig.json"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",

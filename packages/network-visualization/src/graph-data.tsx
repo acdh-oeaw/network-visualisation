@@ -4,6 +4,7 @@ import Graph from 'graphology'
 import {
   createContext,
   forwardRef,
+  ReactNode,
   useContext,
   useEffect,
   useImperativeHandle,
@@ -41,10 +42,10 @@ export function useForceGraphData(graph: Graph): void {
     function updateGraphData(): void {
       const data: GraphData = {
         links: graph.mapEdges((key, attributes, source, target) => {
-          return { key, source, target, label: attributes.label }
+          return { key, source, target, label: attributes.label, type: attributes.type, color: attributes.color }
         }),
         nodes: graph.mapNodes((key, attributes) => {
-          return { key, label: attributes.label }
+          return { key, label: attributes.label, type: attributes.type, color: attributes.color }
         }),
       }
 
@@ -74,7 +75,7 @@ export function useForceGraphData(graph: Graph): void {
 const GraphDataContext = createContext<Graph | null>(null)
 
 interface GraphDataProviderProps {
-  children?: JSX.Element
+  children?: ReactNode
   initialData?: GraphInitialData
   options?: GraphOptions
 }
