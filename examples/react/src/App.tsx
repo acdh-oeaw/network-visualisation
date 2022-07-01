@@ -17,24 +17,27 @@ function random<T>(values: Array<T>): T {
   return values[Math.floor(Math.random() * values.length)]
 }
 
+const colors = ['#abc', 'def', '123', '456', '678']
+
 const categories = range(5).map((key) => ({
-  key: String(key),
+  key: 'category' + String(key),
   label: `Category ${key}`,
+  color: random(colors)
 }))
 
 const nodes = range(100).map((key) => ({
-  key: String(key),
-  attributes: { label: `Node ${key}`, type: random(categories).key },
+  key: 'node' + String(key),
+  attributes: { label: `Node ${key}`, color: random(categories).color },
 }))
 
 const edges = range(50).map((key) => ({
-  key: String(key),
+  key: 'edge' + String(key),
   source: random(nodes).key,
   target: random(nodes).key,
   attributes: { label: `Edge ${key}` },
 }))
 
-const data: GraphInitialData = { attributes: {}, options: {}, nodes, edges }
+const data: GraphInitialData = { attributes: {}, options: { multi: true }, nodes, edges }
 
 export function App() {
   return (
@@ -70,7 +73,7 @@ function Legend() {
         {categories.map((category) => {
           return (
             <li key={category.key} style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-              <div style={{ width: 12, height: 12, backgroundColor: 'red', borderRadius: 4 }} />
+              <div style={{ width: 12, height: 12, backgroundColor: category.color, borderRadius: 4 }} />
               {category.label}
             </li>
           )

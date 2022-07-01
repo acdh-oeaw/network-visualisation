@@ -42,10 +42,10 @@ export function useForceGraphData(graph: Graph): void {
     function updateGraphData(): void {
       const data: GraphData = {
         links: graph.mapEdges((key, attributes, source, target) => {
-          return { key, source, target, label: attributes.label, type: attributes.type, color: attributes.color }
+          return { ...attributes, key, source, target }
         }),
         nodes: graph.mapNodes((key, attributes) => {
-          return { key, label: attributes.label, type: attributes.type, color: attributes.color }
+          return { ...attributes, key, label: attributes.label }
         }),
       }
 

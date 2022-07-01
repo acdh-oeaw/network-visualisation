@@ -36,9 +36,6 @@ export function useForceGraphInstance<T extends HTMLElement>(
     instance.nodeLabel('label')
     instance.linkLabel('label')
 
-    instance.nodeAutoColorBy('type')
-    instance.linkAutoColorBy('type')
-
     // @ts-expect-error FIXME: Should be added upstream.
     // @see https://github.com/stefanprobst/force-graph/tree/feat/add-get-container-method
     instance.getContainer = function getContainer(): T {
