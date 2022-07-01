@@ -12,7 +12,7 @@ import {
   useState,
 } from 'react'
 
-import { useResizeObserver } from './use-resize-observer'
+import { useResizeObserver } from './use-resize-observer.js'
 
 export function useForceGraphInstance<T extends HTMLElement>(
   ref: RefObject<T>,

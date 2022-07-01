@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
-import { animationDuration as defaultAnimationDuration } from './config'
+import { animationDuration as defaultAnimationDuration } from './config.js'
 import { useForceGraph } from './force-graph.js'
 import { noop } from './noop.js'
 import { useEvent } from './use-event.js'

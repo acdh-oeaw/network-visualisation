@@ -48,6 +48,8 @@ export function useForceGraphData(graph: Graph): void {
       forceGraph.graphData(data)
     }
 
+    updateGraphData()
+
     graph.addListener('edgeAdded', updateGraphData)
     graph.addListener('nodeAdded', updateGraphData)
     graph.addListener('edgeDropped', updateGraphData)
