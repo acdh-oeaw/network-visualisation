@@ -14,12 +14,25 @@ body,
   block-size: 100%;
 }
 
-li {
-  list-style: none;
-}
-
 .page-layout {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-block-size: 100%;
+}
+
+.legend {
+  list-style: none;
+}
+
+.legend-item {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.legend-item-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  background-color: var(--nv-legend-item-color);
 }

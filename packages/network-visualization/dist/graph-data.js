@@ -22,7 +22,7 @@ export function useForceGraphData(graph) {
         function updateGraphData() {
             const data = {
                 links: graph.mapEdges((key, attributes, source, target) => {
-                    return { ...attributes, key, source, target };
+                    return { ...attributes, key, source, target, label: attributes.label };
                 }),
                 nodes: graph.mapNodes((key, attributes) => {
                     return { ...attributes, key, label: attributes.label };

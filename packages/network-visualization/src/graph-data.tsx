@@ -1,16 +1,16 @@
 import { assert } from '@stefanprobst/assert'
 import type { GraphData } from 'force-graph'
 import Graph from 'graphology'
+import type { AbstractGraph, SerializedGraph } from 'graphology-types'
+import type { ReactNode } from 'react'
 import {
   createContext,
   forwardRef,
-  ReactNode,
   useContext,
   useEffect,
   useImperativeHandle,
   useState,
 } from 'react'
-import type { AbstractGraph, SerializedGraph } from 'graphology-types'
 
 import { useForceGraph } from './force-graph.js'
 
@@ -42,7 +42,7 @@ export function useForceGraphData(graph: Graph): void {
     function updateGraphData(): void {
       const data: GraphData = {
         links: graph.mapEdges((key, attributes, source, target) => {
-          return { ...attributes, key, source, target }
+          return { ...attributes, key, source, target, label: attributes.label }
         }),
         nodes: graph.mapNodes((key, attributes) => {
           return { ...attributes, key, label: attributes.label }

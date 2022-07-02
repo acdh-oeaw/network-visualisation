@@ -103,3 +103,16 @@ export function useForceGraph(): ForceGraphInstance {
 
   return value
 }
+
+declare module 'force-graph' {
+  interface NodeObject {
+    key: string
+    label: string
+    color?: string
+  }
+
+  interface LinkObject {
+    key: string
+    label: string
+  }
+}

@@ -2,7 +2,9 @@
   "private": true,
   "scripts": {
     "format": "prettier . --cache --check --ignore-path .gitignore",
-    "format:fix": "npm run format --write",
+    "format:fix": "pnpm run format --write",
+    "lint": "pnpm run --recursive lint",
+    "lint:fix": "pnpm run --recursive lint:fix",
     "prepare": "simple-git-hooks || exit 0",
     "typecheck": "pnpm run --recursive typecheck",
     "validate": "pnpm run format && pnpm run --recursive validate"

@@ -7,4 +7,15 @@ interface ForceGraphProviderProps {
 }
 export declare const ForceGraphProvider: import("react").ForwardRefExoticComponent<ForceGraphProviderProps & import("react").RefAttributes<ForceGraphInstance | null>>;
 export declare function useForceGraph(): ForceGraphInstance;
+declare module 'force-graph' {
+    interface NodeObject {
+        key: string;
+        label: string;
+        color?: string;
+    }
+    interface LinkObject {
+        key: string;
+        label: string;
+    }
+}
 export {};
