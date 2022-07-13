@@ -1,4 +1,4 @@
-import { DesktopComputerIcon as FullScreenIcon } from '@heroicons/react/outline/index.js'
+import { ArrowsExpandIcon as FullScreenIcon } from '@heroicons/react/outline/index.js'
 
 import { useFullScreen } from './use-fullscreen.js'
 

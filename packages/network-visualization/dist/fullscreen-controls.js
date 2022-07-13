@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { DesktopComputerIcon as FullScreenIcon } from '@heroicons/react/outline/index.js';
+import { ArrowsExpandIcon as FullScreenIcon } from '@heroicons/react/outline/index.js';
 import { useFullScreen } from './use-fullscreen.js';
 export function FullScreenControls() {
     const { toggleFullScreen } = useFullScreen();

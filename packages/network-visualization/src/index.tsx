@@ -9,4 +9,10 @@ export * from './use-fullscreen.js'
 export * from './use-zoom.js'
 export * from './zoom-controls.js'
 export { default as accessor } from 'accessor-fn'
-export type { CanvasCustomRenderFn, NodeObject } from 'force-graph'
+export type {
+  CanvasCustomRenderFn,
+  CanvasCustomRenderModeFn,
+  CanvasPointerAreaPaintFn,
+  LinkObject,
+  NodeObject,
+} from 'force-graph'
