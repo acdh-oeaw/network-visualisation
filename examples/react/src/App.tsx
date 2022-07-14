@@ -11,10 +11,11 @@ import {
   useGraphData,
   ZoomControls,
 } from '@acdh/network-visualization'
+import { useFloating } from '@floating-ui/react-dom'
 import accessor from 'accessor-fn'
 import Graph from 'graphology'
 import generate from 'graphology-generators/random/clusters'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 function range(n: number): Array<number> {
@@ -152,10 +153,22 @@ function HighlightNeighborsOnHover(): null {
   return null
 }
 
-function ShowNodeDetailsPopoverOnClick(): JSX.Element | null {
+interface ShowNodeDetailsPopoverOnClickProps {
+  children: () => ReactNode
+}
+
+function ShowNodeDetailsPopoverOnClick(
+  props: ShowNodeDetailsPopoverOnClickProps,
+): JSX.Element | null {
+  const { children } = props
+
   const forceGraph = useForceGraph()
   const graph = useGraphData()
   const [details, setDetails] = useState<{ node: NodeObject; x: number; y: number } | null>(null)
+  const { x, y } = useFloating({
+    placement: 'top',
+    middleware: [],
+  })
 
   useEffect(() => {
     forceGraph.onNodeClick((node, event) => {
@@ -170,14 +183,8 @@ function ShowNodeDetailsPopoverOnClick(): JSX.Element | null {
   const data = graph.getNodeAttributes(details.node.key)
 
   return (
-    <aside
-      className="popover"
-      style={{
-        left: details.x,
-        top: details.y,
-      }}
-    >
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <aside className="popover" style={{ '--x': x, '--y': y } as CSSProperties}>
+      {children()}
     </aside>
   )
 }
