@@ -1,23 +1,21 @@
-import accessor from 'accessor-fn'
+import '@acdh/network-visualization/network-visualization.css'
+
+import type { CanvasCustomRenderFn, NodeObject } from '@acdh/network-visualization'
 import {
-  GraphData,
   ForceGraph,
-  Panel,
-  ZoomControls,
-  PanelSeparator,
   FullScreenControls,
+  GraphData,
+  Panel,
+  PanelSeparator,
   useForceGraph,
   useGraphData,
+  ZoomControls,
 } from '@acdh/network-visualization'
-import type {
-  GraphInitialData,
-  CanvasCustomRenderFn,
-  NodeObject,
-} from '@acdh/network-visualization'
-import '@acdh/network-visualization/network-visualization.css'
-import { CSSProperties, useEffect, useRef, useState } from 'react'
-import generate from 'graphology-generators/random/clusters'
+import accessor from 'accessor-fn'
 import Graph from 'graphology'
+import generate from 'graphology-generators/random/clusters'
+import type { CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 function range(n: number): Array<number> {
   return Array.from(Array(n).keys())
@@ -46,7 +44,7 @@ data.forEachEdge((key, attributes) => {
   attributes.label = `Edge ${key}`
 })
 
-export function App() {
+export function App(): JSX.Element {
   return (
     <div className="page-layout">
       <header>
@@ -77,7 +75,7 @@ export function App() {
   )
 }
 
-function Legend() {
+function Legend(): JSX.Element {
   return (
     <div>
       <ul className="legend" role="list">
@@ -97,7 +95,7 @@ function Legend() {
   )
 }
 
-function HighlightNeighborsOnHover() {
+function HighlightNeighborsOnHover(): null {
   const forceGraph = useForceGraph()
   const graph = useGraphData()
 
@@ -131,13 +129,16 @@ function HighlightNeighborsOnHover() {
     forceGraph.nodeCanvasObject(renderTextLabel)
 
     forceGraph.linkWidth((edge) => {
-      if (edge.source.key === hovered.current || edge.target.key === hovered.current) {
+      if (
+        (typeof edge.source === 'object' && edge.source?.key === hovered.current) ||
+        (typeof edge.target === 'object' && edge.target?.key === hovered.current)
+      ) {
         return 4
       }
       return 1
     })
 
-    forceGraph.onNodeHover((hoveredNode, previousHoveredNode) => {
+    forceGraph.onNodeHover((hoveredNode, _previousHoveredNode) => {
       if (hoveredNode != null) {
         hovered.current = hoveredNode.key
         hoveredNeighbors.current = graph.neighbors(hoveredNode.key)
@@ -146,22 +147,23 @@ function HighlightNeighborsOnHover() {
         hoveredNeighbors.current = []
       }
     })
-  }, [forceGraph])
+  }, [forceGraph, graph])
 
   return null
 }
 
-function ShowNodeDetailsPopoverOnClick() {
+function ShowNodeDetailsPopoverOnClick(): JSX.Element | null {
   const forceGraph = useForceGraph()
   const graph = useGraphData()
   const [details, setDetails] = useState<{ node: NodeObject; x: number; y: number } | null>(null)
 
   useEffect(() => {
     forceGraph.onNodeClick((node, event) => {
+      // @ts-expect-error Manually added. // FIXME:
       const [x, y] = getCoordinates(event, forceGraph.getContainer())
       setDetails({ node, x, y })
     })
-  }, [])
+  }, [forceGraph])
 
   if (details == null) return null
 
@@ -192,7 +194,7 @@ function roundedRect(
   width: number,
   height: number,
   radius: number,
-) {
+): void {
   ctx.beginPath()
   ctx.moveTo(x, y + radius)
   ctx.arcTo(x, y + height, x + radius, y + height, radius)
@@ -215,17 +217,20 @@ const renderTextLabel: CanvasCustomRenderFn<NodeObject> = function renderTextLab
   const [width, height] = [textWidth, fontSize].map((n) => n + fontSize * 0.75)
 
   const radius = 4 / globalScale
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   roundedRect(ctx, node.x! - width / 2, node.y! - height / 2, width, height, radius)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ctx.fillStyle = node.color!
   ctx.fill()
 
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillStyle = '#fff'
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ctx.fillText(node.label, node.x!, node.y!)
 }
 
-function getCoordinates(event: MouseEvent, element: HTMLElement) {
+function getCoordinates(event: MouseEvent, element: HTMLElement): [number, number] {
   if ('layerX' in event) {
     // @ts-expect-error Exists in Firefox at least, but non-standard.
     return [event.layerX, event.layerY]
