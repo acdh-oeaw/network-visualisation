@@ -36,3 +36,11 @@ body,
   border-radius: 4px;
   background-color: var(--nv-legend-item-color);
 }
+
+.popover {
+  position: absolute;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 16px;
+  background-color: #ffffff;
+}

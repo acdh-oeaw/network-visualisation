@@ -171,12 +171,10 @@ function ShowNodeDetailsPopoverOnClick(): JSX.Element | null {
 
   return (
     <aside
+      className="popover"
       style={{
-        position: 'absolute',
         left: details.x,
         top: details.y,
-        border: '1px solid',
-        backgroundColor: 'white',
       }}
     >
       <pre>{JSON.stringify(data, null, 2)}</pre>
