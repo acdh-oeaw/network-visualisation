@@ -38,11 +38,25 @@ body,
 }
 
 .popover {
-  position: absolute;
-  left: var(--x, 0),
-  top: var(--y, 0),
+  --nv-popover-background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0 0 0 / 20%);
+  position: var(--strategy, absolute);
+  left: var(--x);
+  top: var(--y);
   border: 1px solid #e5e5e5;
   border-radius: 4px;
   padding: 16px;
-  background-color: #ffffff;
+  background-color: var(--nv-popover-background-color);
+  z-index: 1;
+  font-size: 0.875rem;
+}
+
+.popover-arrow {
+  position: absolute;
+  left: var(--arrow-x);
+  top: var(--arrow-y);
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  background-color: var(--nv-popover-background-color);
 }

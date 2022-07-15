@@ -11,12 +11,13 @@ import {
   useGraphData,
   ZoomControls,
 } from '@acdh/network-visualization'
-import { useFloating } from '@floating-ui/react-dom'
+import { arrow, flip, offset, shift, useFloating } from '@floating-ui/react-dom'
 import accessor from 'accessor-fn'
 import Graph from 'graphology'
 import generate from 'graphology-generators/random/clusters'
+import type { Attributes } from 'graphology-types'
 import type { CSSProperties, ReactNode } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 
 function range(n: number): Array<number> {
   return Array.from(Array(n).keys())
@@ -55,7 +56,15 @@ export function App(): JSX.Element {
         <ForceGraph>
           <GraphData initialData={data}>
             <HighlightNeighborsOnHover />
-            <ShowNodeDetailsPopoverOnClick />
+            <ShowNodeDetailsPopoverOnClick>
+              {(node, data): JSX.Element => {
+                return (
+                  <div>
+                    <strong>{data.label}</strong>
+                  </div>
+                )
+              }}
+            </ShowNodeDetailsPopoverOnClick>
           </GraphData>
 
           <Panel position="top-left" orientation="vertical">
@@ -154,7 +163,7 @@ function HighlightNeighborsOnHover(): null {
 }
 
 interface ShowNodeDetailsPopoverOnClickProps {
-  children: () => ReactNode
+  children: (node: NodeObject, data: Attributes) => ReactNode
 }
 
 function ShowNodeDetailsPopoverOnClick(
@@ -164,29 +173,93 @@ function ShowNodeDetailsPopoverOnClick(
 
   const forceGraph = useForceGraph()
   const graph = useGraphData()
-  const [details, setDetails] = useState<{ node: NodeObject; x: number; y: number } | null>(null)
-  const { x, y } = useFloating({
+  const [node, setNode] = useState<NodeObject | null>(null)
+  const arrowRef = useRef<HTMLDivElement>(null)
+  const { x, y, reference, floating, strategy, placement, middlewareData } = useFloating({
     placement: 'top',
-    middleware: [],
+    middleware: [offset(8), flip(), shift({ padding: 8 }), arrow({ element: arrowRef })],
   })
 
   useEffect(() => {
     forceGraph.onNodeClick((node, event) => {
-      // @ts-expect-error Manually added. // FIXME:
-      const [x, y] = getCoordinates(event, forceGraph.getContainer())
-      setDetails({ node, x, y })
+      const x = event.clientX
+      const y = event.clientY
+      setNode(node)
+      reference({
+        getBoundingClientRect() {
+          return { width: 0, height: 0, x, y, top: y, left: x, right: x, bottom: y }
+        },
+      })
     })
-  }, [forceGraph])
+  }, [forceGraph, reference])
 
-  if (details == null) return null
+  useEffect(() => {
+    if (node == null) return
 
-  const data = graph.getNodeAttributes(details.node.key)
+    function close(): void {
+      setNode(null)
+    }
+    function closeOnEscapeKey(event: KeyboardEvent): void {
+      if (event.key === 'Escape') {
+        setNode(null)
+      }
+    }
+
+    window.addEventListener('scroll', close, { passive: true })
+    window.addEventListener('resize', close, { passive: true })
+    window.addEventListener('keydown', closeOnEscapeKey)
+
+    return () => {
+      window.removeEventListener('scroll', close)
+      window.removeEventListener('resize', close)
+      window.removeEventListener('keydown', closeOnEscapeKey)
+    }
+  }, [node])
+
+  if (node == null) return null
+
+  const data = graph.getNodeAttributes(node.key)
+
+  const staticSide = {
+    top: 'bottom',
+    right: 'left',
+    bottom: 'top',
+    left: 'right',
+  }[placement.split('-')[0]]
 
   return (
-    <aside className="popover" style={{ '--x': x, '--y': y } as CSSProperties}>
-      {children()}
-    </aside>
+    <Fragment>
+      <div
+        onClick={() => {
+          setNode(null)
+        }}
+        style={{ position: 'fixed', inset: 0 }}
+      />
+      <aside
+        ref={floating}
+        className="popover"
+        style={{ '--strategy': strategy, '--x': px(x), '--y': px(y) } as CSSProperties}
+      >
+        {children(node, data)}
+        <div
+          ref={arrowRef}
+          className="popover-arrow"
+          style={
+            {
+              '--arrow-x': px(middlewareData.arrow?.x),
+              '--arrow-y': px(middlewareData.arrow?.y),
+              [staticSide as string]: '-4px',
+            } as CSSProperties
+          }
+        />
+      </aside>
+    </Fragment>
   )
+}
+
+function px(px: number | null | undefined): string | undefined {
+  if (px == null) return undefined
+  return px + 'px'
 }
 
 /**
@@ -233,15 +306,4 @@ const renderTextLabel: CanvasCustomRenderFn<NodeObject> = function renderTextLab
   ctx.fillStyle = '#fff'
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ctx.fillText(node.label, node.x!, node.y!)
-}
-
-function getCoordinates(event: MouseEvent, element: HTMLElement): [number, number] {
-  if ('layerX' in event) {
-    // @ts-expect-error Exists in Firefox at least, but non-standard.
-    return [event.layerX, event.layerY]
-  }
-
-  const rect = element.getBoundingClientRect()
-
-  return [event.pageX - rect.left - window.scrollX, event.pageY - rect.top - window.scrollY]
 }
