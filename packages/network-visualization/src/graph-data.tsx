@@ -1,7 +1,12 @@
 import { assert } from '@stefanprobst/assert'
 import type { GraphData } from 'force-graph'
 import Graph from 'graphology'
-import type { AbstractGraph, SerializedGraph } from 'graphology-types'
+import type {
+  AbstractGraph,
+  Attributes,
+  GraphOptions as GraphologyOptions,
+  SerializedGraph,
+} from 'graphology-types'
 import type { ReactNode } from 'react'
 import {
   createContext,
@@ -14,14 +19,16 @@ import {
 
 import { useForceGraph } from './force-graph.js'
 
-// TODO: explicit type
-export type GraphInitialData = Parameters<typeof Graph.from>[0]
+export type GraphInitialData<NA = Attributes, EA = Attributes, GA = Attributes> =
+  | AbstractGraph<NA, EA, GA>
+  | SerializedGraph<NA, EA, GA>
 
-// TODO: explicit type
-export type GraphOptions = Parameters<typeof Graph.from>[1]
+export type GraphOptions = GraphologyOptions
 
-// TODO: pass through generics
-export function useGraph(initialData?: GraphInitialData, options?: GraphOptions): Graph {
+export function useGraph<NA = Attributes, EA = Attributes, GA = Attributes>(
+  initialData?: GraphInitialData<NA, EA, GA>,
+  options?: GraphOptions,
+): Graph {
   const [graph] = useState(() => {
     if (initialData != null) {
       return Graph.from(initialData, options)
