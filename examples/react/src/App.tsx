@@ -175,7 +175,7 @@ function ShowNodeDetailsPopoverOnClick(
   const graph = useGraphData()
   const [node, setNode] = useState<NodeObject | null>(null)
   const arrowRef = useRef<HTMLDivElement>(null)
-  const { x, y, reference, floating, strategy, placement, middlewareData } = useFloating({
+  const { x, y, reference, floating, strategy, placement, middlewareData, refs } = useFloating({
     placement: 'top',
     middleware: [offset(8), flip(), shift({ padding: 8 }), arrow({ element: arrowRef })],
   })
@@ -199,6 +199,13 @@ function ShowNodeDetailsPopoverOnClick(
     function close(): void {
       setNode(null)
     }
+
+    function closeOnInteractOutside(event: PointerEvent): void {
+      if (!refs.floating.current?.contains(event.target as any)) {
+        setNode(null)
+      }
+    }
+
     function closeOnEscapeKey(event: KeyboardEvent): void {
       if (event.key === 'Escape') {
         setNode(null)
@@ -207,14 +214,16 @@ function ShowNodeDetailsPopoverOnClick(
 
     window.addEventListener('scroll', close, { passive: true })
     window.addEventListener('resize', close, { passive: true })
+    window.addEventListener('pointerdown', closeOnInteractOutside)
     window.addEventListener('keydown', closeOnEscapeKey)
 
     return () => {
       window.removeEventListener('scroll', close)
       window.removeEventListener('resize', close)
+      window.removeEventListener('pointerdown', closeOnInteractOutside)
       window.removeEventListener('keydown', closeOnEscapeKey)
     }
-  }, [node])
+  }, [node, refs.floating])
 
   if (node == null) return null
 
@@ -229,12 +238,7 @@ function ShowNodeDetailsPopoverOnClick(
 
   return (
     <Fragment>
-      <div
-        onClick={() => {
-          setNode(null)
-        }}
-        style={{ position: 'fixed', inset: 0 }}
-      />
+      <div style={{ position: 'fixed', inset: 0 }} />
       <aside
         ref={floating}
         className="popover"
