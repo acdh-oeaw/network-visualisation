@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit -p ./tsconfig.json"
   },
   "dependencies": {
-    "@acdh/network-visualization": "workspace:*",
+    "@acdh/network-visualization": "workspace:1.0.0-next.1",
     "@floating-ui/react-dom": "^0.7.2",
     "accessor-fn": "^1.3.2",
     "graphology": "^0.24.1",
@@ -25,10 +25,10 @@
   "devDependencies": {
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
     "@vitejs/plugin-react": "^2.0.0",
-    "eslint": "^8.18.0",
+    "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.2.7",
     "eslint-plugin-import": "^2.26.0",
@@ -37,7 +37,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "typescript": "^4.7.4",
-    "vite": "^3.0.0"
+    "vite": "^3.0.2"
   },
   "eslintConfig": {
     "root": true,
